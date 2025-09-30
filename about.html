@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Solvoro — About Us</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #071024;
+  --bg-card: #0b1220;
+  --text-light: #e6eef6;
+  --text-muted: #94a3b8;
+  --accent-gradient-start: #7c3aed;
+  --accent-gradient-end: #06b6d4;
+  --btn-hover-start: #5b21b6;
+  --btn-hover-end: #0284c7;
+  --border-light: rgba(255,255,255,0.05);
+  --radius: 12px;
+  --bg-light: #f8f9fa;
+  --text-dark: #1f2937;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg-main);color:var(--text-light);line-height:1.6;min-height:100vh;transition:background 0.3s,color 0.3s;}
+a{color:inherit;text-decoration:none;}
+.container{max-width:900px;margin:40px auto;padding:0 20px;}
+
+/* Header */
+header{position:sticky;top:0;z-index:100;background:rgba(7,16,36,0.95);border-bottom:1px solid var(--border-light);backdrop-filter:blur(6px);padding:30px 0;transition:background 0.3s;}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.brand{display:flex;align-items:center;gap:12px;}
+.logo{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;overflow:hidden;}
+.brand-text{font-size:20px;font-weight:700;}
+nav ul{display:flex;list-style:none;gap:24px;}
+nav ul li{font-weight:500;font-size:15px;transition:color 0.2s;}
+nav ul li:hover{color:var(--accent-gradient-start);}
+.hamburger{display:none;background:none;border:none;font-size:24px;cursor:pointer;}
+.cta-buttons button{margin-left:10px;cursor:pointer;padding:6px 12px;border-radius:50%;border:none;background:none;font-size:20px;}
+@media(max-width:900px){nav ul{display:none;}.hamburger{display:block;}}
+
+/* About content */
+.about-section{background:var(--bg-card);padding:50px 30px;border-radius:var(--radius);border:1px solid var(--border-light);transition:background 0.3s,color 0.3s;}
+.about-section h2{text-align:center;font-size:36px;font-weight:700;margin-bottom:25px;}
+.about-section p{text-align:center;font-size:16px;color:var(--text-muted);line-height:1.8;margin-bottom:20px;}
+
+/* Footer */
+footer{background:var(--bg-main);color:var(--text-muted);padding:40px 20px;border-top:1px solid var(--border-light);text-align:center;font-size:14px;transition:background 0.3s,color 0.3s;}
+footer a{color:var(--text-muted);} footer a:hover{color:var(--accent-gradient-start);}
+</style>
+</head>
+<body data-theme="dark">
+
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <div class="logo">
+        <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro Logo" style="width:48px;height:48px;border-radius:50%;">
+      </div>
+      <div class="brand-text">Solvoro</div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact-us.html">Contact Us</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="menuBtn" aria-expanded="false">☰</button>
+    <div class="cta-buttons">
+      <button id="themeToggle">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="about-section">
+    <h2>About Solvoro</h2>
+    <p>Solvoro is a creative design hub where ideas transform into impactful visuals. We specialize in designing logos, posters, social media content, resumes, promotional videos, and cover letters — all crafted with a modern and memorable approach that helps our clients stand out in a competitive digital world. Every project is executed with attention to detail, creativity, and a focus on client satisfaction.</p>
+    
+    <p>Our mission is to empower businesses and individuals by turning their concepts into visually engaging designs. From startups looking for a fresh identity to established brands seeking a revamp, Solvoro delivers results that inspire and connect with audiences. We believe that every design has a story, and we are committed to telling it effectively through our creative solutions.</p>
+    
+    <p>Our founder and CEO, <strong>Ayam M. Shukla</strong>, is an 8th-grade student with a passion for entrepreneurship. Ayam is building multiple startups with the aim of creating innovative solutions across industries. His vision for Solvoro is to reach a revenue milestone of <strong>₹1 crore by 2028</strong>, while maintaining excellence in design and client satisfaction.</p>
+    
+    <p>At Solvoro, we value creativity, consistency, and transparency. We ensure that every project undergoes up to 15 revisions to meet the client’s expectations perfectly. Our team is committed to delivering designs that are not only visually appealing but also strategically effective for growing businesses and personal brands.</p>
+  </div>
+</main>
+
+<footer>
+  <p>Follow us on <a href="https://instagram.com/solvoro.freelancing" target="_blank">Instagram</a> &nbsp; | &nbsp; Email: <a href="mailto:solvoro.official@gmail.com">solvoro.official@gmail.com</a></p>
+  <p>&copy; Solvoro 2025. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Mobile menu toggle
+const menuBtn = document.getElementById('menuBtn');
+menuBtn && menuBtn.addEventListener('click', ()=>{
+  const ul = menuBtn.parentElement.querySelector('nav ul');
+  ul.style.display = ul.style.display==='flex'?'none':'flex';
+  menuBtn.setAttribute('aria-expanded', String(ul.style.display==='flex'));
+});
+
+// Dark/Light Mode Toggle with single icon
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', ()=>{
+  const isLight = document.body.dataset.theme === 'light';
+  if(isLight){
+    // Switch to dark
+    document.body.dataset.theme = 'dark';
+    document.body.style.backgroundColor = '';
+    document.body.style.color = '';
+    document.querySelector('.about-section').style.backgroundColor = '';
+    document.querySelector('.about-section').style.color = '';
+    document.querySelector('header').style.backgroundColor = 'rgba(7,16,36,0.95)';
+    document.querySelector('footer').style.backgroundColor = 'var(--bg-main)';
+    themeToggle.textContent = '🌙';
+  } else {
+    // Switch to light
+    document.body.dataset.theme = 'light';
+    document.body.style.backgroundColor = 'var(--bg-light)';
+    document.body.style.color = 'var(--text-dark)';
+    document.querySelector('.about-section').style.backgroundColor = '#ffffff';
+    document.querySelector('.about-section').style.color = '#1f2937';
+    document.querySelector('header').style.backgroundColor = '#e0e7ff';
+    document.querySelector('footer').style.backgroundColor = '#e0e7ff';
+    themeToggle.textContent = '☀️';
+  }
+});
+</script>
+
+</body>
+</html>

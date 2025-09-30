@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solvoro | Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #071024;
+      --bg-card: #0b1220;
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --radius: 12px;
+    }
+    [data-theme="light"] {
+      --bg-main: #f9fafb;
+      --bg-card: #ffffff;
+      --text-light: #111827;
+      --text-muted: #374151;
+      --accent: #2563eb;
+    }
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: var(--bg-main);
+      color: var(--text-light);
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Header */
+    header {
+      background: var(--bg-card);
+      padding: 20px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    nav ul li:hover {
+      color: var(--accent);
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+
+    /* Main Services */
+    main {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--bg-card);
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h3 {
+      margin: 0 0 10px;
+    }
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: var(--accent);
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #1e40af;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      background: var(--bg-card);
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    footer a {
+      color: var(--accent);
+    }
+    footer p {
+      margin: 5px 0;
+      color: var(--text-muted);
+    }
+  </style>
+  <meta charset="UTF-8">
+  <title>Solvoro — Our Services</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <!-- other head elements -->
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro Logo">
+      <strong>Solvoro</strong>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <h1>Our Services</h1>
+    <div class="services-grid">
+      <!-- Website Design -->
+      <div class="card">
+        <h3>Website Design</h3>
+        <p>Modern, responsive websites designed to suit your business.</p>
+        <p class="price">₹1499 (first 20 customers)<br>₹2799 regular</p>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+      <!-- Logo Design -->
+      <div class="card">
+        <h3>Logo Design</h3>
+        <p>Creative, memorable logos that define your brand identity.</p>
+        <p class="price">₹399 (first 50 customers)<br>₹799 regular</p>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+      <!-- Social Media Poster -->
+      <div class="card">
+        <h3>Social Media Poster</h3>
+        <p>Eye-catching posters and banners for your social media campaigns.</p>
+        <p class="price">₹129 (first 25 customers)<br>₹199 regular</p>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+      <!-- Business Card -->
+      <div class="card">
+        <h3>Business Card Design</h3>
+        <p>Professional business card designs that leave a lasting impression.</p>
+        <p class="price">₹239 (first 10 customers)<br>₹299 regular</p>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+      <!-- CV / Resume -->
+      <div class="card">
+        <h3>CV / Resume Design</h3>
+        <p>Professional CVs / Resumes designed for maximum impact.</p>
+        <p class="price">₹349</p>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+      <!-- Promotion / Ad Video -->
+      <div class="card">
+        <h3>Promotional / Ad Video</h3>
+        <p>Short promotional videos to boost your brand or product.</p>
+        <p class="price">₹699</p>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+      <!-- Cover Letter -->
+      <div class="card">
+        <h3>Cover Letter Writing</h3>
+        <p>Customized cover letters to complement your CV or Resume.</p>
+        <p class="price">₹400</p>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>Follow us on 
+      <a href="https://instagram.com/solvoro.freelancing" target="_blank">@solvoro.freelancing</a> | 
+      <a href="mailto:solvoro.official@gmail.com">Contact Us</a>
+    </p>
+    <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Theme Toggle Script -->
+  <script>
+    const toggleBtn = document.getElementById("themeToggle");
+    const body = document.body;
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme) {
+      body.setAttribute("data-theme", currentTheme);
+      toggleBtn.textContent = currentTheme === "light" ? "☀️" : "🌙";
+    }
+    toggleBtn.addEventListener("click", () => {
+      const newTheme = body.getAttribute("data-theme") === "light" ? "dark" : "light";
+      body.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      toggleBtn.textContent = newTheme === "light" ? "☀️" : "🌙";
+    });
+  </script>
+</body>
+</html>

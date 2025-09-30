@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Solvoro — Place Your Order</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-main: #071024;
+    --bg-card: #0b1220;
+    --text-light: #e6eef6;
+    --text-muted: #94a3b8;
+    --accent-gradient-start: #7c3aed;
+    --accent-gradient-end: #06b6d4;
+    --btn-hover-start: #5b21b6;
+    --btn-hover-end: #0284c7;
+    --border-light: rgba(255,255,255,0.05);
+    --radius: 12px;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-light);
+    margin:0; line-height:1.5;
+  }
+  .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  h2 { color: var(--text-light); margin-bottom: 24px; font-weight: 700; font-size: 28px; text-align:center; }
+
+  form { 
+    display: flex; flex-direction: column; gap: 18px; 
+    background: var(--bg-card); 
+    padding: 30px; 
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+  }
+
+  input, select, textarea { 
+    padding: 12px; 
+    border-radius: var(--radius); 
+    border: 1px solid rgba(255,255,255,0.15); 
+    background: var(--bg-card); 
+    color: var(--text-light); 
+    font-size: 15px; 
+    width:100%;
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-muted); }
+
+  button { 
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    color: #fff;
+    transition: 0.3s;
+  }
+  button:hover { 
+    background: linear-gradient(90deg, var(--btn-hover-start), var(--btn-hover-end));
+  }
+
+  .agreement-box { 
+    background: var(--bg-card); 
+    padding: 16px; 
+    border-radius: var(--radius); 
+    max-height: 250px; 
+    overflow-y: auto; 
+    white-space: pre-wrap; 
+    border: 1px solid var(--border-light);
+  }
+
+  @media (max-width: 600px){
+    h2{ font-size:24px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="header"></div>
+
+<main class="container">
+  <h2>Place Your Order</h2>
+  <form id="orderForm" action="https://formspree.io/f/xblzoqvj" method="POST" target="_blank">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <input type="tel" name="mobile" placeholder="Your Mobile Number" required>
+    
+    <select id="serviceSelect" name="service" required>
+      <option value="" disabled selected>Select Service</option>
+      <option value="Website Design">Website Design</option>
+      <option value="Logo Design">Logo Design</option>
+      <option value="Poster / Social Media Design">Poster / Social Media Design</option>
+      <option value="CV / Resume Design">CV / Resume Design</option>
+      <option value="Promotional / Ad Video">Promotional / Ad Video</option>
+      <option value="Cover Letter Writing">Cover Letter Writing</option>
+      <option value="Website Maintenance Pack">Website Maintenance Pack</option>
+    </select>
+
+    <textarea name="details" rows="4" placeholder="Describe your requirements..." required></textarea>
+
+    <div class="agreement-box" id="agreementBox">Please select a service to see the agreement.</div>
+
+    <button type="submit">Submit Order</button>
+  </form>
+</main>
+
+<div id="footer"></div>
+
+<script>
+  // Load header/footer
+  fetch('header.html').then(r=>r.text()).then(t=>document.getElementById('header').innerHTML=t);
+  fetch('footer.html').then(r=>r.text()).then(t=>document.getElementById('footer').innerHTML=t);
+
+  // Agreements
+  const agreements = {
+    "Website Design": `Website Design Agreement:
+50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery as per agreed timeline. Usage limited to client. Refunds not available after work starts.`,
+    "Logo Design": `Logo Design Agreement:
+50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 3-5 days. Usage limited to client. Refunds not available after work starts.`,
+    "Poster / Social Media Design": `Poster / Social Media Design Agreement:
+50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery as per agreed timeline. Usage limited to client. Refunds not available after work starts.`,
+    "CV / Resume Design": `CV / Resume Design Agreement:
+50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 2-3 days. Usage limited to client. Refunds not available after work starts.`,
+    "Promotional / Ad Video": `Promotional / Ad Video Agreement:
+50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 5-7 days. Usage limited to client. Refunds not available after work starts.`,
+    "Cover Letter Writing": `Cover Letter Agreement:
+50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 2 days. Usage limited to client. Refunds not available after work starts.`,
+    "Website Maintenance Pack": `Website Maintenance Pack:
+₹799/month for up to 50 changes. Extra changes cost extra. Up to 30 revisions per service. 50% advance required, non-refundable.`
+  };
+
+  const serviceSelect = document.getElementById('serviceSelect');
+  const agreementBox = document.getElementById('agreementBox');
+  serviceSelect.addEventListener('change', ()=>{
+    const selected = serviceSelect.value;
+    agreementBox.textContent = agreements[selected] || "Agreement not found.";
+  });
+</script>
+
+</body>
+</html>
