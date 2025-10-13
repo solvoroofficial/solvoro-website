@@ -35,7 +35,7 @@ body{
 a{color:inherit;text-decoration:none}
 .container{max-width:var(--max-width);margin:0 auto;padding:18px}
 
-/* Header (same layout/size as homepage) */
+/* Header - sizes matched to homepage */
 header{
   position:sticky;top:0;z-index:60;
   background:rgba(7,16,36,0.95);
@@ -49,13 +49,14 @@ header{
   gap:16px;
   max-width:var(--max-width);
   margin:0 auto;
-  padding:12px 20px;
+  padding:14px 20px; /* same as homepage nav padding */
   position:relative;
 }
 .brand{display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
+.logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
 .logo img{width:100%;height:100%;object-fit:cover;display:block}
-.brand-text{font-weight:700;font-size:17px;color:var(--text-light)}
+.brand-text{font-weight:700;font-size:18px;color:var(--text-light)} /* same as homepage */
+
 nav ul{
   display:flex;gap:16px;list-style:none;margin:0;padding:0;align-items:center;
 }
@@ -78,7 +79,7 @@ nav ul li a{
 /* About header */
 .about-header{text-align:center;margin:28px 0 32px}
 .about-header h1{
-  font-size:34px; /* smaller than before */
+  font-size:34px; /* compact */
   font-weight:800;margin:0;
   line-height:1.05;
 }
@@ -105,20 +106,17 @@ nav ul li a{
 .about-card h3{margin:0 0 6px;font-size:18px}
 .about-card p{margin:0;color:var(--text-muted);font-size:13.5px;line-height:1.6}
 
-/* Footer (same as homepage style) */
+/* Footer - matched to homepage size */
 footer{
   background:var(--bg-main);
   color:var(--text-muted);
-  padding:26px 20px;
+  padding:30px 20px; /* same as homepage */
   border-top:1px solid var(--border-light);
   text-align:center;
-  font-size:13.5px;
+  font-size:14px; /* same as homepage */
 }
 footer a{color:var(--text-muted)}
 footer a:hover{color:var(--accent-start)}
-
-/* Modal & others (not used here, but keep safe) */
-.modal{display:none}
 
 /* Responsive adjustments */
 @media(max-width:1000px){
@@ -165,7 +163,7 @@ footer a:hover{color:var(--accent-start)}
 </head>
 <body>
 
-<!-- Header (same size/layout as homepage) -->
+<!-- Header (sizes matched to homepage) -->
 <header>
   <div class="nav container" role="navigation" aria-label="Main navigation">
     <div class="brand">
@@ -181,7 +179,7 @@ footer a:hover{color:var(--accent-start)}
     <nav aria-label="Main">
       <ul id="mainNavList">
         <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="about.html" aria-current="page">About</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="partners.html">Partners</a></li>
         <li><a href="contact-us.html">Contact</a></li>
@@ -232,7 +230,7 @@ footer a:hover{color:var(--accent-start)}
   </section>
 </main>
 
-<!-- Footer (same as homepage) -->
+<!-- Footer (sizes matched to homepage) -->
 <footer>
   <div class="container">
     <p style="margin-bottom:8px;">
@@ -248,7 +246,7 @@ footer a:hover{color:var(--accent-start)}
 </footer>
 
 <script>
-  // Mobile menu toggle with right-corner button
+  // Mobile menu toggle with right-corner button (same behavior as homepage)
   (function(){
     const menuBtn = document.getElementById('menuBtn');
     const navList = document.getElementById('mainNavList');
