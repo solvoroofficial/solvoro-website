@@ -12,52 +12,29 @@
   --bg-card:#0b1220;
   --text-light:#e6eef6;
   --text-muted:#94a3b8;
-  --accent:#7c3aed;
+  --accent-start:#7c3aed;
+  --accent-end:#06b6d4;
   --border-light:rgba(255,255,255,0.05);
   --radius:12px;
-  --bg-light:#ffffff;
-  --text-dark:#1f2937;
-}
-
-/* Light mode overrides */
-html[data-theme="light"]{
-  --page-bg: var(--bg-light);
-  --card-bg: #ffffff;
-  --page-text: var(--text-dark);
-  --text-muted: #6b7280;
-  --header-bg: var(--accent);
-  --footer-bg: #ffffff;
-}
-
-/* Dark mode overrides */
-html[data-theme="dark"]{
-  --page-bg: var(--bg-main);
-  --card-bg: var(--bg-card);
-  --page-text: var(--text-light);
-  --text-muted: #94a3b8;
-  --header-bg: rgba(7,16,36,0.95);
-  --footer-bg: var(--bg-main);
 }
 
 body{
   font-family:'Inter',sans-serif;
-  background:var(--page-bg);
-  color:var(--page-text);
+  background:var(--bg-main);
+  color:var(--text-light);
   margin:0;
   line-height:1.6;
 }
-
 a{color:inherit;text-decoration:none;}
 .container{max-width:1100px;margin:0 auto;padding:20px;}
 
 /* Header */
 header{
   position:sticky; top:0; z-index:60;
-  background: var(--header-bg);
+  background:rgba(7,16,36,0.95);
   border-bottom:1px solid var(--border-light);
   backdrop-filter: blur(6px);
 }
-
 .nav{
   max-width:1100px;
   margin:0 auto;
@@ -67,72 +44,50 @@ header{
   justify-content:space-between;
   gap:16px;
 }
-
 .brand{display:flex;align-items:center;gap:12px;}
 .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center;}
 .logo img{width:100%;height:100%;object-fit:cover;display:block;}
-.brand-text{font-weight:700;font-size:18px;color:#fff;}
-
+.brand-text{font-weight:700;font-size:18px;color:var(--text-light);}
 nav ul{
   display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center;
 }
 nav ul li a{
-  color:#ffffff;
+  color:var(--text-light);
   font-weight:600;
   padding:6px 8px;
   border-radius:8px;
-  text-decoration:none;
   display:inline-block;
 }
-
-.theme-btn, #menuBtn{
-  background:transparent;
-  border:none;
-  font-size:20px;
-  cursor:pointer;
-  color:#ffffff;
-  width:42px; height:42px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
+#menuBtn{
+  display:none;
+  background:transparent;border:none;font-size:22px;cursor:pointer;color:var(--text-light);
+  width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
 }
 
-/* About section */
-.about-section{
-  background:var(--card-bg);
-  padding:50px 30px;
-  border-radius:var(--radius);
-  border:1px solid var(--border-light);
-  margin-top:40px;
-  transition:background 0.3s,color 0.3s;
-}
-.about-section h2{
-  text-align:center;
-  font-size:36px;
-  font-weight:700;
-  margin-bottom:25px;
-  color:var(--page-text);
-}
-.about-section p{
-  text-align:center;
-  font-size:16px;
-  color:var(--text-muted);
-  line-height:1.8;
-  margin-bottom:20px;
-}
+/* About sections */
+.about-header{text-align:center;margin-bottom:40px;}
+.about-header h1{font-size:44px;font-weight:800;margin:0;}
+.about-header p{color:var(--text-muted);max-width:800px;margin:10px auto;font-size:16px;}
+
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px;}
+@media(max-width:1000px){.about-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:680px){.about-grid{grid-template-columns:1fr;}}
+
+.about-card{background:var(--bg-card);padding:24px;border-radius:var(--radius);border:1px solid var(--border-light);}
+.about-card h3{margin-bottom:12px;font-size:22px;}
+.about-card p{color:var(--text-muted);line-height:1.7;font-size:15px;}
 
 /* Footer */
 footer{
-  background: var(--footer-bg);
+  background:var(--bg-main);
   color:var(--text-muted);
-  padding:40px 20px;
+  padding:30px 20px;
   border-top:1px solid var(--border-light);
   text-align:center;
   font-size:14px;
-  transition:background 0.3s,color 0.3s;
 }
 footer a{color:var(--text-muted);}
-footer a:hover{color:var(--accent);}
+footer a:hover{color:var(--accent-start);}
 
 /* Mobile nav */
 @media(max-width:900px){
@@ -142,7 +97,7 @@ footer a:hover{color:var(--accent);}
     top:calc(100% + 8px);
     width:220px;
     flex-direction:column;
-    background: var(--card-bg);
+    background: var(--bg-card);
     border:1px solid var(--border-light);
     border-radius:12px;
     padding:6px 0;
@@ -153,7 +108,7 @@ footer a:hover{color:var(--accent);}
     transition:max-height .28s ease, opacity .18s ease;
   }
   nav ul.show{max-height:520px;opacity:1;pointer-events:auto;}
-  nav ul li a{display:block;padding:12px 16px;color:var(--page-text);}
+  nav ul li a{display:block;padding:12px 16px;color:var(--text-light);}
   #menuBtn{display:grid;}
 }
 </style>
@@ -178,27 +133,48 @@ footer a:hover{color:var(--accent);}
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
+        <li><a href="partners.html">Partners</a></li>
         <li><a href="contact-us.html">Contact Us</a></li>
       </ul>
     </nav>
-
-    <div style="display:flex;align-items:center;gap:10px">
-      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
-    </div>
   </div>
 </header>
 
-<!-- Main About Section -->
+<!-- Main About Content -->
 <main class="container">
-  <div class="about-section">
-    <h2>About Solvoro</h2>
-    <p>Solvoro is a creative design hub where ideas transform into impactful visuals. We specialize in designing logos, posters, social media content, resumes, promotional videos, and cover letters — all crafted with a modern and memorable approach that helps our clients stand out in a competitive digital world. Every project is executed with attention to detail, creativity, and a focus on client satisfaction.</p>
-    
-    <p>Our mission is to empower businesses and individuals by turning their concepts into visually engaging designs. From startups looking for a fresh identity to established brands seeking a revamp, Solvoro delivers results that inspire and connect with audiences. We believe that every design has a story, and we are committed to telling it effectively through our creative solutions.</p>
-    
-    <p>Our founder and CEO, <strong>Ayam M. Shukla</strong>, is an 8th-grade student with a passion for entrepreneurship. Ayam is building multiple startups with the aim of creating innovative solutions across industries. His vision for Solvoro is to reach a revenue milestone of <strong>₹1 crore by 2028</strong>, while maintaining excellence in design and client satisfaction.</p>
-    
-    <p>At Solvoro, we value creativity, consistency, and transparency. We ensure that every project undergoes up to 15 revisions to meet the client’s expectations perfectly. Our team is committed to delivering designs that are not only visually appealing but also strategically effective for growing businesses and personal brands.</p>
+  <div class="about-header">
+    <h1>About Solvoro</h1>
+    <p>Solvoro is a creative design hub turning ideas into impactful visuals, specializing in logos, posters, websites, and social media content that connect with your audience.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>Who We Are</h3>
+      <p>We are a team of passionate young designers and developers committed to delivering professional and creative digital solutions for startups and businesses. Our founder, Ayam M. Shukla, leads with vision and innovation.</p>
+    </div>
+    <div class="about-card">
+      <h3>What We Do</h3>
+      <p>From website development to logo design and social media posts, we provide comprehensive creative services that help brands establish their identity and engage with their audience effectively.</p>
+    </div>
+    <div class="about-card">
+      <h3>Our Mission</h3>
+      <p>Our mission is to empower businesses and individuals by transforming their ideas into visually compelling designs, delivering results that inspire and connect with audiences.</p>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>Our Vision</h3>
+      <p>We aim to become a leading creative agency, achieving innovative milestones and helping clients reach their goals through strategic and memorable design solutions.</p>
+    </div>
+    <div class="about-card">
+      <h3>Our Values</h3>
+      <p>Creativity, transparency, and client satisfaction are at the core of everything we do. Every project undergoes thorough revisions to ensure the best outcomes for our clients.</p>
+    </div>
+    <div class="about-card">
+      <h3>Why Choose Us</h3>
+      <p>With attention to detail, fast delivery, and a focus on brand identity, we create designs that not only look great but also deliver results that matter for your business growth.</p>
+    </div>
   </div>
 </main>
 
@@ -210,25 +186,6 @@ footer a:hover{color:var(--accent);}
 
 <!-- Scripts -->
 <script>
-  // Theme toggle with localStorage
-  (function(){
-    const html = document.documentElement;
-    const saved = localStorage.getItem('solvoroTheme');
-    function applyTheme(t){
-      html.setAttribute('data-theme', t);
-      localStorage.setItem('solvoroTheme', t);
-      const btn = document.getElementById('themeToggle');
-      if(btn) btn.textContent = t==='light'?'☀️':'🌙';
-    }
-    applyTheme(saved==='light'||saved==='dark'?saved:'dark');
-
-    const btn = document.getElementById('themeToggle');
-    btn.addEventListener('click', ()=>{
-      const current = html.getAttribute('data-theme')==='light'?'light':'dark';
-      applyTheme(current==='light'?'dark':'light');
-    });
-  })();
-
   // Mobile menu toggle
   (function(){
     const menuBtn = document.getElementById('menuBtn');
