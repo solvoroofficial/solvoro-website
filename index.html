@@ -24,8 +24,6 @@
       background:var(--bg-main);
       color:var(--text-light);
       line-height:1.6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
     }
     a{color:inherit;text-decoration:none}
     .container{max-width:1100px;margin:0 auto;padding:20px;}
@@ -37,7 +35,16 @@
       border-bottom:1px solid var(--border-light);
       backdrop-filter: blur(6px);
     }
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1100px;margin:0 auto;padding:14px 20px;position:relative;}
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between; /* logo left, menu right */
+      gap:20px;
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px 20px;
+      position:relative;
+    }
     .brand{display:flex;align-items:center;gap:12px}
     .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
     .logo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -60,7 +67,7 @@
     nav ul li a:hover{color:var(--text-light);background:transparent}
 
     #menuBtn {
-      display: none; /* hidden by default */
+      display: none; /* hidden on desktop */
       background:transparent;border:none;font-size:22px;cursor:pointer;color:var(--text-light);
       width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
     }
@@ -104,9 +111,17 @@
     .what-we-do{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
     .small-card{background:var(--bg-card);padding:18px;border-radius:12px;border:1px solid var(--border-light);width:280px;text-align:center}
     .small-card h3{margin-bottom:8px}
-    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto}
-    @media(max-width:1000px){.services-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:680px){.services-grid{grid-template-columns:1fr}}
+
+    /* Stretchy grid for services and demos */
+    .services-grid,
+    .demo-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
     .service-card{background:var(--bg-card);padding:20px;border-radius:12px;border:1px solid var(--border-light);text-align:left}
     .service-card h3{margin-bottom:10px}
     .service-card p{color:var(--text-muted);margin-bottom:14px}
@@ -121,10 +136,7 @@
     @media(max-width:680px){.process-grid{grid-template-columns:1fr}}
     .step{background:var(--bg-card);padding:18px;border-radius:12px;border:1px solid var(--border-light);text-align:center}
 
-    /* Demo section */
-    .demo-section{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:40px 20px}
-    @media(max-width:1000px){.demo-section{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:680px){.demo-section{grid-template-columns:1fr}}
+    /* Demo Section */
     .demo-card{background:var(--bg-card);padding:20px;border-radius:12px;border:1px solid var(--border-light);text-align:center}
     .demo-card h3{margin-bottom:10px}
     .demo-card p{color:var(--text-muted);margin-bottom:14px}
@@ -158,14 +170,14 @@
 
     /* Mobile nav */
     @media(max-width:768px){
-      #menuBtn{display:grid;} /* only visible on mobile */
+      #menuBtn{display:grid;}
       nav ul{
         flex-direction:column;
         gap:0;
         align-items:stretch;
         position:absolute;
         top:calc(100% + 8px);
-        right:20px;
+        right:0; /* menu aligned to right */
         width:220px;
         background:#0b1220;
         border:1px solid var(--border-light);
@@ -225,26 +237,17 @@
       </div>
     </section>
 
-    <!-- What we do -->
+    <!-- What We Do -->
     <section>
       <h2 style="text-align:center;margin-bottom:22px">What We Do</h2>
       <div class="what-we-do">
-        <div class="small-card">
-          <h3>Brand Identity</h3>
-          <p class="muted">Logos, business cards and full branding kits.</p>
-        </div>
-        <div class="small-card">
-          <h3>Websites</h3>
-          <p class="muted">Responsive websites and landing pages that convert.</p>
-        </div>
-        <div class="small-card">
-          <h3>Social Content</h3>
-          <p class="muted">Posters, banners, and promo videos for social platforms.</p>
-        </div>
+        <div class="small-card"><h3>Brand Identity</h3><p class="muted">Logos, business cards and full branding kits.</p></div>
+        <div class="small-card"><h3>Websites</h3><p class="muted">Responsive websites and landing pages that convert.</p></div>
+        <div class="small-card"><h3>Social Content</h3><p class="muted">Posters, banners, and promo videos for social platforms.</p></div>
       </div>
     </section>
 
-    <!-- Services -->
+    <!-- Featured Services -->
     <section>
       <h2 style="text-align:center;margin-bottom:22px">Featured Services</h2>
       <div class="services-grid">
@@ -266,7 +269,7 @@
       </div>
     </section>
 
-    <!-- Demo Section -->
+    <!-- View Our Work / Demo -->
     <section>
       <h2 style="text-align:center;margin-bottom:22px">View Our Work</h2>
       <div class="demo-section">
@@ -292,14 +295,8 @@
     <section>
       <h2 style="text-align:center;margin-bottom:22px">What Clients Say</h2>
       <div class="reviews">
-        <div class="review">
-          <strong>Novelmint</strong>
-          <p class="muted">“The website created by Solvoro is very professional, highly recommended!”</p>
-        </div>
-        <div class="review">
-          <strong>Devansh</strong>
-          <p class="muted">“The logo was very beautiful, will definitely take more services of Solvoro.”</p>
-        </div>
+        <div class="review"><strong>Novelmint</strong><p class="muted">“The website created by Solvoro is very professional, highly recommended!”</p></div>
+        <div class="review"><strong>Devansh</strong><p class="muted">“The logo was very beautiful, will definitely take more services of Solvoro.”</p></div>
       </div>
     </section>
 
@@ -307,48 +304,27 @@
     <section>
       <h2 style="text-align:center;margin-bottom:22px">Our Process</h2>
       <div class="process-grid">
-        <div class="step">
-          <h3>Choose</h3>
-          <p class="muted">Pick the service you need and place an order.</p>
-        </div>
-        <div class="step">
-          <h3>Order</h3>
-          <p class="muted">Fill the brief and pay the advance to begin work.</p>
-        </div>
-        <div class="step">
-          <h3>Review</h3>
-          <p class="muted">We deliver drafts and you request revisions (up to 15).</p>
-        </div>
-        <div class="step">
-          <h3>Deliver</h3>
-          <p class="muted">Final files delivered after approval and final payment.</p>
-        </div>
+        <div class="step"><h3>Choose</h3><p class="muted">Pick the service you need and place an order.</p></div>
+        <div class="step"><h3>Order</h3><p class="muted">Fill the brief and pay the advance to begin work.</p></div>
+        <div class="step"><h3>Review</h3><p class="muted">We deliver drafts and you request revisions (up to 15).</p></div>
+        <div class="step"><h3>Deliver</h3><p class="muted">Final files delivered after approval and final payment.</p></div>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
   <footer>
-    <div class="container">
-      <p>
-        <a href="index.html">Home</a> | 
-        <a href="about.html">About</a> | 
-        <a href="services.html">Services</a> | 
-        <a href="partners.html">Partners</a> | 
-        <a href="contact-us.html">Contact</a> | 
-        <a href="https://instagram.com/solvoro.freelancing" target="_blank">@solvoro.freelancing</a>
-      </p>
-      <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
-    </div>
+    <p>Follow us on <a href="https://instagram.com/solvoro.freelancing" target="_blank">@solvoro.freelancing</a></p>
+    <p>&copy; Solvoro 2025. All Rights Reserved.</p>
   </footer>
 
-  <!-- Modal -->
+  <!-- Demo Modal -->
   <div class="modal" id="demoModal">
     <div class="modal-content">
-      <button class="close-btn">&times;</button>
+      <button class="close-btn" id="closeModal">×</button>
       <h3 id="modalTitle"></h3>
       <p id="modalText"></p>
-      <a id="modalLink" class="btn" target="_blank" href="#">Open Demo Site</a>
+      <a id="modalLink" class="btn" target="_blank">Go</a>
     </div>
   </div>
 
@@ -359,39 +335,39 @@
     menuBtn.addEventListener('click', ()=>{
       navList.classList.toggle('show');
     });
-    document.addEventListener('click',(e)=>{
-      if(!menuBtn.contains(e.target) && !navList.contains(e.target)){
-        navList.classList.remove('show');
-      }
+    document.addEventListener('click', e=>{
+      if(!menuBtn.contains(e.target) && !navList.contains(e.target)) navList.classList.remove('show');
     });
 
     // Demo modal
-    const modal = document.getElementById('demoModal');
+    const demoModal = document.getElementById('demoModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalText = document.getElementById('modalText');
     const modalLink = document.getElementById('modalLink');
     document.querySelectorAll('.demo-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const demo = btn.getAttribute('data-demo');
-        if(demo==='website'){
+      btn.addEventListener('click', ()=>{
+        const type = btn.dataset.demo;
+        if(type==='website'){
           modalTitle.textContent='Website Demo';
-          modalText.textContent='You are about to view a live demo website designed by Solvoro.';
+          modalText.textContent='Check a live website designed by Solvoro.';
           modalLink.href='https://solvoroofficial.github.io/memorix/';
-          modalLink.style.display='inline-block';
-        } else if(demo==='logo'){
+          modalLink.textContent='View Website';
+        } else if(type==='logo'){
           modalTitle.textContent='Logo Design Demo';
-          modalText.textContent='Our logo design process starts with understanding your brand vision, color psychology, and audience impression. Each logo passes through 3 refinement stages ensuring precision and fluency in delivery.';
-          modalLink.style.display='none';
-        } else if(demo==='post'){
+          modalText.textContent='Understand the steps and fluency of our logo design process.';
+          modalLink.href='#';
+          modalLink.textContent='Close';
+        } else if(type==='post'){
           modalTitle.textContent='Social Media Post Demo';
-          modalText.textContent='Our post design flow follows trend research, visual storytelling, and brand tone alignment — ensuring professional and high-engagement visuals.';
-          modalLink.style.display='none';
+          modalText.textContent='See how we design high-engagement social media posts.';
+          modalLink.href='#';
+          modalLink.textContent='Close';
         }
-        modal.classList.add('active');
+        demoModal.classList.add('active');
       });
     });
-    document.querySelector('.close-btn').addEventListener('click',()=>modal.classList.remove('active'));
-    window.addEventListener('click',e=>{if(e.target===modal) modal.classList.remove('active')});
+    document.getElementById('closeModal').addEventListener('click', ()=> demoModal.classList.remove('active'));
+    demoModal.addEventListener('click', e=> { if(e.target===demoModal) demoModal.classList.remove('active'); });
   </script>
 </body>
 </html>
