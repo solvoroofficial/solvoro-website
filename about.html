@@ -23,7 +23,7 @@ body{
   background:var(--bg-main);
   color:var(--text-light);
   margin:0;
-  line-height:1.6;
+  line-height:1.5;
 }
 a{color:inherit;text-decoration:none;}
 .container{max-width:1100px;margin:0 auto;padding:20px;}
@@ -47,16 +47,17 @@ header{
 .brand{display:flex;align-items:center;gap:12px;}
 .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center;}
 .logo img{width:100%;height:100%;object-fit:cover;display:block;}
-.brand-text{font-weight:700;font-size:18px;color:var(--text-light);}
+.brand-text{font-weight:700;font-size:16px;color:var(--text-light);}
 nav ul{
-  display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center;
+  display:flex;gap:16px;list-style:none;margin:0;padding:0;align-items:center;
 }
 nav ul li a{
   color:var(--text-light);
-  font-weight:600;
-  padding:6px 8px;
+  font-weight:500;
+  padding:4px 6px;
   border-radius:8px;
   display:inline-block;
+  font-size:14px;
 }
 #menuBtn{
   display:none;
@@ -65,17 +66,17 @@ nav ul li a{
 }
 
 /* About sections */
-.about-header{text-align:center;margin-bottom:40px;}
-.about-header h1{font-size:44px;font-weight:800;margin:0;}
-.about-header p{color:var(--text-muted);max-width:800px;margin:10px auto;font-size:16px;}
+.about-header{text-align:center;margin-bottom:30px;}
+.about-header h1{font-size:32px;font-weight:700;margin:0;}
+.about-header p{color:var(--text-muted);max-width:720px;margin:10px auto;font-size:14px;}
 
-.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px;}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:30px;}
 @media(max-width:1000px){.about-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:680px){.about-grid{grid-template-columns:1fr;}}
 
-.about-card{background:var(--bg-card);padding:24px;border-radius:var(--radius);border:1px solid var(--border-light);}
-.about-card h3{margin-bottom:12px;font-size:22px;}
-.about-card p{color:var(--text-muted);line-height:1.7;font-size:15px;}
+.about-card{background:var(--bg-card);padding:20px;border-radius:var(--radius);border:1px solid var(--border-light);}
+.about-card h3{margin-bottom:10px;font-size:18px;}
+.about-card p{color:var(--text-muted);line-height:1.5;font-size:13px;}
 
 /* Footer */
 footer{
@@ -84,7 +85,7 @@ footer{
   padding:30px 20px;
   border-top:1px solid var(--border-light);
   text-align:center;
-  font-size:14px;
+  font-size:13px;
 }
 footer a{color:var(--text-muted);}
 footer a:hover{color:var(--accent-start);}
@@ -93,7 +94,7 @@ footer a:hover{color:var(--accent-start);}
 @media(max-width:900px){
   nav ul{
     position:absolute;
-    right:20px;
+    right:0;
     top:calc(100% + 8px);
     width:220px;
     flex-direction:column;
@@ -144,36 +145,36 @@ footer a:hover{color:var(--accent-start);}
 <main class="container">
   <div class="about-header">
     <h1>About Solvoro</h1>
-    <p>Solvoro is a creative design hub turning ideas into impactful visuals, specializing in logos, posters, websites, and social media content that connect with your audience.</p>
+    <p>Solvoro transforms ideas into impactful visuals. We specialize in logos, posters, websites, and social media content that connect with your audience.</p>
   </div>
 
   <div class="about-grid">
     <div class="about-card">
       <h3>Who We Are</h3>
-      <p>We are a team of passionate young designers and developers committed to delivering professional and creative digital solutions for startups and businesses. Our founder, Ayam M. Shukla, leads with vision and innovation.</p>
+      <p>A team of passionate young designers and developers committed to delivering professional and creative digital solutions. Led by our founder Ayam M. Shukla, we innovate with purpose.</p>
     </div>
     <div class="about-card">
       <h3>What We Do</h3>
-      <p>From website development to logo design and social media posts, we provide comprehensive creative services that help brands establish their identity and engage with their audience effectively.</p>
+      <p>From website development to logo design and social media posts, we provide comprehensive creative services that help brands establish identity and engage their audience effectively.</p>
     </div>
     <div class="about-card">
       <h3>Our Mission</h3>
-      <p>Our mission is to empower businesses and individuals by transforming their ideas into visually compelling designs, delivering results that inspire and connect with audiences.</p>
+      <p>Empowering businesses and individuals by transforming their ideas into visually compelling designs that inspire and connect with audiences.</p>
     </div>
   </div>
 
   <div class="about-grid">
     <div class="about-card">
       <h3>Our Vision</h3>
-      <p>We aim to become a leading creative agency, achieving innovative milestones and helping clients reach their goals through strategic and memorable design solutions.</p>
+      <p>To become a leading creative agency, achieving innovative milestones and helping clients reach their goals through strategic and memorable design solutions.</p>
     </div>
     <div class="about-card">
       <h3>Our Values</h3>
-      <p>Creativity, transparency, and client satisfaction are at the core of everything we do. Every project undergoes thorough revisions to ensure the best outcomes for our clients.</p>
+      <p>Creativity, transparency, and client satisfaction are at the core of everything we do. Projects undergo careful revisions to ensure the best outcomes.</p>
     </div>
     <div class="about-card">
       <h3>Why Choose Us</h3>
-      <p>With attention to detail, fast delivery, and a focus on brand identity, we create designs that not only look great but also deliver results that matter for your business growth.</p>
+      <p>Attention to detail, fast delivery, and a focus on brand identity. We create designs that look great and deliver measurable results for your business.</p>
     </div>
   </div>
 </main>
