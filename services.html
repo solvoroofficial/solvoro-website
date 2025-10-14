@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solvoro | Services</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Solvoro — Services</title>
   <link rel="icon" href="favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -16,95 +16,145 @@
       --accent-end:#06b6d4;
       --border-light:rgba(255,255,255,0.05);
       --radius:12px;
-      --bg-light:#f8f9fa;
-      --text-dark:#1f2937;
-    }
-
-    html[data-theme="light"]{
-      --bg-main: var(--bg-light);
-      --bg-card: #ffffff;
-      --text-light: var(--text-dark);
-      --text-muted: #6b7280;
-      --border-light: rgba(0,0,0,0.08);
+      --max-width:1100px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
     body{
-      font-family: 'Inter', sans-serif;
+      font-family:'Inter',sans-serif;
       background:var(--bg-main);
       color:var(--text-light);
       line-height:1.6;
+      -webkit-font-smoothing:antialiased;
     }
     a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:20px;}
 
-    /* Header */
+    /* ======= Header (exact same memorized version) ======= */
     header{
       position:sticky;top:0;z-index:60;
-      background:#071024; /* dark blue for dark mode */
+      background:rgba(7,16,36,0.95);
       border-bottom:1px solid var(--border-light);
-      backdrop-filter: blur(6px);
+      backdrop-filter:blur(6px);
     }
-    html[data-theme="light"] header{
-      background:#7c3aed; /* purple for light mode */
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:12px 20px;
+      position:relative;
     }
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1100px;margin:0 auto;padding:14px 20px;position:relative;}
     .brand{display:flex;align-items:center;gap:12px}
     .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
     .logo img{width:100%;height:100%;object-fit:cover;display:block}
     .brand-text{font-weight:700;font-size:18px;color:var(--text-light)}
-    nav ul{display:flex;gap:20px;list-style:none;align-items:center;margin:0;transition:max-height 0.3s ease,opacity 0.2s ease;}
-    nav ul li{font-weight:600;color:var(--text-muted)}
-    nav ul li a{padding:6px 8px;border-radius:8px;display:inline-block;color:var(--text-light)}
-    nav ul li a:hover{color:var(--text-light);background:transparent}
-    .theme-btn{
-      background:transparent;border:none;font-size:20px;cursor:pointer;color:var(--text-light);
-      width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    nav ul{
+      display:flex;
+      gap:20px;
+      list-style:none;
+      align-items:center;
+      margin:0;
+      transition:max-height 300ms ease,opacity 220ms ease;
+    }
+    nav ul li a{
+      padding:6px 8px;border-radius:8px;display:inline-block;color:var(--text-light);font-weight:600;
     }
     #menuBtn{
-      display:none;
-      background:transparent;border:none;font-size:22px;cursor:pointer;color:var(--text-light);
+      display:none;background:transparent;border:none;font-size:22px;cursor:pointer;color:var(--text-light);
       width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
     }
 
-    html[data-theme="light"] .brand-text,
-    html[data-theme="light"] nav ul li a,
-    html[data-theme="light"] #menuBtn,
-    html[data-theme="light"] .theme-btn{
-      color:#ffffff; /* text visible over purple header */
+    /* ======= Page content ======= */
+    main{max-width:var(--max-width);margin:40px auto;padding:0 20px}
+    h1{text-align:center;font-size:36px;margin-bottom:28px}
+
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:24px;
     }
 
-    /* Main Services */
-    main{max-width:1100px;margin:40px auto;padding:0 20px}
-    h1{text-align:center;font-size:36px;margin-bottom:40px}
-    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-    .card{background:var(--bg-card);padding:20px;border-radius:var(--radius);border:1px solid var(--border-light);transition:transform 0.3s}
-    .card:hover{transform:translateY(-5px)}
+    .card{
+      background:var(--bg-card);
+      padding:20px;
+      border-radius:var(--radius);
+      border:1px solid var(--border-light);
+      transition:transform 0.25s;
+      position:relative;
+    }
+    .card:hover{transform:translateY(-6px)}
     .card h3{margin:0 0 10px}
-    .price{font-size:18px;font-weight:bold;margin:10px 0;color:var(--accent-start)}
-    .btn{display:inline-block;margin-top:10px;padding:10px 16px;border-radius:var(--radius);background:var(--accent-start);color:#fff;font-weight:600;transition:background 0.3s}
-    .btn:hover{background:var(--accent-end)}
+    .card p{color:var(--text-muted);margin:0 0 8px}
+    .price-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+    .old-price{color:var(--text-muted);text-decoration:line-through;font-weight:600}
+    .new-price{font-size:18px;font-weight:800;color:var(--accent-start)}
+    .badge{background:rgba(255,255,255,0.04);padding:4px 8px;border-radius:999px;font-size:12px;color:var(--text-muted);margin-left:8px}
 
-    /* Footer */
-    footer{margin-top:60px;background:var(--bg-main);padding:30px 20px;text-align:center;border-top:1px solid var(--border-light)}
-    footer a{color:var(--accent-start)}
-    footer a:hover{color:var(--accent-end)}
-    footer p{margin:5px 0;color:var(--text-muted)}
+    .card-actions{display:flex;gap:10px;margin-top:14px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700;
+      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;text-decoration:none;
+    }
+    .btn.secondary{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);
+      color:var(--text-light);
+    }
 
-    /* Mobile nav */
+    /* ======= Modal ======= */
+    .modal{
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:rgba(0,0,0,0.7);opacity:0;pointer-events:none;transition:opacity .2s ease;
+      z-index:120;
+    }
+    .modal.show{opacity:1;pointer-events:auto}
+    .modal-content{
+      width:100%;max-width:560px;background:var(--bg-card);border-radius:12px;padding:22px;position:relative;
+      box-shadow:0 14px 40px rgba(2,6,23,0.6);
+    }
+    .modal-close{
+      position:absolute;left:12px;top:12px;background:transparent;border:none;font-size:22px;color:var(--text-light);cursor:pointer;
+    }
+    .modal-content h3{margin:6px 0 8px;color:var(--accent-start)}
+    .modal-content p{color:var(--text-muted);margin:0 0 12px}
+    .modal-actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .modal-actions a.button{
+      padding:10px 14px;border-radius:10px;text-decoration:none;background:linear-gradient(90deg,var(--accent-start),var(--accent-end));color:#fff;font-weight:700;
+    }
+    .modal-actions a.button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text-light)}
+
+    /* ======= Footer (exact same memorized) ======= */
+    footer{padding:26px 20px;background:var(--bg-main);color:var(--text-muted);border-top:1px solid var(--border-light);text-align:center;margin-top:40px}
+    footer a{color:var(--text-muted)}
+    footer a:hover{color:var(--accent-start)}
+
+    /* ======= Responsive nav ======= */
     @media(max-width:768px){
-      nav ul{flex-direction:column;gap:0;align-items:stretch;position:absolute;top:calc(100% + 8px);right:20px;width:220px;background:#0b1220; /* dark bg for both themes */ border:1px solid var(--border-light);border-radius:12px;padding:6px 0;z-index:50;max-height:0;overflow:hidden;opacity:0;pointer-events:none}
+      #menuBtn{display:grid;position:absolute;right:20px;top:50%;transform:translateY(-50%)}
+      nav ul{
+        flex-direction:column;gap:0;align-items:stretch;
+        position:absolute;top:calc(100% + 8px);right:20px;width:220px;background:#0b1220;
+        border:1px solid var(--border-light);border-radius:12px;padding:6px 0;z-index:50;max-height:0;overflow:hidden;opacity:0;pointer-events:none;
+      }
       nav ul.show{max-height:520px;opacity:1;pointer-events:auto}
-      nav ul li a{display:block;padding:12px 16px;color:#ffffff} /* always visible */
-      #menuBtn{display:grid}
+      nav ul li a{display:block;padding:12px 16px;color:#ffffff}
+    }
+
+    /* small screens: card spacing */
+    @media(max-width:420px){
+      .modal-content{padding:16px}
+      .card{padding:16px}
+      h1{font-size:28px}
     }
   </style>
 </head>
-<body data-theme="dark">
+<body>
 
   <!-- Header -->
   <header>
-    <div class="nav container">
+    <div class="nav">
       <div class="brand">
         <div class="logo">
           <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
@@ -112,108 +162,257 @@
         <div class="brand-text">Solvoro</div>
       </div>
 
-      <button id="menuBtn" class="theme-btn" aria-label="Toggle navigation" aria-controls="mainNavList" aria-expanded="false">☰</button>
+      <button id="menuBtn" aria-label="Toggle navigation">☰</button>
 
-      <nav aria-label="Main navigation">
+      <nav>
         <ul id="mainNavList">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="services.html">Services</a></li>
-          <li><a href="contact-us.html">Contact Us</a></li>
+          <li><a href="partners.html">Partners</a></li>
+          <li><a href="contact-us.html">Contact</a></li>
         </ul>
       </nav>
-
-      <div style="display:flex;align-items:center;gap:10px">
-        <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
-      </div>
     </div>
   </header>
 
   <!-- Main -->
   <main>
     <h1>Our Services</h1>
+
     <div class="services-grid">
-      <div class="card">
-        <h3>Website Design</h3>
-        <p>Modern, responsive websites designed to suit your business.</p>
-        <p class="price">₹1499 (first 20 customers)<br>₹2799 regular</p>
-        <a href="order.html" class="btn">Order Now</a>
+      <!-- Website Design -->
+      <div class="card" data-service-id="website">
+        <h3>Website Development</h3>
+        <p>Modern, responsive websites designed to suit your business and convert visitors into customers.</p>
+        <div class="price-row">
+          <span class="old-price">₹2,799</span>
+          <span class="new-price">₹1,499</span>
+          <span class="badge">first 20 customers</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn demo-btn" data-service="website">View Demo</button>
+          <a class="btn secondary" href="order.html">Order Now</a>
+        </div>
       </div>
-      <div class="card">
+
+      <!-- Logo Design -->
+      <div class="card" data-service-id="logo">
         <h3>Logo Design</h3>
         <p>Creative, memorable logos that define your brand identity.</p>
-        <p class="price">₹399 (first 50 customers)<br>₹799 regular</p>
-        <a href="order.html" class="btn">Order Now</a>
+        <div class="price-row">
+          <span class="old-price">₹799</span>
+          <span class="new-price">₹399</span>
+          <span class="badge">first 50 customers</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn demo-btn" data-service="logo">View Demo</button>
+          <a class="btn secondary" href="order.html">Order Now</a>
+        </div>
       </div>
-      <div class="card">
+
+      <!-- Social Media Poster -->
+      <div class="card" data-service-id="poster">
         <h3>Social Media Poster</h3>
         <p>Eye-catching posters and banners for your social media campaigns.</p>
-        <p class="price">₹129 (first 25 customers)<br>₹199 regular</p>
-        <a href="order.html" class="btn">Order Now</a>
+        <div class="price-row">
+          <span class="old-price">₹199</span>
+          <span class="new-price">₹129</span>
+          <span class="badge">first 25 customers</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn demo-btn" data-service="poster">View Demo</button>
+          <a class="btn secondary" href="order.html">Order Now</a>
+        </div>
       </div>
-      <div class="card">
+
+      <!-- Business Card -->
+      <div class="card" data-service-id="business-card">
         <h3>Business Card Design</h3>
         <p>Professional business card designs that leave a lasting impression.</p>
-        <p class="price">₹239 (first 10 customers)<br>₹299 regular</p>
-        <a href="order.html" class="btn">Order Now</a>
+        <div class="price-row">
+          <span class="old-price">₹299</span>
+          <span class="new-price">₹239</span>
+          <span class="badge">first 10 customers</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn demo-btn" data-service="business-card">View Demo</button>
+          <a class="btn secondary" href="order.html">Order Now</a>
+        </div>
       </div>
-      <div class="card">
+
+      <!-- CV / Resume -->
+      <div class="card" data-service-id="resume">
         <h3>CV / Resume Design</h3>
         <p>Professional CVs / Resumes designed for maximum impact.</p>
-        <p class="price">₹349</p>
-        <a href="order.html" class="btn">Order Now</a>
+        <div class="price-row">
+          <span class="new-price">₹349</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn demo-btn" data-service="resume">View Demo</button>
+          <a class="btn secondary" href="order.html">Order Now</a>
+        </div>
       </div>
-      <div class="card">
+
+      <!-- Promotional / Ad Video -->
+      <div class="card" data-service-id="video">
         <h3>Promotional / Ad Video</h3>
         <p>Short promotional videos to boost your brand or product.</p>
-        <p class="price">₹699</p>
-        <a href="order.html" class="btn">Order Now</a>
+        <div class="price-row">
+          <span class="new-price">₹699</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn demo-btn" data-service="video">View Demo</button>
+          <a class="btn secondary" href="order.html">Order Now</a>
+        </div>
       </div>
-      <div class="card">
+
+      <!-- Cover Letter Writing -->
+      <div class="card" data-service-id="cover-letter">
         <h3>Cover Letter Writing</h3>
         <p>Customized cover letters to complement your CV or Resume.</p>
-        <p class="price">₹400</p>
-        <a href="order.html" class="btn">Order Now</a>
+        <div class="price-row">
+          <span class="new-price">₹400</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn demo-btn" data-service="cover-letter">View Demo</button>
+          <a class="btn secondary" href="order.html">Order Now</a>
+        </div>
       </div>
     </div>
   </main>
 
+  <!-- Modal (shared) -->
+  <div class="modal" id="demoModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content" role="document">
+      <button class="modal-close" aria-label="Close modal">×</button>
+      <h3 id="modalTitle">Service Demo</h3>
+      <p id="modalText">Service process will appear here.</p>
+      <div class="modal-actions" id="modalActions">
+        <!-- dynamic buttons (e.g. view website) -->
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
-    <div class="container">
-      <p>Follow us on <a href="https://instagram.com/solvoro.freelancing" target="_blank">@solvoro.freelancing</a> &nbsp; | &nbsp; <a href="mailto:solvoro.official@gmail.com">solvoro.official@gmail.com</a></p>
-      <p>&copy; Solvoro 2025. All Rights Reserved.</p>
-    </div>
+    <a href="https://www.instagram.com/solvoro.freelancing" target="_blank" rel="noopener noreferrer">Follow us on Instagram</a>
+    <p>Mail: solvoro.official@gmail.com</p>
+    <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
   </footer>
 
   <script>
-    // Theme toggle
-    (function(){
-      const html = document.documentElement;
-      const btn = document.getElementById('themeToggle');
-      const saved = localStorage.getItem('solvoroTheme');
-      function applyTheme(theme){
-        html.setAttribute('data-theme', theme);
-        localStorage.setItem('solvoroTheme', theme);
-        btn.textContent = theme === 'light' ? '☀️' : '🌙';
-      }
-      if(saved==='light'||saved==='dark') applyTheme(saved);
-      else applyTheme('dark');
-      btn.addEventListener('click',()=>{
-        const current = html.getAttribute('data-theme')==='light'?'light':'dark';
-        applyTheme(current==='light'?'dark':'light');
-      });
-    })();
-
-    // Mobile menu toggle
+    // ===== Mobile menu toggle (same behavior as memorized header) =====
     (function(){
       const menuBtn = document.getElementById('menuBtn');
-      const ul = document.getElementById('mainNavList');
-      menuBtn.addEventListener('click', ()=>{
-        ul.classList.toggle('show');
-        const expanded = ul.classList.contains('show');
-        menuBtn.setAttribute('aria-expanded', expanded);
+      const navList = document.getElementById('mainNavList');
+
+      function closeMenu(){ navList.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+      function openMenu(){ navList.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+
+      menuBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        if(navList.classList.contains('show')) closeMenu(); else openMenu();
       });
+
+      document.addEventListener('click', (e)=>{
+        if(window.innerWidth > 768) return;
+        if(!navList.contains(e.target) && !menuBtn.contains(e.target)) closeMenu();
+      });
+
+      document.addEventListener('keydown',(e)=>{ if(e.key === 'Escape') closeMenu(); });
+      window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeMenu(); });
+    })();
+
+    // ===== Demo modal logic =====
+    (function(){
+      const demoButtons = document.querySelectorAll('.demo-btn');
+      const modal = document.getElementById('demoModal');
+      const title = document.getElementById('modalTitle');
+      const text = document.getElementById('modalText');
+      const actions = document.getElementById('modalActions');
+      const closeBtn = document.querySelector('.modal-close');
+
+      // content mapping per service (customize process text as needed)
+      const serviceData = {
+        'website': {
+          title: 'Website Development — Process',
+          text: '1) Discovery & brief\n2) Design mockups\n3) Development & responsive testing\n4) Revisions (up to agreed number)\n5) Final delivery & deployment.',
+          buttons: [
+            { text: 'View a website made by Solvoro', href: 'https://solvoroofficial.github.io/memorix/', external: true },
+            { text: 'Order this service', href: 'order.html', external: false }
+          ]
+        },
+        'logo': {
+          title: 'Logo Design — Process',
+          text: '1) Brand discovery\n2) Concept sketches\n3) Digital drafts (3 options)\n4) Revisions & final files delivered in multiple formats.',
+          buttons: [{ text: 'Order Logo Design', href: 'order.html', external: false }]
+        },
+        'poster': {
+          title: 'Social Media Poster — Process',
+          text: '1) Trend & audience research\n2) Visual concept\n3) Draft & refinements\n4) Final export for platforms (IG/FB/Twitter).',
+          buttons: [{ text: 'Order Poster', href: 'order.html', external: false }]
+        },
+        'business-card': {
+          title: 'Business Card Design — Process',
+          text: '1) Information & style brief\n2) Layout concepts\n3) Revisions & print-ready files provided.',
+          buttons: [{ text: 'Order Business Card', href: 'order.html', external: false }]
+        },
+        'resume': {
+          title: 'CV / Resume Design — Process',
+          text: '1) Send your current resume & job target\n2) Design tailored to role\n3) Final editable and PDF versions delivered.',
+          buttons: [{ text: 'Order Resume Design', href: 'order.html', external: false }]
+        },
+        'video': {
+          title: 'Promotional Video — Process',
+          text: '1) Script & storyboard\n2) Editing & motion design\n3) Revisions & final export in required format.',
+          buttons: [{ text: 'Order Video', href: 'order.html', external: false }]
+        },
+        'cover-letter': {
+          title: 'Cover Letter Writing — Process',
+          text: '1) Provide resume & job details\n2) Draft tailored to role\n3) One round of revisions & final delivery.',
+          buttons: [{ text: 'Order Cover Letter', href: 'order.html', external: false }]
+        }
+      };
+
+      function openModalFor(serviceKey){
+        const data = serviceData[serviceKey] || { title: 'Service Demo', text: 'Process details coming soon.', buttons: [] };
+        title.textContent = data.title;
+        // convert newlines to <br>
+        text.innerHTML = data.text.replace(/\n/g, '<br>');
+        // clear actions
+        actions.innerHTML = '';
+        data.buttons.forEach(b=>{
+          const a = document.createElement('a');
+          a.className = 'button';
+          a.textContent = b.text;
+          a.href = b.href;
+          if(b.external) a.target = '_blank';
+          actions.appendChild(a);
+        });
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden','false');
+        // focus close button for accessibility
+        closeBtn.focus();
+        document.body.style.overflow = 'hidden';
+      }
+
+      demoButtons.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          const svc = btn.getAttribute('data-service');
+          openModalFor(svc);
+        });
+      });
+
+      function closeModal(){
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
+      }
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e)=> { if(e.target === modal) closeModal(); });
+      document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
     })();
   </script>
 </body>
