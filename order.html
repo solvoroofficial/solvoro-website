@@ -1,302 +1,873 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Solvoro — Place Your Order</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="favicon.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg-main:#071024;
-  --bg-card:#0b1220;
-  --text-light:#e6eef6;
-  --text-muted:#94a3b8;
-  --accent:#7c3aed;
-  --border-light:rgba(255,255,255,0.05);
-  --radius:12px;
-  --bg-light:#ffffff;
-  --text-dark:#1f2937;
-}
+  <meta charset="utf-8" />
+  <title>Solvoro — Place Your Order</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-main:#071024;
+      --bg-card:#0b1220;
+      --text-light:#e6eef6;
+      --text-muted:#94a3b8;
+      --accent-start:#7c3aed;
+      --accent-end:#06b6d4;
+      --border-light:rgba(255,255,255,0.05);
+      --radius:12px;
+      --max-width:1100px;
+      --form-gap:16px;
+    }
 
-/* Light mode overrides */
-html[data-theme="light"]{
-  --page-bg: var(--bg-light);
-  --card-bg: #ffffff;
-  --page-text: var(--text-dark);
-  --text-muted: #6b7280;
-  --header-bg: var(--accent);
-  --footer-bg: #ffffff;
-}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg-main);
+      color:var(--text-light);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+    a{color:inherit;text-decoration:none}
 
-/* Dark mode overrides */
-html[data-theme="dark"]{
-  --page-bg: var(--bg-main);
-  --card-bg: var(--bg-card);
-  --page-text: var(--text-light);
-  --text-muted: #94a3b8;
-  --header-bg: rgba(7,16,36,0.95);
-  --footer-bg: var(--bg-main);
-}
+    /* ===== Header (exact memorized) ===== */
+    header{
+      position:sticky;top:0;z-index:60;
+      background:rgba(7,16,36,0.95);
+      border-bottom:1px solid var(--border-light);
+      backdrop-filter: blur(6px);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:12px 20px;
+      position:relative;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
+    .logo img{width:100%;height:100%;object-fit:cover;display:block}
+    .brand-text{font-weight:700;font-size:18px;color:var(--text-light)}
+    nav ul{
+      display:flex;
+      gap:20px;
+      list-style:none;
+      align-items:center;
+      margin:0;
+      transition:max-height 300ms ease,opacity 220ms ease;
+    }
+    nav ul li a{
+      padding:6px 8px;
+      border-radius:8px;
+      display:inline-block;
+      color:var(--text-light);
+      font-weight:600;
+    }
+    #menuBtn{
+      display:none;
+      background:transparent;border:none;font-size:22px;cursor:pointer;color:var(--text-light);
+      width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
+    }
 
-body{
-  font-family:'Inter',sans-serif;
-  background:var(--page-bg);
-  color:var(--page-text);
-  margin:0;
-  line-height:1.6;
-}
+    /* ===== Page layout ===== */
+    main{max-width:var(--max-width);margin:36px auto;padding:0 20px}
+    .top-row{display:flex;gap:20px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+    h1{font-size:28px;margin:0 0 6px}
+    p.lead{color:var(--text-muted);margin:0 0 6px;max-width:760px}
 
-a{color:inherit;text-decoration:none;}
-.container{max-width:900px;margin:40px auto;padding:0 20px;}
+    /* selector */
+    .service-select{
+      display:flex;gap:12px;align-items:center;
+      background:var(--bg-card);padding:12px;border-radius:12px;border:1px solid var(--border-light);
+    }
+    select#serviceChoice{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text-light)}
 
-/* Header */
-header{
-  position:sticky; top:0; z-index:60;
-  background: var(--header-bg);
-  border-bottom:1px solid var(--border-light);
-  backdrop-filter: blur(6px);
-}
+    /* multi-form container */
+    .forms-wrap{margin-top:18px;display:block}
 
-.nav{
-  max-width:1100px;
-  margin:0 auto;
-  padding:14px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-}
+    .service-form{
+      display:none;
+      background:var(--bg-card);
+      padding:20px;border-radius:12px;border:1px solid var(--border-light);
+      margin-bottom:18px;
+    }
+    .service-form.active{display:block}
 
-.brand{display:flex;align-items:center;gap:12px;}
-.logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center;}
-.logo img{width:100%;height:100%;object-fit:cover;display:block;}
-.brand-text{font-weight:700;font-size:18px;color:#fff;}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1;min-width:160px}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:var(--text-light);font-size:14px}
+    textarea{min-height:100px;resize:vertical}
+    .help{font-size:13px;color:var(--text-muted);margin-top:6px}
 
-nav ul{
-  display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center;
-}
-nav ul li a{
-  color:#ffffff;
-  font-weight:600;
-  padding:6px 8px;
-  border-radius:8px;
-  text-decoration:none;
-  display:inline-block;
-}
+    .form-actions{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+    button.primary{
+      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color:#fff;padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;
+    }
+    button.ghost{
+      background:transparent;color:var(--text-light);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;
+    }
 
-.theme-btn, #menuBtn{
-  background:transparent;
-  border:none;
-  font-size:20px;
-  cursor:pointer;
-  color:#ffffff;
-  width:42px; height:42px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
-}
+    /* agreement / summary */
+    .summary{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid var(--border-light);color:var(--text-muted);margin-top:12px;white-space:pre-wrap}
 
-/* Form Section */
-h2{text-align:center;font-size:28px;font-weight:700;margin-bottom:24px;}
-form { 
-  display:flex; flex-direction: column; gap:18px; 
-  background: var(--card-bg); 
-  padding: 30px; 
-  border-radius: var(--radius);
-  border: 1px solid var(--border-light);
-}
+    /* footer */
+    footer{padding:26px 20px;background:var(--bg-main);color:var(--text-muted);border-top:1px solid var(--border-light);text-align:center;margin-top:24px}
+    footer a{color:var(--text-muted)}
+    footer a:hover{color:var(--accent-start)}
 
-input, select, textarea { 
-  padding:12px; border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.15);
-  background: var(--card-bg);
-  color: var(--page-text);
-  font-size: 15px;
-  width:100%;
-}
-input::placeholder, textarea::placeholder { color: var(--text-muted); }
+    /* mobile nav */
+    @media(max-width:768px){
+      #menuBtn{display:grid;position:absolute;right:20px;top:50%;transform:translateY(-50%)}
+      nav ul{
+        flex-direction:column;gap:0;align-items:stretch;
+        position:absolute;top:calc(100% + 8px);right:20px;width:220px;
+        background:#0b1220;border:1px solid var(--border-light);border-radius:12px;padding:6px 0;z-index:50;max-height:0;overflow:hidden;opacity:0;pointer-events:none;
+      }
+      nav ul.show{max-height:520px;opacity:1;pointer-events:auto}
+      nav ul li a{display:block;padding:12px 16px;color:#ffffff}
+    }
 
-button { 
-  padding: 12px 20px; border-radius: var(--radius);
-  font-weight:600; font-size:15px; border:none; cursor:pointer;
-  background: linear-gradient(90deg, #7c3aed, #06b6d4);
-  color:#fff; transition:0.3s;
-}
-button:hover { 
-  background: linear-gradient(90deg, #5b21b6, #0284c7);
-}
-
-.agreement-box { 
-  background: var(--card-bg); 
-  padding: 16px; 
-  border-radius: var(--radius); 
-  max-height: 250px; overflow-y:auto; white-space: pre-wrap; 
-  border:1px solid var(--border-light);
-}
-
-/* Footer */
-footer{
-  background: var(--footer-bg);
-  color:var(--text-muted);
-  padding:40px 20px;
-  border-top:1px solid var(--border-light);
-  text-align:center;
-  font-size:14px;
-  transition:background 0.3s,color 0.3s;
-}
-footer a{color:var(--text-muted);}
-footer a:hover{color:var(--accent);}
-
-/* Mobile nav */
-@media(max-width:900px){
-  nav ul{
-    position:absolute;
-    right:20px;
-    top:calc(100% + 8px);
-    width:220px;
-    flex-direction:column;
-    background: var(--card-bg);
-    border:1px solid var(--border-light);
-    border-radius:12px;
-    padding:6px 0;
-    max-height:0;
-    overflow:hidden;
-    opacity:0;
-    pointer-events:none;
-    transition:max-height .28s ease, opacity .18s ease;
-  }
-  nav ul.show{max-height:520px;opacity:1;pointer-events:auto;}
-  nav ul li a{display:block;padding:12px 16px;color:var(--page-text);}
-  #menuBtn{display:grid;}
-}
-</style>
+    /* small screens */
+    @media(max-width:520px){
+      .row{flex-direction:column}
+      .top-row{flex-direction:column;align-items:flex-start}
+    }
+  </style>
 </head>
 <body>
 
-<!-- Header -->
-<header>
-  <div class="nav container">
-    <div class="brand">
-      <div class="logo">
-        <img src="favicon.png" alt="Solvoro Logo">
+  <!-- Header (exact same) -->
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">
+          <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
+        </div>
+        <div class="brand-text">Solvoro</div>
       </div>
-      <div class="brand-text">Solvoro</div>
+
+      <button id="menuBtn" aria-label="Toggle navigation">☰</button>
+
+      <nav aria-label="Main navigation">
+        <ul id="mainNavList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="partners.html">Partners</a></li>
+          <li><a href="contact-us.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <div class="top-row">
+      <div>
+        <h1>Place Your Order</h1>
+        <p class="lead">Select a service below and fill the detailed form — each form collects all information we need to start and deliver without follow-up questions.</p>
+      </div>
+
+      <div class="service-select" aria-hidden="false">
+        <label for="serviceChoice" style="font-weight:700;color:var(--text-light);margin-right:8px">Choose service</label>
+        <select id="serviceChoice" aria-label="Choose service">
+          <option value="" selected disabled>Select service...</option>
+          <option value="website">Website Development</option>
+          <option value="logo">Logo Design</option>
+          <option value="poster">Social Media Poster</option>
+          <option value="business-card">Business Card Design</option>
+          <option value="resume">CV / Resume Design</option>
+          <option value="video">Promotional / Ad Video</option>
+          <option value="cover-letter">Cover Letter Writing</option>
+          <option value="maintenance">Website Maintenance Pack</option>
+        </select>
+      </div>
     </div>
 
-    <button id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <div class="forms-wrap">
 
-    <nav aria-label="Main navigation">
-      <ul id="mainNavList">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="contact-us.html">Contact Us</a></li>
-      </ul>
-    </nav>
+      <!-- Website Development Form -->
+      <form id="form-website" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="Website Development">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Email</label><input name="email" type="email" required></div>
+          <div class="col"><label>Mobile</label><input name="mobile" type="tel" required></div>
+        </div>
 
-    <div style="display:flex;align-items:center;gap:10px">
-      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
+        <div style="margin-top:var(--form-gap)">
+          <label>Business / Brand name</label>
+          <input name="brand_name" placeholder="Your company or brand name" required>
+        </div>
+
+        <div class="row" style="margin-top:var(--form-gap)">
+          <div class="col">
+            <label>Do you already own a domain?</label>
+            <select name="domain_owned" required>
+              <option value="" disabled selected>Choose</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="col">
+            <label>Domain URL (if any)</label>
+            <input name="domain_url" placeholder="https://yourdomain.com">
+          </div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Pages required (check all that apply) — if Other, write in Notes</label>
+          <div class="row" style="gap:10px">
+            <div style="min-width:160px"><label><input type="checkbox" name="pages[]" value="Home"> Home</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="pages[]" value="About"> About</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="pages[]" value="Services"> Services</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="pages[]" value="Contact"> Contact</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="pages[]" value="Blog"> Blog</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="pages[]" value="E-commerce"> E-commerce (store)</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="pages[]" value="Landing"> Landing page</label></div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>CMS / Tech preference</label>
+          <select name="cms_pref">
+            <option value="" disabled selected>No preference</option>
+            <option value="WordPress">WordPress</option>
+            <option value="HTML/CSS (static)">HTML/CSS (static)</option>
+            <option value="Shopify">Shopify</option>
+            <option value="Wix">Wix</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Features required (check all)</label>
+          <div class="row" style="gap:10px">
+            <div style="min-width:160px"><label><input type="checkbox" name="features[]" value="Contact Form"> Contact form</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="features[]" value="Gallery"> Gallery/Portfolio</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="features[]" value="Payments"> Online payments</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="features[]" value="Booking"> Booking/appointments</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="features[]" value="Multilingual"> Multilingual</label></div>
+            <div style="min-width:160px"><label><input type="checkbox" name="features[]" value="SEO"> Basic SEO setup</label></div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Do you have a logo / brand kit?</label>
+          <select name="logo_available">
+            <option value="" disabled selected>Choose</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <div class="help">If yes, upload link or attach after ordering — include file format requirements in Notes.</div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Reference websites / styles / color preferences</label>
+          <input name="references" placeholder="List URLs or describe visual style (e.g. minimal, bold, corporate)">
+        </div>
+
+        <div class="row" style="margin-top:var(--form-gap)">
+          <div class="col">
+            <label>Hosting required?</label>
+            <select name="hosting_needed">
+              <option value="" disabled selected>Choose</option>
+              <option value="Yes">Yes — please provide details after order</option>
+              <option value="No">No — I will provide hosting</option>
+            </select>
+          </div>
+          <div class="col">
+            <label>Target / Deadline date (optional)</label>
+            <input name="deadline" type="date">
+          </div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Budget (optional)</label>
+          <input name="budget" placeholder="Approximate budget (e.g. ₹1500-₹5000)">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Additional instructions / Other requirements</label>
+          <textarea name="notes" placeholder="Anything else we should know (integrations, APIs, login areas, special features...)"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Website Order</button>
+          <button type="button" class="ghost" onclick="document.getElementById('serviceChoice').value='';switchForm('')">Cancel</button>
+        </div>
+        <div class="summary">Note: 50% advance required to start. Up to 15 revisions as per package. Final delivery after full payment.</div>
+      </form>
+
+      <!-- Logo Design Form -->
+      <form id="form-logo" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="Logo Design">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Email</label><input name="email" type="email" required></div>
+          <div class="col"><label>Mobile</label><input name="mobile" type="tel" required></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Brand / Company name</label>
+          <input name="brand_name" required>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Tagline / Slogan (if any)</label>
+          <input name="tagline" placeholder="Short tagline or leave blank">
+        </div>
+
+        <div class="row" style="margin-top:var(--form-gap)">
+          <div class="col"><label>Industry / Niche</label><input name="industry" placeholder="E.g. cafe, consultancy, e-commerce"></div>
+          <div class="col"><label>Target audience</label><input name="audience" placeholder="E.g. students, parents, B2B buyers"></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Preferred logo style</label>
+          <select name="logo_style">
+            <option value="" disabled selected>Select style</option>
+            <option value="Wordmark">Wordmark (text)</option>
+            <option value="Emblem">Emblem</option>
+            <option value="Abstract">Abstract mark</option>
+            <option value="Mascot">Mascot</option>
+            <option value="Monogram">Monogram / Initials</option>
+            <option value="No preference">No preference</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Preferred colors / color palettes</label>
+          <input name="logo_colors" placeholder="e.g. blue & white, pastel tones or provide hex codes">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Where will the logo be used?</label>
+          <div class="row">
+            <div class="col"><label><input type="checkbox" name="logo_usage[]" value="Web"> Web</label></div>
+            <div class="col"><label><input type="checkbox" name="logo_usage[]" value="Print"> Print</label></div>
+            <div class="col"><label><input type="checkbox" name="logo_usage[]" value="App Icon"> App Icon</label></div>
+            <div class="col"><label><input type="checkbox" name="logo_usage[]" value="Signage"> Signage</label></div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>File formats required (check)</label>
+          <div class="row">
+            <div class="col"><label><input type="checkbox" name="logo_formats[]" value="SVG"> SVG</label></div>
+            <div class="col"><label><input type="checkbox" name="logo_formats[]" value="PNG"> PNG (transparent)</label></div>
+            <div class="col"><label><input type="checkbox" name="logo_formats[]" value="EPS"> EPS</label></div>
+            <div class="col"><label><input type="checkbox" name="logo_formats[]" value="AI"> AI (source)</label></div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Examples / references (URLs or notes)</label>
+          <input name="logo_refs" placeholder="Links to logos you like, or upload links">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Do you have existing brand assets (fonts/colors)?</label>
+          <select name="brand_assets">
+            <option value="" disabled selected>Choose</option>
+            <option value="Yes">Yes — I will provide</option>
+            <option value="No">No — need new assets</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Number of initial concepts preferred</label>
+          <select name="concept_count">
+            <option value="3">3 concepts</option>
+            <option value="5">5 concepts</option>
+            <option value="1">1 concept (fast)</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Deadline (if any)</label>
+          <input type="date" name="deadline">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Additional notes / brand personality</label>
+          <textarea name="notes" placeholder="Describe brand values, words to reflect (e.g. playful, premium)"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Logo Order</button>
+          <button type="button" class="ghost" onclick="switchForm('')">Cancel</button>
+        </div>
+        <div class="summary" style="margin-top:10px">Note: 50% advance required. Up to 15 revisions included. Final files delivered after full payment.</div>
+      </form>
+
+      <!-- Social Media Poster Form -->
+      <form id="form-poster" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="Social Media Poster">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Email</label><input name="email" type="email" required></div>
+          <div class="col"><label>Mobile</label><input name="mobile" type="tel" required></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Platform(s)</label>
+          <select name="platforms" multiple size="4">
+            <option value="Instagram Post">Instagram Post</option>
+            <option value="Instagram Story">Instagram Story</option>
+            <option value="Facebook">Facebook</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Twitter">Twitter</option>
+            <option value="YouTube Thumbnail">YouTube Thumbnail</option>
+          </select>
+          <div class="help">(Hold Ctrl / Cmd to select multiple)</div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Objective / CTA text</label>
+          <input name="cta_text" placeholder="E.g. 50% off — Shop now">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Dimensions / Format preference</label>
+          <input name="dimensions" placeholder="E.g. 1080x1080, 1080x1920">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Images / assets to include (links)</label>
+          <input name="assets_links" placeholder="Provide links to images or say 'we will provide'">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Brand colors / fonts (if any)</label>
+          <input name="brand_colors">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Tone / style (e.g. minimal, vibrant, corporate)</label>
+          <input name="style_pref">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Number of variations required</label>
+          <select name="variations">
+            <option value="1">1 variation</option>
+            <option value="2">2 variations</option>
+            <option value="3">3 variations</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Deadline</label>
+          <input type="date" name="deadline">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Additional instructions</label>
+          <textarea name="notes" placeholder="Text for poster, campaign details, discount codes, etc."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Poster Order</button>
+          <button type="button" class="ghost" onclick="switchForm('')">Cancel</button>
+        </div>
+      </form>
+
+      <!-- Business Card Form -->
+      <form id="form-business-card" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="Business Card Design">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Designation / Title</label><input name="title" required></div>
+          <div class="col"><label>Company</label><input name="company" required></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Contact details to print</label>
+          <input name="phone" placeholder="Phone number">
+          <input name="email" placeholder="Email" style="margin-top:8px">
+          <input name="website" placeholder="Website (optional)" style="margin-top:8px">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Logo file available?</label>
+          <select name="logo_available">
+            <option value="" disabled selected>Choose</option>
+            <option value="Yes">Yes — I will provide</option>
+            <option value="No">No — please create</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Card orientation</label>
+          <select name="orientation">
+            <option value="Horizontal">Horizontal</option>
+            <option value="Vertical">Vertical</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Sides</label>
+          <select name="sides">
+            <option value="Single-sided">Single-sided</option>
+            <option value="Double-sided">Double-sided</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Finish preference</label>
+          <select name="finish">
+            <option value="Matte">Matte</option>
+            <option value="Gloss">Gloss</option>
+            <option value="Spot UV">Spot UV</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Quantity for printing (optional)</label>
+          <input name="quantity" placeholder="E.g. 100, 250">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Additional instructions</label>
+          <textarea name="notes" placeholder="Anything else (fonts, alignment, sample cards)"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Business Card Order</button>
+          <button type="button" class="ghost" onclick="switchForm('')">Cancel</button>
+        </div>
+      </form>
+
+      <!-- CV / Resume Form -->
+      <form id="form-resume" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="CV / Resume Design">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Email</label><input name="email" type="email" required></div>
+          <div class="col"><label>Mobile</label><input name="mobile" type="tel" required></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Job target / Role</label>
+          <input name="job_target" placeholder="E.g. Frontend Developer, Marketing Manager">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Current resume (paste text or link)</label>
+          <textarea name="current_resume" placeholder="Paste current resume content or link to file (Google Drive/Dropbox)"></textarea>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Key skills (comma separated)</label>
+          <input name="skills" placeholder="E.g. JavaScript, React, Node.js">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Education summary</label>
+          <input name="education" placeholder="Highest degree, institution, year">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Work experience summary</label>
+          <textarea name="experience" placeholder="List recent roles, companies, duration, and key achievements"></textarea>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Preferred style</label>
+          <select name="resume_style">
+            <option value="ATS-friendly">ATS-friendly (plain)</option>
+            <option value="Modern">Modern</option>
+            <option value="Creative">Creative</option>
+            <option value="Executive">Executive / Corporate</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Deliverables required</label>
+          <select name="deliverables">
+            <option value="PDF and editable source">PDF and editable source (Word/Google Doc)</option>
+            <option value="PDF only">PDF only</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Deadline</label>
+          <input type="date" name="deadline">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Resume Order</button>
+          <button type="button" class="ghost" onclick="switchForm('')">Cancel</button>
+        </div>
+      </form>
+
+      <!-- Promotional / Ad Video Form -->
+      <form id="form-video" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="Promotional / Ad Video">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Email</label><input name="email" type="email" required></div>
+          <div class="col"><label>Mobile</label><input name="mobile" type="tel" required></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Video type</label>
+          <select name="video_type">
+            <option value="Product">Product promo</option>
+            <option value="Brand">Brand video</option>
+            <option value="Testimonial">Testimonial</option>
+            <option value="Social Ad">Social ad</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Approx duration</label>
+          <input name="duration" placeholder="E.g. 15s, 30s, 60s">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Aspect ratio / platform</label>
+          <select name="ratio">
+            <option value="16:9">16:9 (YouTube / Web)</option>
+            <option value="9:16">9:16 (Reels / TikTok)</option>
+            <option value="1:1">1:1 (Instagram feed)</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Script provided?</label>
+          <select name="script_provided">
+            <option value="No">No — please create</option>
+            <option value="Yes">Yes — I will provide</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Voiceover required?</label>
+          <select name="voiceover">
+            <option value="No">No</option>
+            <option value="Yes">Yes — provide requirements</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Do you have footage / images to include?</label>
+          <select name="footage">
+            <option value="No">No — need stock / animation</option>
+            <option value="Yes">Yes — I will provide links</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Music / tone preference</label>
+          <input name="music" placeholder="E.g. upbeat, corporate, emotional">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Deadline</label>
+          <input type="date" name="deadline">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Additional notes / script / links</label>
+          <textarea name="notes" placeholder="Paste script, links to footage, or explain concept"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Video Order</button>
+          <button type="button" class="ghost" onclick="switchForm('')">Cancel</button>
+        </div>
+      </form>
+
+      <!-- Cover Letter Form -->
+      <form id="form-cover-letter" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="Cover Letter Writing">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Email</label><input name="email" type="email" required></div>
+          <div class="col"><label>Mobile</label><input name="mobile" type="tel" required></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Job role / Company</label>
+          <input name="job_role" placeholder="Role you are applying for and company name">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Key strengths / achievements to highlight</label>
+          <textarea name="strengths" placeholder="List top achievements or strengths"></textarea>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Tone required</label>
+          <select name="tone">
+            <option value="Formal">Formal</option>
+            <option value="Friendly">Friendly</option>
+            <option value="Confident">Confident</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Deadline</label>
+          <input type="date" name="deadline">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Cover Letter Order</button>
+          <button type="button" class="ghost" onclick="switchForm('')">Cancel</button>
+        </div>
+      </form>
+
+      <!-- Website Maintenance Pack Form -->
+      <form id="form-maintenance" class="service-form" action="https://formspree.io/f/xblzoqvj" method="POST" novalidate>
+        <input type="hidden" name="service" value="Website Maintenance Pack">
+        <div class="row">
+          <div class="col"><label>Name</label><input name="name" required></div>
+          <div class="col"><label>Email</label><input name="email" type="email" required></div>
+          <div class="col"><label>Mobile</label><input name="mobile" type="tel" required></div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Website URL</label>
+          <input name="website_url" placeholder="https://">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Platform / CMS</label>
+          <select name="cms">
+            <option value="WordPress">WordPress</option>
+            <option value="Shopify">Shopify</option>
+            <option value="HTML/CSS">HTML/CSS</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>What changes will you require monthly? (list)</label>
+          <textarea name="monthly_changes" placeholder="E.g. update content, add pages, small fixes, banner swaps"></textarea>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Number of changes expected per month</label>
+          <input name="changes_per_month" placeholder="E.g. 10, 20, 50">
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Access details (how will you provide credentials?)</label>
+          <input name="access_details" placeholder="cPanel / FTP / WordPress admin — do NOT paste passwords here; describe method">
+          <div class="help">We will request secure credentials after order via a secure channel.</div>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Priority level</label>
+          <select name="priority">
+            <option value="Standard">Standard</option>
+            <option value="Priority">Priority (+ faster turnaround)</option>
+          </select>
+        </div>
+
+        <div style="margin-top:var(--form-gap)">
+          <label>Additional instructions</label>
+          <textarea name="notes" placeholder="Anything else we should know"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary">Submit Maintenance Order</button>
+          <button type="button" class="ghost" onclick="switchForm('')">Cancel</button>
+        </div>
+
+        <div class="summary" style="margin-top:10px">Maintenance: ₹799/month for up to 50 changes. Extra changes charged separately. 50% advance required for the first month.</div>
+      </form>
+
     </div>
-  </div>
-</header>
+  </main>
 
-<!-- Main Form Section -->
-<main class="container">
-  <h2>Place Your Order</h2>
-  <form id="orderForm" action="https://formspree.io/f/xblzoqvj" method="POST" target="_blank">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <input type="tel" name="mobile" placeholder="Your Mobile Number" required>
-    
-    <select id="serviceSelect" name="service" required>
-      <option value="" disabled selected>Select Service</option>
-      <option value="Website Design">Website Design</option>
-      <option value="Logo Design">Logo Design</option>
-      <option value="Poster / Social Media Design">Poster / Social Media Design</option>
-      <option value="CV / Resume Design">CV / Resume Design</option>
-      <option value="Promotional / Ad Video">Promotional / Ad Video</option>
-      <option value="Cover Letter Writing">Cover Letter Writing</option>
-      <option value="Website Maintenance Pack">Website Maintenance Pack</option>
-    </select>
+  <!-- Footer (exact same) -->
+  <footer>
+    <a href="https://www.instagram.com/solvoro.freelancing" target="_blank">Follow us on Instagram</a>
+    <p>Mail: solvoro.official@gmail.com</p>
+    <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
+  </footer>
 
-    <textarea name="details" rows="4" placeholder="Describe your requirements..." required></textarea>
+  <script>
+    // Mobile nav toggle (identical behavior)
+    (function(){
+      const menuBtn = document.getElementById('menuBtn');
+      const navList = document.getElementById('mainNavList');
+      menuBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        navList.classList.toggle('show');
+        menuBtn.setAttribute('aria-expanded', navList.classList.contains('show'));
+      });
+      document.addEventListener('click', (e)=>{
+        if(window.innerWidth > 768) return;
+        if(!navList.contains(e.target) && !menuBtn.contains(e.target)){
+          navList.classList.remove('show');
+          menuBtn.setAttribute('aria-expanded','false');
+        }
+      });
+      window.addEventListener('resize', ()=>{ if(window.innerWidth > 768){ navList.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }});
+    })();
 
-    <div class="agreement-box" id="agreementBox">Please select a service to see the agreement.</div>
+    // Switch visible form based on dropdown
+    const serviceChoice = document.getElementById('serviceChoice');
+    const forms = document.querySelectorAll('.service-form');
 
-    <button type="submit">Submit Order</button>
-  </form>
-</main>
-
-<!-- Footer -->
-<footer>
-  <p>Follow us on <a href="https://instagram.com/solvoro.freelancing" target="_blank">Instagram</a> &nbsp; | &nbsp; Email: <a href="mailto:solvoro.official@gmail.com">solvoro.official@gmail.com</a></p>
-  <p>&copy; Solvoro 2025. All Rights Reserved.</p>
-</footer>
-
-<script>
-  // Dark/Light mode connected for all pages
-  (function(){
-    const html = document.documentElement;
-    const saved = localStorage.getItem('solvoroTheme');
-    function applyTheme(t){
-      html.setAttribute('data-theme', t);
-      localStorage.setItem('solvoroTheme', t);
-      const btn = document.getElementById('themeToggle');
-      if(btn) btn.textContent = t==='light'?'☀️':'🌙';
+    function switchForm(key){
+      // hide all
+      forms.forEach(f => f.classList.remove('active'));
+      if(!key) {
+        serviceChoice.value = "";
+        return;
+      }
+      const map = {
+        'website': 'form-website',
+        'logo': 'form-logo',
+        'poster': 'form-poster',
+        'business-card': 'form-business-card',
+        'resume': 'form-resume',
+        'video': 'form-video',
+        'cover-letter': 'form-cover-letter',
+        'maintenance': 'form-maintenance'
+      };
+      const id = map[key];
+      if(id){
+        const el = document.getElementById(id);
+        if(el) el.classList.add('active');
+        // scroll into view
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
     }
-    applyTheme(saved==='light'||saved==='dark'?saved:'dark');
 
-    const btn = document.getElementById('themeToggle');
-    btn.addEventListener('click', ()=>{
-      const current = html.getAttribute('data-theme')==='light'?'light':'dark';
-      applyTheme(current==='light'?'dark':'light');
-    });
-  })();
-
-  // Mobile menu toggle
-  (function(){
-    const menuBtn = document.getElementById('menuBtn');
-    const navList = document.getElementById('mainNavList');
-    menuBtn.addEventListener('click', ()=>{
-      navList.classList.toggle('show');
-      menuBtn.setAttribute('aria-expanded', navList.classList.contains('show'));
+    serviceChoice.addEventListener('change', (e)=>{
+      switchForm(e.target.value);
     });
 
-    document.addEventListener('click', (e)=>{
-      if(window.innerWidth>900) return;
-      if(!menuBtn.contains(e.target) && !navList.contains(e.target)){
-        navList.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded','false');
-      }
+    // Optional: intercept form submission to add a small client-side validation
+    document.querySelectorAll('.service-form').forEach(form=>{
+      form.addEventListener('submit', (ev)=>{
+        // basic required fields check (name/email/mobile)
+        const name = form.querySelector('[name="name"]');
+        const email = form.querySelector('[name="email"]');
+        const mobile = form.querySelector('[name="mobile"]');
+        if(!name || !email || !mobile || !name.value.trim() || !email.value.trim() || !mobile.value.trim()){
+          ev.preventDefault();
+          alert('Please fill Name, Email and Mobile before submitting the form.');
+          return false;
+        }
+        // allow submission to Formspree
+        // The form will open the Formspree endpoint in the same tab; if you prefer new tab, add target="_blank" to forms.
+      });
     });
-
-    window.addEventListener('resize', ()=>{
-      if(window.innerWidth>900){
-        navList.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded','false');
-      }
-    });
-  })();
-
-  // Agreements
-  const agreements = {
-    "Website Design": `Website Design Agreement:\n50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery as per agreed timeline. Usage limited to client. Refunds not available after work starts.`,
-    "Logo Design": `Logo Design Agreement:\n50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 3-5 days. Usage limited to client. Refunds not available after work starts.`,
-    "Poster / Social Media Design": `Poster / Social Media Design Agreement:\n50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery as per agreed timeline. Usage limited to client. Refunds not available after work starts.`,
-    "CV / Resume Design": `CV / Resume Design Agreement:\n50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 2-3 days. Usage limited to client. Refunds not available after work starts.`,
-    "Promotional / Ad Video": `Promotional / Ad Video Agreement:\n50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 5-7 days. Usage limited to client. Refunds not available after work starts.`,
-    "Cover Letter Writing": `Cover Letter Agreement:\n50% advance required, non-refundable. Up to 15 revisions included. Ownership transferred after full payment. Delivery 2 days. Usage limited to client. Refunds not available after work starts.`,
-    "Website Maintenance Pack": `Website Maintenance Pack:\n₹799/month for up to 50 changes. Extra changes cost extra. Up to 30 revisions per service. 50% advance required, non-refundable.`
-  };
-
-  const serviceSelect = document.getElementById('serviceSelect');
-  const agreementBox = document.getElementById('agreementBox');
-  serviceSelect.addEventListener('change', ()=>{
-    const selected = serviceSelect.value;
-    agreementBox.textContent = agreements[selected] || "Agreement not found.";
-  });
-</script>
-
+  </script>
 </body>
 </html>
