@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <title>Solvoro — Home</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <!-- PWA Manifest and Theme Color -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0a0f29">
   <link rel="icon" href="favicon.png" type="image/png">
@@ -21,7 +20,6 @@
       --radius:12px;
       --max-width:1100px;
     }
-
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
@@ -45,7 +43,7 @@
     .nav{
       display:flex;
       align-items:center;
-      justify-content:space-between; /* logo left, nav center/right */
+      justify-content:space-between;
       gap:20px;
       max-width:var(--max-width);
       margin:0 auto;
@@ -74,7 +72,7 @@
     nav ul li a:hover{color:var(--text-light);background:transparent}
 
     #menuBtn {
-      display: none; /* hidden by default (desktop) */
+      display: none;
       background:transparent;border:none;font-size:22px;cursor:pointer;color:var(--text-light);
       width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
     }
@@ -187,7 +185,6 @@
 
     /* Mobile nav */
     @media(max-width:768px){
-      /* place the menu button at the right corner of the header */
       #menuBtn{
         display:grid;
         position:absolute;
@@ -201,7 +198,7 @@
         align-items:stretch;
         position:absolute;
         top:calc(100% + 8px);
-        right:20px; /* align dropdown under the button */
+        right:20px;
         width:220px;
         background:#0b1220;
         border:1px solid var(--border-light);
@@ -232,12 +229,11 @@
     <div class="nav container" role="navigation" aria-label="Main navigation">
       <div class="brand">
         <div class="logo" aria-hidden="true">
-          <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
+          <img src="favicon.png" alt="Solvoro logo">
         </div>
         <div class="brand-text">Solvoro</div>
       </div>
 
-      <!-- mobile menu button (only visible on small screens) -->
       <button id="menuBtn" aria-label="Toggle navigation" aria-controls="mainNavList" aria-expanded="false">☰</button>
 
       <nav>
@@ -247,6 +243,7 @@
           <li><a href="services.html">Services</a></li>
           <li><a href="partners.html">Partners</a></li>
           <li><a href="contact-us.html">Contact</a></li>
+          <li id="authLink"></li>
         </ul>
       </nav>
     </div>
@@ -400,10 +397,9 @@
 
   <!-- Footer -->
   <footer>
-    <a herf="www.instagram.com/solvoro.freelancing">Follow us on Instagram</a>
+    <a href="https://www.instagram.com/solvoro.freelancing" target="_blank">Follow us on Instagram</a>
     <p>Mail: solvoro.official@gmail.com</p>
-      <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
-    </div>
+    <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
   </footer>
 
   <!-- Modal -->
@@ -417,47 +413,16 @@
   </div>
 
   <script>
-    // ===== Mobile menu toggle with accessibility =====
+    // ===== Mobile menu toggle =====
     (function(){
       const menuBtn = document.getElementById('menuBtn');
       const navList = document.getElementById('mainNavList');
-
-      function closeMenu(){
-        navList.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded','false');
-      }
-      function openMenu(){
-        navList.classList.add('show');
-        menuBtn.setAttribute('aria-expanded','true');
-      }
-
-      menuBtn.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        if(navList.classList.contains('show')) closeMenu();
-        else openMenu();
-      });
-
-      // close on outside click (mobile)
-      document.addEventListener('click', (e)=>{
-        if(window.innerWidth > 768) return;
-        if(!navList.contains(e.target) && !menuBtn.contains(e.target)){
-          closeMenu();
-        }
-      });
-
-      // close on escape
-      document.addEventListener('keydown',(e)=>{
-        if(e.key === 'Escape'){
-          closeMenu();
-        }
-      });
-
-      // ensure menu closed when resizing to desktop
-      window.addEventListener('resize', ()=>{
-        if(window.innerWidth > 768){
-          closeMenu();
-        }
-      });
+      function closeMenu(){ navList.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+      function openMenu(){ navList.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+      menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); navList.classList.contains('show') ? closeMenu() : openMenu(); });
+      document.addEventListener('click', (e)=>{ if(window.innerWidth > 768) return; if(!navList.contains(e.target) && !menuBtn.contains(e.target)) closeMenu(); });
+      document.addEventListener('keydown',(e)=>{ if(e.key === 'Escape') closeMenu(); });
+      window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeMenu(); });
     })();
 
     // ===== Demo modal logic =====
@@ -473,7 +438,7 @@
       function openModal({title, text, action}) {
         modalTitle.textContent = title;
         modalText.textContent = text;
-        modalActions.innerHTML = ''; // reset
+        modalActions.innerHTML = '';
         if(action){
           const link = document.createElement('a');
           link.className = 'btn';
@@ -486,9 +451,8 @@
         modal.classList.add('active');
         modal.setAttribute('aria-hidden','false');
         lastFocused = document.activeElement;
-        // focus close for accessibility
         closeBtn.focus();
-        document.body.style.overflow = 'hidden'; // prevent background scroll
+        document.body.style.overflow = 'hidden';
       }
 
       function closeModal(){
@@ -499,26 +463,14 @@
       }
 
       demoButtons.forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
+        btn.addEventListener('click', ()=>{
           const demo = btn.getAttribute('data-demo');
           if(demo === 'website'){
-            openModal({
-              title: 'Website Demo',
-              text: 'You are about to view a live demo website designed by Solvoro.',
-              action: { href: 'https://solvoroofficial.github.io/memorix/', text: 'Open Demo Site' }
-            });
+            openModal({title:'Website Demo', text:'You are about to view a live demo website designed by Solvoro.', action:{ href:'https://solvoroofficial.github.io/memorix/', text:'Open Demo Site'}});
           } else if(demo === 'logo'){
-            openModal({
-              title: 'Logo Design Demo',
-              text: 'Our logo design process starts with understanding your brand vision, color psychology, and audience impression. Each logo passes through 3 refinement stages ensuring precision and fluency in delivery.',
-              action: null
-            });
+            openModal({title:'Logo Design Demo', text:'Our logo design process starts with understanding your brand vision, color psychology, and audience impression. Each logo passes through 3 refinement stages ensuring precision and fluency in delivery.', action:null});
           } else if(demo === 'post'){
-            openModal({
-              title: 'Social Media Post Demo',
-              text: 'Our post design flow follows trend research, visual storytelling, and brand tone alignment — ensuring professional and high-engagement visuals.',
-              action: null
-            });
+            openModal({title:'Social Media Post Demo', text:'Our post design flow follows trend research, visual storytelling, and brand tone alignment — ensuring professional and high-engagement visuals.', action:null});
           }
         });
       });
@@ -527,9 +479,20 @@
       modal.addEventListener('click', (e)=> { if(e.target === modal) closeModal(); });
       document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
     })();
+
+    // ===== AUTH CHECK =====
+    (function() {
+      const authLink = document.getElementById('authLink');
+      const user = JSON.parse(localStorage.getItem('user'));
+      if(user && user.name){
+        authLink.innerHTML = `<a href="dashboard.html" style="display:flex;align-items:center;gap:8px;">
+          <img src="favicon.png" style="width:32px;height:32px;border-radius:50%;object-fit:cover;" alt="Profile">
+          Hey, ${user.name}
+        </a>`;
+      } else {
+        authLink.innerHTML = `<a href="login.html">Login</a>`;
+      }
+    })();
   </script>
 </body>
 </html>
-
-
-
