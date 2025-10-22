@@ -1,119 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solvoro — Login</title>
-<style>
-  body { font-family:'Inter',sans-serif; background:#071024; color:#e6eef6; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
-  .container { background:#0b1220; padding:40px; border-radius:16px; width:400px; max-width:90%; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.5);}
-  h2 { margin-bottom:20px; }
-  input { width:100%; padding:10px; margin:6px 0; border-radius:8px; border:1px solid #333; background:#071024; color:#e6eef6; }
-  button { width:100%; padding:12px; margin-top:12px; border:none; border-radius:12px; cursor:pointer; background:linear-gradient(90deg,#7c3aed,#06b6d4); color:#fff; font-weight:700; }
-  button:hover { filter:brightness(1.1);}
-  .switch { background:none; border:none; color:#06b6d4; margin-top:10px; cursor:pointer;}
-  .error { color:#ff6b6b; font-size:14px; margin-top:8px;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solvoro — Login</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-main:#071024;
+      --bg-card:#0b1220;
+      --text-light:#e6eef6;
+      --text-muted:#94a3b8;
+      --accent-start:#7c3aed;
+      --accent-end:#06b6d4;
+      --border-light:rgba(255,255,255,0.05);
+      --radius:12px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: 'Inter', sans-serif;
+      background:var(--bg-main);
+      color:var(--text-light);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+    }
+    .login-card{
+      background:var(--bg-card);
+      padding:40px 30px;
+      border-radius:var(--radius);
+      border:1px solid var(--border-light);
+      width:100%;
+      max-width:380px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.5);
+    }
+    .login-card h1{margin-bottom:24px;font-size:28px}
+    .login-card input{
+      width:100%;
+      padding:12px 14px;
+      margin-bottom:18px;
+      border-radius:8px;
+      border:1px solid var(--border-light);
+      background:#0c1330;
+      color:var(--text-light);
+      font-size:16px;
+    }
+    .login-card button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color:#fff;
+      font-size:16px;
+    }
+    .login-card button:hover{filter:brightness(.98)}
+    .login-card .message{
+      margin-top:14px;
+      font-size:14px;
+      color:#f87171; /* red */
+    }
+    .login-card a{
+      display:inline-block;
+      margin-top:12px;
+      color:var(--accent-start);
+      text-decoration:none;
+      font-size:14px;
+    }
+    .login-card a:hover{color:var(--accent-end)}
+  </style>
 </head>
 <body>
+  <div class="login-card">
+    <h1>Login</h1>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="loginBtn">Login</button>
+    <div class="message" id="message"></div>
+    <a href="signup.html">Don't have an account? Sign up</a>
+  </div>
 
-<div class="container" id="authContainer">
-  <h2 id="formTitle">Login</h2>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <!-- Extended signup fields -->
-  <input type="text" id="fullname" placeholder="Full Name" style="display:none">
-  <input type="email" id="email" placeholder="Email" style="display:none">
-  <input type="text" id="phone" placeholder="Phone" style="display:none">
-  
-  <button id="submitBtn">Login</button>
-  <div class="error" id="errorMsg"></div>
-  <button class="switch" id="toggleForm">Don't have an account? Sign Up</button>
-</div>
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const messageEl = document.getElementById('message');
 
-<script>
-const authContainer = document.getElementById('authContainer');
-const formTitle = document.getElementById('formTitle');
-const usernameInput = document.getElementById('username');
-const passwordInput = document.getElementById('password');
-const fullnameInput = document.getElementById('fullname');
-const emailInput = document.getElementById('email');
-const phoneInput = document.getElementById('phone');
-const submitBtn = document.getElementById('submitBtn');
-const toggleFormBtn = document.getElementById('toggleForm');
-const errorMsg = document.getElementById('errorMsg');
+    loginBtn.addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-let isLogin = true; // toggle login/signup
-const adminUser = 'admin';
-const adminPass = 'admin123';
+      if(!email || !password){
+        messageEl.textContent = 'Please fill in all fields';
+        return;
+      }
 
-// Toggle form fields
-toggleFormBtn.addEventListener('click', () => {
-  isLogin = !isLogin;
-  formTitle.textContent = isLogin ? 'Login' : 'Sign Up';
-  submitBtn.textContent = isLogin ? 'Login' : 'Sign Up';
-  toggleFormBtn.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
-  fullnameInput.style.display = isLogin ? 'none' : 'block';
-  emailInput.style.display = isLogin ? 'none' : 'block';
-  phoneInput.style.display = isLogin ? 'none' : 'block';
-  errorMsg.textContent = '';
-  usernameInput.value = '';
-  passwordInput.value = '';
-  fullnameInput.value = '';
-  emailInput.value = '';
-  phoneInput.value = '';
-});
+      try{
+        const res = await fetch('http://localhost:5000/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email, password })
+        });
 
-// Submit button
-submitBtn.addEventListener('click', () => {
-  const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();
-  const fullname = fullnameInput.value.trim();
-  const email = emailInput.value.trim();
-  const phone = phoneInput.value.trim();
-  
-  if(!username || !password || (!isLogin && (!fullname || !email || !phone))){
-    errorMsg.textContent = 'Please fill all fields';
-    return;
-  }
+        const data = await res.json();
 
-  // Admin login
-  if(username === adminUser && password === adminPass){
-    localStorage.setItem('loggedInUser', adminUser);
-    window.location.href = 'dashboard.html';
-    return;
-  }
+        if(res.ok){
+          // store JWT token in localStorage
+          localStorage.setItem('solvoroToken', data.token);
+          localStorage.setItem('solvoroEmail', email);
 
-  if(isLogin){
-    const storedPass = localStorage.getItem(`user_${username}`);
-    if(storedPass && storedPass === password){
-      localStorage.setItem('loggedInUser', username);
-
-      let allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
-      if(allUsers[username]) allUsers[username].lastLogin = new Date().toLocaleString();
-      localStorage.setItem('allUsers', JSON.stringify(allUsers));
-
-      window.location.href = 'dashboard.html';
-    } else {
-      errorMsg.textContent = 'Invalid username or password';
-    }
-  } else {
-    // Sign Up
-    if(localStorage.getItem(`user_${username}`)){
-      errorMsg.textContent = 'Username already exists';
-      return;
-    }
-
-    localStorage.setItem(`user_${username}`, password);
-    let allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
-    allUsers[username] = { password, fullname, email, phone, lastLogin: null };
-    localStorage.setItem('allUsers', JSON.stringify(allUsers));
-
-    alert('Account created! You can now login.');
-    toggleFormBtn.click(); // switch to login
-  }
-});
-</script>
-
+          // redirect to dashboard or homepage
+          window.location.href = 'dashboard.html';
+        } else {
+          messageEl.textContent = data.message || 'Login failed';
+        }
+      } catch(err){
+        console.error(err);
+        messageEl.textContent = 'Server error, try again later';
+      }
+    });
+  </script>
 </body>
 </html>
