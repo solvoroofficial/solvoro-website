@@ -1,0 +1,21 @@
+{
+  "name": "Solvoro",
+  "short_name": "Solvoro",
+  "description": "Solvoro — Freelancing & Creative Solutions",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0f29",
+  "theme_color": "#0a0f29",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
