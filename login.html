@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solvoro — Login</title>
 <style>
-  body { font-family: 'Inter', sans-serif; background:#071024; color:#e6eef6; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; }
-  .container { background:#0b1220; padding:40px; border-radius:16px; width:320px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.5); }
+  body { font-family:'Inter',sans-serif; background:#071024; color:#e6eef6; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
+  .container { background:#0b1220; padding:40px; border-radius:16px; width:400px; max-width:90%; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.5);}
   h2 { margin-bottom:20px; }
-  input { width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #333; background:#071024; color:#e6eef6; }
+  input { width:100%; padding:10px; margin:6px 0; border-radius:8px; border:1px solid #333; background:#071024; color:#e6eef6; }
   button { width:100%; padding:12px; margin-top:12px; border:none; border-radius:12px; cursor:pointer; background:linear-gradient(90deg,#7c3aed,#06b6d4); color:#fff; font-weight:700; }
-  button:hover { filter:brightness(1.1); }
-  .switch { background:none; border:none; color:#06b6d4; margin-top:10px; cursor:pointer; }
-  .error { color:#ff6b6b; font-size:14px; margin-top:8px; }
+  button:hover { filter:brightness(1.1);}
+  .switch { background:none; border:none; color:#06b6d4; margin-top:10px; cursor:pointer;}
+  .error { color:#ff6b6b; font-size:14px; margin-top:8px;}
 </style>
 </head>
 <body>
@@ -21,6 +21,11 @@
   <h2 id="formTitle">Login</h2>
   <input type="text" id="username" placeholder="Username">
   <input type="password" id="password" placeholder="Password">
+  <!-- Extended signup fields -->
+  <input type="text" id="fullname" placeholder="Full Name" style="display:none">
+  <input type="email" id="email" placeholder="Email" style="display:none">
+  <input type="text" id="phone" placeholder="Phone" style="display:none">
+  
   <button id="submitBtn">Login</button>
   <div class="error" id="errorMsg"></div>
   <button class="switch" id="toggleForm">Don't have an account? Sign Up</button>
@@ -31,30 +36,64 @@ const authContainer = document.getElementById('authContainer');
 const formTitle = document.getElementById('formTitle');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
+const fullnameInput = document.getElementById('fullname');
+const emailInput = document.getElementById('email');
+const phoneInput = document.getElementById('phone');
 const submitBtn = document.getElementById('submitBtn');
 const toggleFormBtn = document.getElementById('toggleForm');
 const errorMsg = document.getElementById('errorMsg');
 
-let isLogin = true; // toggle between login & signup
+let isLogin = true; // toggle login/signup
+const adminUser = 'admin';
+const adminPass = 'admin123';
 
-// Check if user is already logged in
-const loggedUser = localStorage.getItem('loggedInUser');
-if(loggedUser){
-  showDashboard(loggedUser);
-}
+// Toggle form fields
+toggleFormBtn.addEventListener('click', () => {
+  isLogin = !isLogin;
+  formTitle.textContent = isLogin ? 'Login' : 'Sign Up';
+  submitBtn.textContent = isLogin ? 'Login' : 'Sign Up';
+  toggleFormBtn.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
+  fullnameInput.style.display = isLogin ? 'none' : 'block';
+  emailInput.style.display = isLogin ? 'none' : 'block';
+  phoneInput.style.display = isLogin ? 'none' : 'block';
+  errorMsg.textContent = '';
+  usernameInput.value = '';
+  passwordInput.value = '';
+  fullnameInput.value = '';
+  emailInput.value = '';
+  phoneInput.value = '';
+});
 
-// Handle submit button
+// Submit button
 submitBtn.addEventListener('click', () => {
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
-  if(!username || !password){ errorMsg.textContent = 'Please fill all fields'; return; }
+  const fullname = fullnameInput.value.trim();
+  const email = emailInput.value.trim();
+  const phone = phoneInput.value.trim();
+  
+  if(!username || !password || (!isLogin && (!fullname || !email || !phone))){
+    errorMsg.textContent = 'Please fill all fields';
+    return;
+  }
+
+  // Admin login
+  if(username === adminUser && password === adminPass){
+    localStorage.setItem('loggedInUser', adminUser);
+    window.location.href = 'dashboard.html';
+    return;
+  }
 
   if(isLogin){
-    // Login
     const storedPass = localStorage.getItem(`user_${username}`);
     if(storedPass && storedPass === password){
       localStorage.setItem('loggedInUser', username);
-      showDashboard(username);
+
+      let allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
+      if(allUsers[username]) allUsers[username].lastLogin = new Date().toLocaleString();
+      localStorage.setItem('allUsers', JSON.stringify(allUsers));
+
+      window.location.href = 'dashboard.html';
     } else {
       errorMsg.textContent = 'Invalid username or password';
     }
@@ -62,38 +101,18 @@ submitBtn.addEventListener('click', () => {
     // Sign Up
     if(localStorage.getItem(`user_${username}`)){
       errorMsg.textContent = 'Username already exists';
-    } else {
-      localStorage.setItem(`user_${username}`, password);
-      errorMsg.textContent = '';
-      alert('Account created! You can now login.');
-      toggleForm(); // switch to login
+      return;
     }
+
+    localStorage.setItem(`user_${username}`, password);
+    let allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
+    allUsers[username] = { password, fullname, email, phone, lastLogin: null };
+    localStorage.setItem('allUsers', JSON.stringify(allUsers));
+
+    alert('Account created! You can now login.');
+    toggleFormBtn.click(); // switch to login
   }
 });
-
-// Toggle form between login & signup
-toggleFormBtn.addEventListener('click', toggleForm);
-function toggleForm(){
-  isLogin = !isLogin;
-  formTitle.textContent = isLogin ? 'Login' : 'Sign Up';
-  submitBtn.textContent = isLogin ? 'Login' : 'Sign Up';
-  toggleFormBtn.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
-  errorMsg.textContent = '';
-  usernameInput.value = '';
-  passwordInput.value = '';
-}
-
-// Show dashboard after login
-function showDashboard(username){
-  authContainer.innerHTML = `
-    <div class="welcome">Welcome, <strong>${username}</strong>!</div>
-    <button id="logoutBtn">Logout</button>
-  `;
-  document.getElementById('logoutBtn').addEventListener('click', ()=>{
-    localStorage.removeItem('loggedInUser');
-    location.reload();
-  });
-}
 </script>
 
 </body>
