@@ -1,155 +1,125 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Solvoro — Sign Up</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solvoro — Signup</title>
   <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-main:#071024;
-      --bg-card:#0b1220;
-      --text-light:#e6eef6;
-      --text-muted:#94a3b8;
-      --accent-start:#7c3aed;
-      --accent-end:#06b6d4;
-      --border-light:rgba(255,255,255,0.05);
-      --radius:12px;
-      --max-width:480px;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #071024;
+      color: #e6eef6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:'Inter',sans-serif;
-      background:var(--bg-main);
-      color:var(--text-light);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:100vh;
-      padding:20px;
+    .signup-card {
+      background: #0b1220;
+      padding: 36px;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.05);
     }
-    .card{
-      background:var(--bg-card);
-      padding:30px;
-      border-radius:var(--radius);
-      border:1px solid var(--border-light);
-      width:100%;
-      max-width:var(--max-width);
+    .signup-card h2 {
+      text-align: center;
+      margin-bottom: 24px;
     }
-    h2{text-align:center;margin-bottom:20px}
-    form{display:flex;flex-direction:column;gap:14px}
-    label{font-weight:600;font-size:14px;color:var(--text-muted)}
-    input, textarea{
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid var(--border-light);
-      background:rgba(255,255,255,0.02);
-      color:var(--text-light);
-      font-size:14px;
-      width:100%;
+    .signup-card label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 500;
     }
-    input:focus, textarea:focus{outline:none;border-color:var(--accent-start)}
-    textarea{resize:none;height:80px}
-    .btn{
-      padding:12px;
-      border-radius:12px;
-      border:none;
-      font-weight:700;
-      cursor:pointer;
-      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
-      color:#fff;
-      font-size:15px;
-      transition:0.2s;
+    .signup-card input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: #071024;
+      color: #e6eef6;
     }
-    .btn:hover{filter:brightness(1.05)}
-    .small-text{font-size:13px;color:var(--text-muted);text-align:center;margin-top:10px}
-    @media(max-width:500px){body{padding:12px}}
+    .signup-card button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      background: linear-gradient(90deg,#7c3aed,#06b6d4);
+      color: #fff;
+      cursor: pointer;
+    }
+    .signup-card button:hover {
+      filter: brightness(0.95);
+    }
+    .signup-card p {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    .signup-card p a {
+      color: #06b6d4;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Create Your Account</h2>
+  <div class="signup-card">
+    <h2>Create Account</h2>
     <form id="signupForm">
-      <div>
-        <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" name="fullName" placeholder="eg. Ayam M. Shukla" required>
-      </div>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required placeholder="Enter your name">
 
-      <div>
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="eg. shuklaayam8272@gmail.com" required>
-      </div>
+      <label for="email">Email</label>
+      <input type="email" id="email" required placeholder="Enter your email">
 
-      <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="@y@m" required>
-      </div>
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" required placeholder="Enter your phone number">
 
-      <div>
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="@y@m" required>
-      </div>
+      <label for="password">Password</label>
+      <input type="password" id="password" required placeholder="Enter your password">
 
-      <div>
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="phone" placeholder="+91 7007532343" required>
-      </div>
-
-      <div>
-        <label for="dob">Date of Birth</label>
-        <input type="date" id="dob" name="dob">
-      </div>
-
-      <div>
-        <label for="city">City</label>
-        <input type="text" id="city" name="city" placeholder="Your City">
-      </div>
-
-      <div>
-        <label for="country">Country</label>
-        <input type="text" id="country" name="country" placeholder="Your country">
-      </div>
-
-      <div>
-        <label for="notes">Additional Notes</label>
-        <textarea id="notes" name="notes" placeholder="Anything else you'd like us to know?"></textarea>
-      </div>
-
-      <button type="submit" class="btn">Sign Up</button>
+      <button type="submit">Signup</button>
     </form>
-
-    <p class="small-text">Already have an account? <a href="login.html" style="color:var(--accent-end)">Login</a></p>
+    <p>Already have an account? <a href="login.html">Login here</a></p>
   </div>
 
   <script>
-    const signupForm = document.getElementById('signupForm');
-    signupForm.addEventListener('submit', function(e){
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Collect form data
-      const data = {
-        fullName: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-        confirmPassword: document.getElementById('confirmPassword').value,
-        phone: document.getElementById('phone').value,
-        dob: document.getElementById('dob').value,
-        city: document.getElementById('city').value,
-        country: document.getElementById('country').value,
-        notes: document.getElementById('notes').value
-      };
 
-      // Basic validation
-      if(data.password !== data.confirmPassword){
-        alert('Passwords do not match!');
-        return;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('http://localhost:5000/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          // Save info for dashboard
+          localStorage.setItem('user', JSON.stringify({ name, email, phone }));
+          // Redirect to dashboard
+          window.location.href = 'dashboard.html';
+        } else {
+          alert(data.message || 'Signup failed');
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert('Something went wrong!');
       }
-
-      // Save data to localStorage for now (temporary)
-      localStorage.setItem('solvoroUser', JSON.stringify(data));
-      alert('Account created successfully!');
-      window.location.href = 'login.html';
     });
   </script>
 </body>
