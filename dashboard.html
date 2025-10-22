@@ -1,69 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solvoro — Dashboard</title>
-<style>
-body{font-family:'Inter',sans-serif;background:#071024;color:#e6eef6;margin:0;padding:20px;}
-h2{margin-bottom:12px;}
-table{width:100%;border-collapse:collapse;margin-top:20px;color:#e6eef6;}
-th, td{border:1px solid #333;padding:8px;text-align:left;}
-button{padding:10px 20px;border:none;border-radius:12px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;cursor:pointer;margin-top:20px;}
-button:hover{filter:brightness(1.1);}
-</style>
+  <meta charset="utf-8" />
+  <title>Solvoro — Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-main:#071024;
+      --bg-card:#0b1220;
+      --text-light:#e6eef6;
+      --text-muted:#94a3b8;
+      --accent-start:#7c3aed;
+      --accent-end:#06b6d4;
+      --border-light:rgba(255,255,255,0.05);
+      --radius:12px;
+      --max-width:1100px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: 'Inter', sans-serif;
+      background:var(--bg-main);
+      color:var(--text-light);
+      line-height:1.6;
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max-width);margin:0 auto;padding:20px;}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:60;
+      background:rgba(7,16,36,0.95);
+      border-bottom:1px solid var(--border-light);
+      backdrop-filter: blur(6px);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:12px 20px;
+      position:relative;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
+    .logo img{width:100%;height:100%;object-fit:cover;display:block}
+    .brand-text{font-weight:700;font-size:18px;color:var(--text-light)}
+    nav ul{
+      display:flex;
+      gap:20px;
+      list-style:none;
+      align-items:center;
+      margin:0;
+      transition: max-height 300ms ease, opacity 220ms ease;
+    }
+    nav ul li{font-weight:600;color:var(--text-muted)}
+    nav ul li a{
+      padding:6px 8px;
+      border-radius:8px;
+      display:inline-block;
+      color:var(--text-light);
+    }
+    nav ul li a:hover{color:var(--text-light);background:transparent}
+    #menuBtn {display:none;}
+
+    /* Dashboard card */
+    .dashboard{
+      margin-top:40px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .info-card{
+      background:var(--bg-card);
+      padding:20px;
+      border-radius:var(--radius);
+      border:1px solid var(--border-light);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .info-card h3{margin-bottom:6px;color:var(--accent-start);}
+    .info-card p{color:var(--text-muted);font-size:15px;}
+    .logout-btn{
+      align-self:flex-start;
+      padding:10px 16px;
+      border:none;
+      border-radius:12px;
+      background:var(--accent-end);
+      color:#fff;
+      cursor:pointer;
+      font-weight:700;
+      margin-top:20px;
+    }
+  </style>
 </head>
 <body>
+  <!-- Header -->
+  <header>
+    <div class="nav container">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
+        </div>
+        <div class="brand-text">Solvoro</div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="partners.html">Partners</a></li>
+          <li><a href="contact-us.html">Contact</a></li>
+          <li><a href="dashboard.html" id="userLink">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-<div id="dashboardContainer"></div>
+  <!-- Dashboard -->
+  <main class="container">
+    <h2>Welcome to Your Dashboard</h2>
+    <div class="dashboard" id="dashboardContent">
+      <!-- User info will load here -->
+    </div>
+  </main>
 
-<script>
-const dashboardContainer = document.getElementById('dashboardContainer');
-const loggedUser = localStorage.getItem('loggedInUser');
-const adminUser = 'admin';
+  <script>
+    // Get user data from localStorage
+    const userData = JSON.parse(localStorage.getItem('solvoroUser'));
+    const dashboard = document.getElementById('dashboardContent');
+    const userLink = document.getElementById('userLink');
 
-if(!loggedUser){
-  alert('Please login first!');
-  window.location.href = 'login.html';
-}
+    if(userData){
+      userLink.textContent = userData.fullName; // show username in header
+      userLink.href = 'dashboard.html';
 
-const allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
+      dashboard.innerHTML = `
+        <div class="info-card">
+          <h3>Full Name</h3>
+          <p>${userData.fullName}</p>
+        </div>
+        <div class="info-card">
+          <h3>Email Address</h3>
+          <p>${userData.email}</p>
+        </div>
+        <div class="info-card">
+          <h3>Phone Number</h3>
+          <p>${userData.phone}</p>
+        </div>
+        <div class="info-card">
+          <h3>Date of Birth</h3>
+          <p>${userData.dob || 'Not provided'}</p>
+        </div>
+        <div class="info-card">
+          <h3>City</h3>
+          <p>${userData.city || 'Not provided'}</p>
+        </div>
+        <div class="info-card">
+          <h3>Country</h3>
+          <p>${userData.country || 'Not provided'}</p>
+        </div>
+        <div class="info-card">
+          <h3>Additional Notes</h3>
+          <p>${userData.notes || 'None'}</p>
+        </div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      `;
 
-if(loggedUser === adminUser){
-  // Admin dashboard
-  let html = `<h2>Admin Dashboard</h2>
-              <p>All registered users:</p>
-              <table>
-              <tr><th>Username</th><th>Full Name</th><th>Email</th><th>Phone</th><th>Last Login</th></tr>`;
-  for(const user in allUsers){
-    html += `<tr>
-      <td>${user}</td>
-      <td>${allUsers[user].fullname}</td>
-      <td>${allUsers[user].email}</td>
-      <td>${allUsers[user].phone}</td>
-      <td>${allUsers[user].lastLogin || 'Never'}</td>
-    </tr>`;
-  }
-  html += `</table><button id="logoutBtn">Logout</button>`;
-  dashboardContainer.innerHTML = html;
-} else {
-  // User dashboard
-  const user = allUsers[loggedUser];
-  dashboardContainer.innerHTML = `
-    <h2>Welcome, ${user.fullname}!</h2>
-    <p><strong>Username:</strong> ${loggedUser}</p>
-    <p><strong>Email:</strong> ${user.email}</p>
-    <p><strong>Phone:</strong> ${user.phone}</p>
-    <p><strong>Last Login:</strong> ${user.lastLogin || 'First login'}</p>
-    <button id="logoutBtn">Logout</button>
-  `;
-}
+      // Logout function
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('solvoroUser');
+        alert('You have logged out!');
+        window.location.href = 'index.html';
+      });
 
-document.getElementById('logoutBtn').addEventListener('click', ()=>{
-  localStorage.removeItem('loggedInUser');
-  window.location.href = 'index.html';
-});
-</script>
-
+    } else {
+      dashboard.innerHTML = `<p>You are not logged in. Please <a href="login.html">login</a> first.</p>`;
+      userLink.textContent = 'Login';
+      userLink.href = 'login.html';
+    }
+  </script>
 </body>
 </html>
