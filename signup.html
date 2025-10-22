@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solvoro — Signup</title>
+  <meta charset="utf-8" />
+  <title>Solvoro — Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{
+    :root {
       --bg-main:#071024;
       --bg-card:#0b1220;
       --text-light:#e6eef6;
@@ -16,113 +16,140 @@
       --accent-end:#06b6d4;
       --border-light:rgba(255,255,255,0.05);
       --radius:12px;
+      --max-width:480px;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
-      font-family: 'Inter', sans-serif;
+      font-family:'Inter',sans-serif;
       background:var(--bg-main);
       color:var(--text-light);
       display:flex;
-      align-items:center;
       justify-content:center;
-      height:100vh;
+      align-items:center;
+      min-height:100vh;
+      padding:20px;
     }
-    .signup-card{
+    .card{
       background:var(--bg-card);
-      padding:40px 30px;
+      padding:30px;
       border-radius:var(--radius);
       border:1px solid var(--border-light);
       width:100%;
-      max-width:380px;
-      text-align:center;
-      box-shadow:0 8px 20px rgba(0,0,0,0.5);
+      max-width:var(--max-width);
     }
-    .signup-card h1{margin-bottom:24px;font-size:28px}
-    .signup-card input{
-      width:100%;
-      padding:12px 14px;
-      margin-bottom:18px;
+    h2{text-align:center;margin-bottom:20px}
+    form{display:flex;flex-direction:column;gap:14px}
+    label{font-weight:600;font-size:14px;color:var(--text-muted)}
+    input, textarea{
+      padding:10px 12px;
       border-radius:8px;
       border:1px solid var(--border-light);
-      background:#0c1330;
+      background:rgba(255,255,255,0.02);
       color:var(--text-light);
-      font-size:16px;
-    }
-    .signup-card button{
+      font-size:14px;
       width:100%;
+    }
+    input:focus, textarea:focus{outline:none;border-color:var(--accent-start)}
+    textarea{resize:none;height:80px}
+    .btn{
       padding:12px;
-      border:none;
       border-radius:12px;
+      border:none;
       font-weight:700;
       cursor:pointer;
       background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
       color:#fff;
-      font-size:16px;
+      font-size:15px;
+      transition:0.2s;
     }
-    .signup-card button:hover{filter:brightness(.98)}
-    .signup-card .message{
-      margin-top:14px;
-      font-size:14px;
-      color:#f87171; /* red */
-    }
-    .signup-card a{
-      display:inline-block;
-      margin-top:12px;
-      color:var(--accent-start);
-      text-decoration:none;
-      font-size:14px;
-    }
-    .signup-card a:hover{color:var(--accent-end)}
+    .btn:hover{filter:brightness(1.05)}
+    .small-text{font-size:13px;color:var(--text-muted);text-align:center;margin-top:10px}
+    @media(max-width:500px){body{padding:12px}}
   </style>
 </head>
 <body>
-  <div class="signup-card">
-    <h1>Sign Up</h1>
-    <input type="text" id="name" placeholder="Full Name" required>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
-    <button id="signupBtn">Sign Up</button>
-    <div class="message" id="message"></div>
-    <a href="login.html">Already have an account? Login</a>
+  <div class="card">
+    <h2>Create Your Account</h2>
+    <form id="signupForm">
+      <div>
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="eg. Ayam M. Shukla" required>
+      </div>
+
+      <div>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="eg. shuklaayam8272@gmail.com" required>
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="@y@m" required>
+      </div>
+
+      <div>
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="@y@m" required>
+      </div>
+
+      <div>
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+91 7007532343" required>
+      </div>
+
+      <div>
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob">
+      </div>
+
+      <div>
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" placeholder="Your City">
+      </div>
+
+      <div>
+        <label for="country">Country</label>
+        <input type="text" id="country" name="country" placeholder="Your country">
+      </div>
+
+      <div>
+        <label for="notes">Additional Notes</label>
+        <textarea id="notes" name="notes" placeholder="Anything else you'd like us to know?"></textarea>
+      </div>
+
+      <button type="submit" class="btn">Sign Up</button>
+    </form>
+
+    <p class="small-text">Already have an account? <a href="login.html" style="color:var(--accent-end)">Login</a></p>
   </div>
 
   <script>
-    const signupBtn = document.getElementById('signupBtn');
-    const messageEl = document.getElementById('message');
+    const signupForm = document.getElementById('signupForm');
+    signupForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      
+      // Collect form data
+      const data = {
+        fullName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        confirmPassword: document.getElementById('confirmPassword').value,
+        phone: document.getElementById('phone').value,
+        dob: document.getElementById('dob').value,
+        city: document.getElementById('city').value,
+        country: document.getElementById('country').value,
+        notes: document.getElementById('notes').value
+      };
 
-    signupBtn.addEventListener('click', async () => {
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      if(!name || !email || !password){
-        messageEl.textContent = 'Please fill in all fields';
+      // Basic validation
+      if(data.password !== data.confirmPassword){
+        alert('Passwords do not match!');
         return;
       }
 
-      try{
-        const res = await fetch('http://localhost:5000/signup', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ name, email, password })
-        });
-
-        const data = await res.json();
-
-        if(res.ok){
-          // automatically store JWT after signup
-          localStorage.setItem('solvoroToken', data.token);
-          localStorage.setItem('solvoroEmail', email);
-
-          // redirect to dashboard
-          window.location.href = 'dashboard.html';
-        } else {
-          messageEl.textContent = data.message || 'Signup failed';
-        }
-      } catch(err){
-        console.error(err);
-        messageEl.textContent = 'Server error, try again later';
-      }
+      // Save data to localStorage for now (temporary)
+      localStorage.setItem('solvoroUser', JSON.stringify(data));
+      alert('Account created successfully!');
+      window.location.href = 'login.html';
     });
   </script>
 </body>
