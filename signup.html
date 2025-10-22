@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solvoro — Signup</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-main:#071024;
+      --bg-card:#0b1220;
+      --text-light:#e6eef6;
+      --text-muted:#94a3b8;
+      --accent-start:#7c3aed;
+      --accent-end:#06b6d4;
+      --border-light:rgba(255,255,255,0.05);
+      --radius:12px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: 'Inter', sans-serif;
+      background:var(--bg-main);
+      color:var(--text-light);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+    }
+    .signup-card{
+      background:var(--bg-card);
+      padding:40px 30px;
+      border-radius:var(--radius);
+      border:1px solid var(--border-light);
+      width:100%;
+      max-width:380px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.5);
+    }
+    .signup-card h1{margin-bottom:24px;font-size:28px}
+    .signup-card input{
+      width:100%;
+      padding:12px 14px;
+      margin-bottom:18px;
+      border-radius:8px;
+      border:1px solid var(--border-light);
+      background:#0c1330;
+      color:var(--text-light);
+      font-size:16px;
+    }
+    .signup-card button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color:#fff;
+      font-size:16px;
+    }
+    .signup-card button:hover{filter:brightness(.98)}
+    .signup-card .message{
+      margin-top:14px;
+      font-size:14px;
+      color:#f87171; /* red */
+    }
+    .signup-card a{
+      display:inline-block;
+      margin-top:12px;
+      color:var(--accent-start);
+      text-decoration:none;
+      font-size:14px;
+    }
+    .signup-card a:hover{color:var(--accent-end)}
+  </style>
+</head>
+<body>
+  <div class="signup-card">
+    <h1>Sign Up</h1>
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="signupBtn">Sign Up</button>
+    <div class="message" id="message"></div>
+    <a href="login.html">Already have an account? Login</a>
+  </div>
+
+  <script>
+    const signupBtn = document.getElementById('signupBtn');
+    const messageEl = document.getElementById('message');
+
+    signupBtn.addEventListener('click', async () => {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if(!name || !email || !password){
+        messageEl.textContent = 'Please fill in all fields';
+        return;
+      }
+
+      try{
+        const res = await fetch('http://localhost:5000/signup', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await res.json();
+
+        if(res.ok){
+          // automatically store JWT after signup
+          localStorage.setItem('solvoroToken', data.token);
+          localStorage.setItem('solvoroEmail', email);
+
+          // redirect to dashboard
+          window.location.href = 'dashboard.html';
+        } else {
+          messageEl.textContent = data.message || 'Signup failed';
+        }
+      } catch(err){
+        console.error(err);
+        messageEl.textContent = 'Server error, try again later';
+      }
+    });
+  </script>
+</body>
+</html>
