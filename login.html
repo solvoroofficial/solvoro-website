@@ -2,124 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solvoro — Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg-main:#071024;
-      --bg-card:#0b1220;
-      --text-light:#e6eef6;
-      --text-muted:#94a3b8;
-      --accent-start:#7c3aed;
-      --accent-end:#06b6d4;
-      --border-light:rgba(255,255,255,0.05);
-      --radius:12px;
+    :root {
+      --bg-main: #071024;
+      --bg-card: #0b1220;
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent-start: #7c3aed;
+      --accent-end: #06b6d4;
+      --border-light: rgba(255,255,255,0.05);
+      --radius: 12px;
+      --container-width: 400px;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
       font-family: 'Inter', sans-serif;
-      background:var(--bg-main);
-      color:var(--text-light);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
+      background: var(--bg-main);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .login-card{
-      background:var(--bg-card);
-      padding:40px 30px;
-      border-radius:var(--radius);
-      border:1px solid var(--border-light);
-      width:100%;
-      max-width:380px;
-      text-align:center;
-      box-shadow:0 8px 20px rgba(0,0,0,0.5);
+
+    .login-container {
+      max-width: var(--container-width);
+      width: 100%;
+      background: var(--bg-card);
+      padding: 30px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
     }
-    .login-card h1{margin-bottom:24px;font-size:28px}
-    .login-card input{
-      width:100%;
-      padding:12px 14px;
-      margin-bottom:18px;
-      border-radius:8px;
-      border:1px solid var(--border-light);
-      background:#0c1330;
-      color:var(--text-light);
-      font-size:16px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--accent-start);
     }
-    .login-card button{
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:12px;
-      font-weight:700;
-      cursor:pointer;
-      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
-      color:#fff;
-      font-size:16px;
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 500;
     }
-    .login-card button:hover{filter:brightness(.98)}
-    .login-card .message{
-      margin-top:14px;
-      font-size:14px;
-      color:#f87171; /* red */
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--bg-main);
+      color: var(--text-light);
     }
-    .login-card a{
-      display:inline-block;
-      margin-top:12px;
-      color:var(--accent-start);
-      text-decoration:none;
-      font-size:14px;
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: none;
+      font-weight: 700;
+      background: linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color: #fff;
+      cursor: pointer;
     }
-    .login-card a:hover{color:var(--accent-end)}
+
+    button:hover { filter: brightness(0.95); }
+
+    p {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    p a { color: var(--accent-end); text-decoration: none; }
   </style>
 </head>
 <body>
-  <div class="login-card">
-    <h1>Login</h1>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
-    <button id="loginBtn">Login</button>
-    <div class="message" id="message"></div>
-    <a href="signup.html">Don't have an account? Sign up</a>
+  <div class="login-container">
+    <h2>Login to Solvoro</h2>
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input type="email" id="email" required placeholder="Enter your email">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required placeholder="Enter your password">
+
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
   </div>
 
   <script>
-    const loginBtn = document.getElementById('loginBtn');
-    const messageEl = document.getElementById('message');
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
-    loginBtn.addEventListener('click', async () => {
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      if(!email || !password){
-        messageEl.textContent = 'Please fill in all fields';
-        return;
-      }
-
-      try{
+      try {
         const res = await fetch('http://localhost:5000/login', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
 
         const data = await res.json();
 
-        if(res.ok){
-          // store JWT token in localStorage
-          localStorage.setItem('solvoroToken', data.token);
-          localStorage.setItem('solvoroEmail', email);
+        if (res.ok) {
+          // Save user info in localStorage
+          localStorage.setItem('solvoroUser', JSON.stringify(data.user));
 
-          // redirect to dashboard or homepage
+          alert('Login successful! Redirecting to dashboard...');
           window.location.href = 'dashboard.html';
         } else {
-          messageEl.textContent = data.message || 'Login failed';
+          alert(data.message || 'Login failed');
         }
-      } catch(err){
+
+      } catch (err) {
         console.error(err);
-        messageEl.textContent = 'Server error, try again later';
+        alert('Server error! Please try again later.');
       }
     });
   </script>
