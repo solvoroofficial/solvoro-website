@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solvoro — Edit Profile</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main:#071024;
+  --bg-card:#0b1220;
+  --text-light:#e6eef6;
+  --text-muted:#94a3b8;
+  --accent-start:#7c3aed;
+  --accent-end:#06b6d4;
+  --border-light:rgba(255,255,255,0.05);
+  --radius:14px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg-main);
+  color:var(--text-light);
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+
+/* Header */
+header{
+  position:sticky;top:0;
+  background:rgba(7,16,36,0.95);
+  border-bottom:1px solid var(--border-light);
+  backdrop-filter: blur(6px);
+  z-index:60;
+}
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  max-width:1100px;
+  margin:0 auto;
+  padding:12px 20px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:50px;height:50px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
+.logo img{width:100%;height:100%;object-fit:cover;}
+.brand-text{font-weight:700;font-size:18px;color:var(--text-light)}
+nav ul{
+  display:flex;
+  gap:20px;
+  list-style:none;
+  align-items:center;
+}
+nav ul li a{
+  padding:6px 10px;
+  border-radius:8px;
+  display:inline-block;
+  color:var(--text-light);
+}
+nav ul li a:hover{background:rgba(124,58,237,0.2);}
+
+/* Container */
+.container{max-width:700px;margin:40px auto;padding:20px;}
+
+/* Card */
+.edit-card{
+  background:var(--bg-card);
+  border-radius:var(--radius);
+  border:1px solid var(--border-light);
+  padding:30px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* Inputs */
+label{font-weight:500;margin-top:10px;}
+input, textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:var(--bg-main);color:var(--text-light);}
+textarea{resize:none;}
+
+/* Buttons */
+button{
+  margin-top:20px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-weight:700;
+  background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+  color:#fff;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{filter:brightness(1.1);}
+
+/* Profile Image Preview */
+#profilePreview{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-bottom:10px;
+  border:2px solid var(--accent-start);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo"><img src="favicon.png" alt="Solvoro logo"></div>
+      <div class="brand-text">Solvoro</div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html" id="userLink">Dashboard</a></li>
+        <li><a href="login.html" id="loginLink">Login</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="edit-card">
+    <h2>Edit Profile</h2>
+    <img id="profilePreview" src="favicon.png" alt="Profile Image">
+
+    <label for="fullName">Full Name</label>
+    <input type="text" id="fullName" placeholder="Enter full name">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Enter email">
+
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" placeholder="Enter phone number">
+
+    <label for="dob">Date of Birth</label>
+    <input type="date" id="dob">
+
+    <label for="city">City</label>
+    <input type="text" id="city">
+
+    <label for="country">Country</label>
+    <input type="text" id="country">
+
+    <label for="notes">Notes</label>
+    <textarea id="notes" rows="3"></textarea>
+
+    <label for="profileImage">Profile Image URL</label>
+    <input type="text" id="profileImage" placeholder="Paste image URL">
+
+    <button id="saveBtn">Save Changes</button>
+  </div>
+</main>
+
+<script>
+// Get user from localStorage
+let user = JSON.parse(localStorage.getItem('solvoroUser'));
+const profilePreview = document.getElementById('profilePreview');
+const userLink = document.getElementById('userLink');
+const loginLink = document.getElementById('loginLink');
+
+if(user){
+  userLink.textContent = user.fullName;
+  loginLink.style.display = 'none';
+
+  // Fill form fields
+  document.getElementById('fullName').value = user.fullName;
+  document.getElementById('email').value = user.email;
+  document.getElementById('phone').value = user.phone;
+  document.getElementById('dob').value = user.dob;
+  document.getElementById('city').value = user.city;
+  document.getElementById('country').value = user.country;
+  document.getElementById('notes').value = user.notes;
+  profilePreview.src = user.profileImage || 'favicon.png';
+} else {
+  alert('Please login first.');
+  window.location.href = 'login.html';
+}
+
+// Save button
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const updatedData = {
+    fullName: document.getElementById('fullName').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    dob: document.getElementById('dob').value,
+    city: document.getElementById('city').value,
+    country: document.getElementById('country').value,
+    notes: document.getElementById('notes').value,
+    profileImage: document.getElementById('profileImage').value
+  };
+
+  try {
+    const res = await fetch(`http://localhost:5000/update-profile/${user._id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedData)
+    });
+    const data = await res.json();
+    if(res.ok){
+      localStorage.setItem('solvoroUser', JSON.stringify(data.user));
+      profilePreview.src = data.user.profileImage || 'favicon.png';
+      alert('Profile updated successfully!');
+    } else {
+      alert(data.message || 'Update failed');
+    }
+  } catch(err){
+    console.error(err);
+    alert('Server error! Make sure backend is running.');
+  }
+});
+</script>
+</body>
+</html>
