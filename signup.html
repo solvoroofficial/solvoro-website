@@ -5,45 +5,148 @@
   <title>Solvoro — Signup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"> <!-- optional -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #071024;
+      --bg-card: #0b1220;
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent-start: #7c3aed;
+      --accent-end: #06b6d4;
+      --border-light: rgba(255,255,255,0.05);
+      --radius: 12px;
+      --container-width: 400px;
+    }
+
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: var(--container-width);
+      width: 100%;
+      margin: 40px auto;
+      background: var(--bg-card);
+      padding: 30px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--accent-start);
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--bg-main);
+      color: var(--text-light);
+    }
+
+    textarea { resize: vertical; min-height: 60px; }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: none;
+      font-weight: 700;
+      background: linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:hover { filter: brightness(0.95); }
+
+    p {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    p a { color: var(--accent-end); text-decoration: none; }
+  </style>
 </head>
 <body>
-  <main class="container">
-    <h2>Create Your Account</h2>
+
+  <!-- Header will be injected -->
+  <div id="layout-header"></div>
+
+  <div class="container">
+    <h2>Create Account</h2>
     <form id="signupForm">
-      <input type="text" name="fullName" placeholder="Full Name" required><br>
-      <input type="email" name="email" placeholder="Email" required><br>
-      <input type="tel" name="phone" placeholder="Phone Number" required><br>
-      <input type="date" name="dob" placeholder="Date of Birth"><br>
-      <input type="text" name="city" placeholder="City"><br>
-      <input type="text" name="country" placeholder="Country"><br>
-      <textarea name="notes" placeholder="Notes (optional)"></textarea><br>
-      <input type="password" name="password" placeholder="Password" required><br>
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" required placeholder="Enter your full name">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required placeholder="Enter your email">
+
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" required placeholder="Enter your phone number">
+
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob">
+
+      <label for="city">City</label>
+      <input type="text" id="city">
+
+      <label for="country">Country</label>
+      <input type="text" id="country">
+
+      <label for="notes">Additional Notes</label>
+      <textarea id="notes" placeholder="Optional notes"></textarea>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required placeholder="Enter your password">
+
       <button type="submit">Sign Up</button>
     </form>
-  </main>
+    <p>Already have an account? <a href="login.html">Login here</a></p>
+  </div>
+
+  <!-- Footer will be injected -->
+  <div id="layout-footer"></div>
 
   <script src="script/layout.js"></script>
   <script>
-    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const form = e.target;
       const userData = {
-        fullName: form.fullName.value,
-        email: form.email.value,
-        phone: form.phone.value,
-        dob: form.dob.value,
-        city: form.city.value,
-        country: form.country.value,
-        notes: form.notes.value,
+        fullName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        dob: document.getElementById('dob').value,
+        city: document.getElementById('city').value,
+        country: document.getElementById('country').value,
+        notes: document.getElementById('notes').value,
+        password: document.getElementById('password').value
       };
 
-      // Store user data in localStorage
-      localStorage.setItem("solvoroUser", JSON.stringify(userData));
+      // Save locally for now
+      localStorage.setItem('solvoroUser', JSON.stringify(userData));
 
-      alert("Signup successful! Redirecting to dashboard...");
-      window.location.href = "dashboard.html";
+      alert('Signup successful! Redirecting to dashboard...');
+      window.location.href = 'dashboard.html';
     });
   </script>
 </body>
