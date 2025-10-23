@@ -1,135 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Solvoro — Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-main: #071024;
-      --bg-card: #0b1220;
-      --text-light: #e6eef6;
-      --text-muted: #94a3b8;
-      --accent-start: #7c3aed;
-      --accent-end: #06b6d4;
-      --border-light: rgba(255,255,255,0.05);
-      --radius: 12px;
-      --container-width: 400px;
-    }
-
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-main);
-      color: var(--text-light);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .login-container {
-      max-width: var(--container-width);
-      width: 100%;
-      background: var(--bg-card);
-      padding: 30px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border-light);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      color: var(--accent-start);
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: 500;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px 12px;
-      margin-top: 6px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: var(--bg-main);
-      color: var(--text-light);
-    }
-
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      border-radius: var(--radius);
-      border: none;
-      font-weight: 700;
-      background: linear-gradient(90deg,var(--accent-start),var(--accent-end));
-      color: #fff;
-      cursor: pointer;
-    }
-
-    button:hover { filter: brightness(0.95); }
-
-    p {
-      text-align: center;
-      margin-top: 12px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    p a { color: var(--accent-end); text-decoration: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solvoro — Login</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #071024;
+    color: #e6eef6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 10px;
+  }
+  .login-card {
+    background: #0b1220;
+    padding: 30px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  h2 { text-align: center; margin-bottom: 20px; }
+  label { display: block; margin-top: 10px; font-weight: 500; }
+  input { width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background:#071024; color:#e6eef6; }
+  button {
+    width: 100%; margin-top: 20px; padding: 12px;
+    border: none; border-radius: 12px; font-weight: 700;
+    background: linear-gradient(90deg,#7c3aed,#06b6d4); color: #fff;
+    cursor: pointer;
+  }
+  button:hover { filter: brightness(0.95); }
+  p { text-align: center; margin-top: 12px; font-size: 14px; }
+  a { color: #06b6d4; text-decoration: none; }
+</style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login to Solvoro</h2>
-    <form id="loginForm">
-      <label for="email">Email</label>
-      <input type="email" id="email" required placeholder="Enter your email">
+<div class="login-card">
+  <h2>Login</h2>
+  <form id="loginForm">
+    <label for="email">Email</label>
+    <input type="email" id="email" required placeholder="Enter your email">
 
-      <label for="password">Password</label>
-      <input type="password" id="password" required placeholder="Enter your password">
+    <label for="password">Password</label>
+    <input type="password" id="password" required placeholder="Enter your password">
 
-      <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
-  </div>
+    <button type="submit">Login</button>
+  </form>
+  <p>Don't have an account? <a href="signup.html">Signup here</a></p>
+</div>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-      try {
-        const res = await fetch('http://localhost:5000/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-        const data = await res.json();
-
-        if (res.ok) {
-          // Save user info in localStorage
-          localStorage.setItem('solvoroUser', JSON.stringify(data.user));
-
-          alert('Login successful! Redirecting to dashboard...');
-          window.location.href = 'dashboard.html';
-        } else {
-          alert(data.message || 'Login failed');
-        }
-
-      } catch (err) {
-        console.error(err);
-        alert('Server error! Please try again later.');
-      }
+  try {
+    const res = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
     });
-  </script>
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem('solvoroUser', JSON.stringify(data.user));
+      alert('Login successful! Redirecting to dashboard...');
+      window.location.href = 'dashboard.html';
+    } else {
+      alert(data.message || 'Login failed');
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+    alert('Server error! Make sure backend is running.');
+  }
+});
+</script>
 </body>
 </html>
