@@ -17,7 +17,6 @@
   --border-light:rgba(255,255,255,0.05);
   --radius:12px;
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:'Inter',sans-serif;
@@ -29,7 +28,6 @@ body{
   min-height:100vh;
   padding:10px;
 }
-
 .signup-card{
   background:var(--bg-card);
   padding:30px;
@@ -39,19 +37,16 @@ body{
   border:1px solid var(--border-light);
   box-shadow:0 8px 20px rgba(0,0,0,0.5);
 }
-
 .signup-card h2{
   text-align:center;
   margin-bottom:20px;
   color:var(--accent-start);
 }
-
 .signup-card label{
   display:block;
   margin-top:12px;
   font-weight:500;
 }
-
 .signup-card input{
   width:100%;
   padding:10px;
@@ -61,7 +56,6 @@ body{
   background:var(--bg-main);
   color:var(--text-light);
 }
-
 .signup-card button{
   width:100%;
   margin-top:20px;
@@ -74,24 +68,18 @@ body{
   cursor:pointer;
   transition:0.3s;
 }
-
 .signup-card button:hover{filter:brightness(1.05);}
-
 .signup-card p{
   text-align:center;
   margin-top:12px;
   font-size:14px;
   color:var(--text-muted);
 }
-
 .signup-card p a{
   color:var(--accent-end);
   text-decoration:none;
 }
-
-@media (max-width:480px){
-  .signup-card{padding:20px;}
-}
+@media (max-width:480px){.signup-card{padding:20px;}}
 </style>
 </head>
 <body>
@@ -100,54 +88,37 @@ body{
   <form id="signupForm">
     <label for="fullName">Full Name</label>
     <input type="text" id="fullName" required placeholder="Enter your full name">
-
     <label for="email">Email</label>
     <input type="email" id="email" required placeholder="Enter your email">
-
     <label for="phone">Phone Number</label>
     <input type="text" id="phone" placeholder="Enter your phone number">
-
     <label for="password">Password</label>
     <input type="password" id="password" required placeholder="Enter your password">
-
     <button type="submit">Signup</button>
   </form>
   <p>Already have an account? <a href="login.html">Login here</a></p>
 </div>
-
 <script>
 document.getElementById('signupForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
-
-  const fullName = document.getElementById('fullName').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const password = document.getElementById('password').value.trim();
-
-  if(!fullName || !email || !password){
-    alert('Full Name, Email, and Password are required!');
-    return;
-  }
-
+  const fullName=document.getElementById('fullName').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const password=document.getElementById('password').value.trim();
+  if(!fullName||!email||!password){alert('Full Name, Email, and Password required!');return;}
   try{
-    const res = await fetch('http://localhost:5000/signup',{
+    const res=await fetch('http://localhost:5000/signup',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({fullName,email,password,phone})
     });
-
-    const data = await res.json();
+    const data=await res.json();
     if(res.ok){
       localStorage.setItem('solvoroUser', JSON.stringify(data.user));
       alert('Signup successful!');
-      window.location.href = 'dashboard.html';
-    } else {
-      alert(data.message || 'Signup failed!');
-    }
-  } catch(err){
-    console.error(err);
-    alert('Server error! Make sure backend is running.');
-  }
+      window.location.href='dashboard.html';
+    } else {alert(data.message||'Signup failed!');}
+  } catch(err){console.error(err);alert('Server error! Make sure backend is running.');}
 });
 </script>
 </body>
