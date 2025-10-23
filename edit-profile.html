@@ -164,18 +164,18 @@ const profilePreview = document.getElementById('profilePreview');
 const userLink = document.getElementById('userLink');
 const loginLink = document.getElementById('loginLink');
 
-if(user){
+if(user && user._id){
   userLink.textContent = user.fullName;
   loginLink.style.display = 'none';
 
   // Fill form fields
   document.getElementById('fullName').value = user.fullName;
   document.getElementById('email').value = user.email;
-  document.getElementById('phone').value = user.phone;
-  document.getElementById('dob').value = user.dob;
-  document.getElementById('city').value = user.city;
-  document.getElementById('country').value = user.country;
-  document.getElementById('notes').value = user.notes;
+  document.getElementById('phone').value = user.phone || '';
+  document.getElementById('dob').value = user.dob || '';
+  document.getElementById('city').value = user.city || '';
+  document.getElementById('country').value = user.country || '';
+  document.getElementById('notes').value = user.notes || '';
   profilePreview.src = user.profileImage || 'favicon.png';
 } else {
   alert('Please login first.');
@@ -184,15 +184,20 @@ if(user){
 
 // Save button
 document.getElementById('saveBtn').addEventListener('click', async () => {
+  if(!user || !user._id){
+    alert('User ID missing. Please login again.');
+    return window.location.href = 'login.html';
+  }
+
   const updatedData = {
-    fullName: document.getElementById('fullName').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
+    fullName: document.getElementById('fullName').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
     dob: document.getElementById('dob').value,
-    city: document.getElementById('city').value,
-    country: document.getElementById('country').value,
-    notes: document.getElementById('notes').value,
-    profileImage: document.getElementById('profileImage').value
+    city: document.getElementById('city').value.trim(),
+    country: document.getElementById('country').value.trim(),
+    notes: document.getElementById('notes').value.trim(),
+    profileImage: document.getElementById('profileImage').value.trim()
   };
 
   try {
@@ -201,7 +206,9 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedData)
     });
+
     const data = await res.json();
+
     if(res.ok){
       localStorage.setItem('solvoroUser', JSON.stringify(data.user));
       profilePreview.src = data.user.profileImage || 'favicon.png';
@@ -209,11 +216,13 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     } else {
       alert(data.message || 'Update failed');
     }
+
   } catch(err){
-    console.error(err);
+    console.error('Server error:', err);
     alert('Server error! Make sure backend is running.');
   }
 });
 </script>
 </body>
 </html>
+
