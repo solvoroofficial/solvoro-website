@@ -1,190 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8">
   <title>Solvoro — Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg-main:#071024;
-      --bg-card:#0b1220;
-      --text-light:#e6eef6;
-      --text-muted:#94a3b8;
-      --accent-start:#7c3aed;
-      --accent-end:#06b6d4;
-      --border-light:rgba(255,255,255,0.05);
-      --radius:12px;
-      --max-width:1100px;
+    :root {
+      --bg-main: #071024;
+      --bg-card: #0b1220;
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent-start: #7c3aed;
+      --accent-end: #06b6d4;
+      --border-light: rgba(255,255,255,0.05);
+      --radius: 12px;
+      --container-width: 1100px;
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
       font-family: 'Inter', sans-serif;
-      background:var(--bg-main);
-      color:var(--text-light);
-      line-height:1.6;
+      background: var(--bg-main);
+      color: var(--text-light);
       min-height:100vh;
-    }
-    a{color:inherit;text-decoration:none}
-    .container{max-width:var(--max-width);margin:0 auto;padding:20px;}
-
-    /* Header */
-    header{
-      position:sticky;top:0;z-index:60;
-      background:rgba(7,16,36,0.95);
-      border-bottom:1px solid var(--border-light);
-      backdrop-filter: blur(6px);
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      max-width:var(--max-width);
-      margin:0 auto;
-      padding:12px 20px;
-      position:relative;
-    }
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
-    .logo img{width:100%;height:100%;object-fit:cover;display:block}
-    .brand-text{font-weight:700;font-size:18px;color:var(--text-light)}
-    nav ul{
-      display:flex;
-      gap:20px;
-      list-style:none;
-      align-items:center;
-      margin:0;
-      transition: max-height 300ms ease, opacity 220ms ease;
-    }
-    nav ul li{font-weight:600;color:var(--text-muted)}
-    nav ul li a{
-      padding:6px 8px;
-      border-radius:8px;
-      display:inline-block;
-      color:var(--text-light);
-    }
-    nav ul li a:hover{color:var(--text-light);background:transparent}
-    #menuBtn {display:none;}
-
-    /* Dashboard card */
-    .dashboard{
-      margin-top:40px;
       display:flex;
       flex-direction:column;
-      gap:18px;
     }
-    .info-card{
-      background:var(--bg-card);
-      padding:20px;
-      border-radius:var(--radius);
+
+    main.container {
+      max-width: var(--container-width);
+      margin: 40px auto;
+      padding: 0 20px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    h2 { color: var(--accent-start); margin-bottom:20px; }
+
+    .dashboard { display:flex; flex-direction:column; gap:16px; }
+
+    .info-card {
+      background: var(--bg-card);
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+    }
+    .info-card h3 { margin-bottom:6px; color: var(--accent-start); }
+    .info-card p { margin:0; color: var(--text-muted); }
+
+    .profile-card {
+      display:flex; align-items:center; gap:12px;
+      background: var(--bg-card);
+      padding:16px;
+      border-radius: var(--radius);
       border:1px solid var(--border-light);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
     }
-    .info-card h3{margin-bottom:6px;color:var(--accent-start);}
-    .info-card p{color:var(--text-muted);font-size:15px;}
-    .logout-btn{
-      align-self:flex-start;
-      padding:10px 16px;
-      border:none;
-      border-radius:12px;
-      background:var(--accent-end);
-      color:#fff;
-      cursor:pointer;
-      font-weight:700;
+    .profile-card img {
+      width:64px; height:64px; border-radius:50%;
+      object-fit:cover; border:1px solid rgba(255,255,255,0.1);
+    }
+
+    .logout-btn {
       margin-top:20px;
+      padding:12px;
+      border:none;
+      border-radius: var(--radius);
+      background: linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      width:150px;
     }
+
+    a { color: inherit; text-decoration: none; }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="nav container">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
-        </div>
-        <div class="brand-text">Solvoro</div>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="partners.html">Partners</a></li>
-          <li><a href="contact-us.html">Contact</a></li>
-          <li><a href="dashboard.html" id="userLink">Login</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
 
-  <!-- Dashboard -->
+  <!-- Header + Footer injected by layout.js -->
+  <div id="layout-header"></div>
+
   <main class="container">
     <h2>Welcome to Your Dashboard</h2>
     <div class="dashboard" id="dashboardContent">
-      <!-- User info will load here -->
+      <!-- User info cards injected here -->
     </div>
   </main>
 
+  <div id="layout-footer"></div>
+
+  <script src="script/layout.js"></script>
   <script>
-    // Get user data from localStorage
-    const userData = JSON.parse(localStorage.getItem('solvoroUser'));
-    const dashboard = document.getElementById('dashboardContent');
-    const userLink = document.getElementById('userLink');
+    function populateDashboard() {
+      const userData = JSON.parse(localStorage.getItem('solvoroUser'));
+      const dashboard = document.getElementById('dashboardContent');
 
-    if(userData){
-      userLink.textContent = userData.fullName; // show username in header
-      userLink.href = 'dashboard.html';
+      if (!userData) {
+        dashboard.innerHTML = '<p>You are not logged in. Please <a href="login.html">login</a>.</p>';
+        return;
+      }
 
-      dashboard.innerHTML = `
-        <div class="info-card">
-          <h3>Full Name</h3>
-          <p>${userData.fullName}</p>
-        </div>
-        <div class="info-card">
-          <h3>Email Address</h3>
+      dashboard.innerHTML = '';
+
+      // Profile card
+      const profileCard = document.createElement('div');
+      profileCard.className = 'profile-card';
+      profileCard.innerHTML = `
+        <img src="${userData.profileImage || 'favicon.png'}" alt="Profile Image">
+        <div>
+          <h3>${userData.fullName}</h3>
           <p>${userData.email}</p>
         </div>
-        <div class="info-card">
-          <h3>Phone Number</h3>
-          <p>${userData.phone}</p>
-        </div>
-        <div class="info-card">
-          <h3>Date of Birth</h3>
-          <p>${userData.dob || 'Not provided'}</p>
-        </div>
-        <div class="info-card">
-          <h3>City</h3>
-          <p>${userData.city || 'Not provided'}</p>
-        </div>
-        <div class="info-card">
-          <h3>Country</h3>
-          <p>${userData.country || 'Not provided'}</p>
-        </div>
-        <div class="info-card">
-          <h3>Additional Notes</h3>
-          <p>${userData.notes || 'None'}</p>
-        </div>
-        <button class="logout-btn" id="logoutBtn">Logout</button>
       `;
+      dashboard.appendChild(profileCard);
 
-      // Logout function
-      document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.removeItem('solvoroUser');
-        alert('You have logged out!');
-        window.location.href = 'index.html';
+      // Other fields
+      const fields = [
+        { label: 'Phone Number', value: userData.phone || 'Not provided' },
+        { label: 'Date of Birth', value: userData.dob || 'Not provided' },
+        { label: 'City', value: userData.city || 'Not provided' },
+        { label: 'Country', value: userData.country || 'Not provided' },
+        { label: 'Notes', value: userData.notes || 'None' },
+      ];
+
+      fields.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'info-card';
+        card.innerHTML = `<h3>${f.label}</h3><p>${f.value}</p>`;
+        dashboard.appendChild(card);
       });
 
-    } else {
-      dashboard.innerHTML = `<p>You are not logged in. Please <a href="login.html">login</a> first.</p>`;
-      userLink.textContent = 'Login';
-      userLink.href = 'login.html';
+      // Logout button
+      const logoutBtn = document.createElement('button');
+      logoutBtn.className = 'logout-btn';
+      logoutBtn.textContent = 'Logout';
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('solvoroUser');
+        alert('Logged out!');
+        window.location.href = 'index.html';
+      });
+      dashboard.appendChild(logoutBtn);
     }
+
+    document.addEventListener('DOMContentLoaded', populateDashboard);
   </script>
 </body>
 </html>
+
