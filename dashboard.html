@@ -1,178 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solvoro — Dashboard</title>
-<link rel="icon" href="favicon.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg-main:#071024;
-    --bg-card:#0b1220;
-    --text-light:#e6eef6;
-    --text-muted:#94a3b8;
-    --accent-start:#7c3aed;
-    --accent-end:#06b6d4;
-    --border-light:rgba(255,255,255,0.05);
-    --radius:12px;
-    --max-width:1100px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solvoro — Dashboard</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #071024;
+      --bg-card: #0b1220;
+      --text-light: #e6eef6;
+      --text-muted: #94a3b8;
+      --accent-start: #7c3aed;
+      --accent-end: #06b6d4;
+      --border-light: rgba(255,255,255,0.05);
+      --radius: 12px;
+      --max-width: 1100px;
+    }
 
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family: 'Inter', sans-serif; background:var(--bg-main); color:var(--text-light); line-height:1.6; min-height:100vh;}
-  a{text-decoration:none;color:inherit;}
-  .container{max-width:var(--max-width);margin:0 auto;padding:20px;}
+    * {box-sizing: border-box; margin: 0; padding: 0;}
+    body {font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-light); min-height: 100vh;}
+    a {color: inherit; text-decoration: none;}
+    .container {max-width: var(--max-width); margin: 0 auto; padding: 20px;}
 
-  /* Header */
-  header{
-    position:sticky; top:0; z-index:60;
-    background:rgba(7,16,36,0.95);
-    border-bottom:1px solid var(--border-light);
-    backdrop-filter: blur(6px);
-  }
-  .nav{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    max-width:var(--max-width);
-    margin:0 auto;
-    padding:12px 20px;
-  }
-  .brand{display:flex;align-items:center;gap:12px;}
-  .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center;}
-  .logo img{width:100%;height:100%;object-fit:cover;}
-  .brand-text{font-weight:700;font-size:18px;color:var(--text-light);}
-  nav ul{
-    display:flex;
-    gap:20px;
-    list-style:none;
-    align-items:center;
-    margin:0;
-  }
-  nav ul li{font-weight:600;color:var(--text-muted);}
-  nav ul li a{
-    padding:6px 8px;
-    border-radius:8px;
-    display:inline-block;
-    color:var(--text-light);
-  }
-  nav ul li a:hover{color:var(--text-light);background:transparent;}
+    /* Header */
+    header {position: sticky; top:0; z-index:60; background: rgba(7,16,36,0.95); border-bottom:1px solid var(--border-light); backdrop-filter: blur(6px);}
+    .nav {display:flex; justify-content: space-between; align-items: center; gap:20px; max-width: var(--max-width); margin:0 auto; padding:12px 20px;}
+    .brand {display:flex; align-items:center; gap:12px;}
+    .logo {width:48px; height:48px; border-radius:50%; overflow:hidden; display:grid; place-items:center;}
+    .logo img {width:100%; height:100%; object-fit:cover;}
+    .brand-text {font-weight:700; font-size:18px; color: var(--text-light);}
+    nav ul {display:flex; gap:20px; list-style:none; align-items:center;}
+    nav ul li {font-weight:600; color: var(--text-muted);}
+    nav ul li a {padding:6px 8px; border-radius:8px; display:inline-block; color: var(--text-light);}
+    nav ul li a:hover {background: transparent; color: var(--accent-end);}
 
-  /* Dashboard */
-  main{margin-top:30px;}
-  .profile-header{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
-    background:var(--bg-card);
-    padding:20px;
-    border-radius:var(--radius);
-    border:1px solid var(--border-light);
-  }
-  .profile-pic{
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    overflow:hidden;
-    border:2px solid var(--accent-start);
-    display:grid; place-items:center;
-    background:#333;
-  }
-  .profile-pic img{width:100%;height:100%;object-fit:cover;}
-  .profile-info h2{margin-bottom:4px;color:var(--accent-start);}
-  .profile-info p{color:var(--text-muted);font-size:14px;margin:2px 0;}
-  .edit-btn{
-    padding:8px 16px;
-    border:none;
-    border-radius:12px;
-    background:var(--accent-end);
-    color:#fff;
-    font-weight:700;
-    cursor:pointer;
-    margin-left:auto;
-  }
-
-  /* Info sections */
-  .info-section{
-    margin-top:20px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-  }
-  .info-card{
-    background:var(--bg-card);
-    padding:16px;
-    border-radius:var(--radius);
-    border:1px solid var(--border-light);
-  }
-  .info-card h3{color:var(--accent-start);margin-bottom:6px;font-size:16px;}
-  .info-card p{color:var(--text-muted);font-size:14px;word-break:break-word;}
-
-  /* Modal */
-  .modal{
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(0,0,0,0.7);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:100;
-  }
-  .modal-content{
-    background:var(--bg-card);
-    padding:24px;
-    border-radius:var(--radius);
-    max-width:500px;
-    width:90%;
-  }
-  .modal-content h3{color:var(--accent-start);margin-bottom:12px;}
-  .modal-content label{display:block;margin-top:10px;font-weight:500;}
-  .modal-content input, .modal-content textarea{
-    width:100%;
-    padding:8px 10px;
-    margin-top:4px;
-    border-radius:8px;
-    border:1px solid rgba(255,255,255,0.2);
-    background:var(--bg-main);
-    color:var(--text-light);
-  }
-  .modal-content button{
-    margin-top:16px;
-    padding:10px 16px;
-    border:none;
-    border-radius:12px;
-    background:var(--accent-end);
-    color:#fff;
-    font-weight:700;
-    cursor:pointer;
-  }
-
-  /* Footer */
-  footer{
-    margin-top:40px;
-    text-align:center;
-    padding:16px 0;
-    border-top:1px solid var(--border-light);
-    color:var(--text-muted);
-  }
-
-  @media(max-width:768px){
-    .info-section{grid-template-columns:1fr;}
-    .profile-header{flex-direction:column;align-items:center;text-align:center;}
-    .edit-btn{margin-left:0;margin-top:10px;}
-  }
-</style>
+    /* Dashboard */
+    h2 {margin-bottom:20px;}
+    .dashboard {display:flex; flex-direction: column; gap:20px;}
+    .profile-header {display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+    .profile-pic {width:120px; height:120px; border-radius:50%; overflow:hidden; border:2px solid var(--accent-start);}
+    .profile-pic img {width:100%; height:100%; object-fit:cover;}
+    .profile-info {flex:1; display:flex; flex-direction: column; gap:6px;}
+    .profile-info h3 {color: var(--accent-start);}
+    .profile-info p {color: var(--text-muted);}
+    .edit-btn {padding:10px 16px; border:none; border-radius:12px; background: var(--accent-end); color:#fff; cursor:pointer; font-weight:700; align-self:flex-start; margin-top:10px;}
+    .info-card {background: var(--bg-card); padding:16px; border-radius: var(--radius); border:1px solid var(--border-light);}
+    .info-card h3 {color: var(--accent-start); margin-bottom:6px;}
+    .info-card p {color: var(--text-muted);}
+    .footer {margin-top:40px; padding:20px; text-align:center; border-top:1px solid var(--border-light); color:var(--text-muted);}
+    input, textarea {width:100%; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background: var(--bg-main); color: var(--text-light);}
+    button.save-btn {padding:10px 16px; border:none; border-radius:12px; background: var(--accent-start); color:#fff; cursor:pointer; font-weight:700;}
+    @media(max-width:768px){
+      .profile-header {flex-direction: column; align-items:flex-start;}
+      .profile-pic {width:100px; height:100px;}
+    }
+  </style>
 </head>
 <body>
 
+<!-- Header -->
 <header>
   <div class="nav container">
     <div class="brand">
-      <div class="logo"><img src="favicon.png" alt="logo"></div>
+      <div class="logo"><img src="favicon.png" alt="Solvoro Logo"></div>
       <div class="brand-text">Solvoro</div>
     </div>
     <nav>
@@ -180,136 +72,104 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
-        <li><a href="dashboard.html" id="userLink">Login</a></li>
+        <li><a href="dashboard.html" id="userLink">Dashboard</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
+<!-- Dashboard -->
 <main class="container">
-  <div class="profile-header">
-    <div class="profile-pic" id="profilePic">
-      <img src="favicon.png" alt="Profile Picture">
-    </div>
-    <div class="profile-info">
-      <h2 id="fullName">Full Name</h2>
-      <p id="email">Email</p>
-      <p id="phone">Phone</p>
-      <p id="skills">Skills: Not provided</p>
-    </div>
-    <button class="edit-btn" id="editProfileBtn">Edit Profile</button>
-  </div>
-
-  <div class="info-section" id="additionalInfo">
-    <div class="info-card"><h3>About</h3><p id="about">Not provided</p></div>
-    <div class="info-card"><h3>Address</h3><p id="address">Not provided</p></div>
-    <div class="info-card"><h3>Portfolio / Links</h3><p id="portfolio">Not provided</p></div>
-    <div class="info-card"><h3>Experience</h3><p id="experience">Not provided</p></div>
+  <h2>Your Profile</h2>
+  <div class="dashboard" id="dashboardContent">
+    <!-- Profile info will load here -->
   </div>
 </main>
 
-<!-- Edit Profile Modal -->
-<div class="modal" id="editModal">
-  <div class="modal-content">
-    <h3>Edit Profile</h3>
-    <label for="editFullName">Full Name</label>
-    <input type="text" id="editFullName">
-
-    <label for="editEmail">Email</label>
-    <input type="email" id="editEmail" disabled>
-
-    <label for="editPhone">Phone</label>
-    <input type="text" id="editPhone">
-
-    <label for="editSkills">Skills</label>
-    <input type="text" id="editSkills">
-
-    <label for="editAbout">About</label>
-    <textarea id="editAbout" rows="3"></textarea>
-
-    <label for="editAddress">Address</label>
-    <input type="text" id="editAddress">
-
-    <label for="editPortfolio">Portfolio / Links</label>
-    <input type="text" id="editPortfolio">
-
-    <label for="editExperience">Experience</label>
-    <input type="text" id="editExperience">
-
-    <label for="editProfilePic">Profile Picture URL</label>
-    <input type="text" id="editProfilePic">
-
-    <button id="saveProfileBtn">Save Changes</button>
-    <button id="closeModalBtn" style="margin-top:10px;background:#555;">Cancel</button>
-  </div>
+<!-- Footer -->
+<div class="footer">
+  &copy; 2025 Solvoro. All rights reserved.
 </div>
 
-<footer>
-  &copy; 2025 Solvoro. All rights reserved. | <a href="mailto:solvoro.official@gmail.com">solvoro.official@gmail.com</a>
-</footer>
-
 <script>
-const backendURL = "https://solvoro-web-backend.onrender.com";
+  const user = JSON.parse(localStorage.getItem('solvoroUser'));
+  const dashboard = document.getElementById('dashboardContent');
+  const userLink = document.getElementById('userLink');
 
-// Check if user is logged in
-let user = JSON.parse(localStorage.getItem("solvoroUser"));
-if(!user){
-  alert("Please login first!");
-  window.location.href="login.html";
-}
+  if(!user){
+    alert('Please login first!');
+    window.location.href = 'login.html';
+  } else {
+    userLink.textContent = user.name;
+    userLink.href = 'dashboard.html';
 
-// Populate dashboard with user info
-function loadDashboard(){
-  document.getElementById("fullName").innerText = user.name || "Full Name";
-  document.getElementById("email").innerText = user.email || "Email";
-  document.getElementById("phone").innerText = user.phone || "Not provided";
-  document.getElementById("skills").innerText = "Skills: "+(user.skills || "Not provided");
-  document.getElementById("about").innerText = user.about || "Not provided";
-  document.getElementById("address").innerText = user.address || "Not provided";
-  document.getElementById("portfolio").innerText = user.portfolio || "Not provided";
-  document.getElementById("experience").innerText = user.experience || "Not provided";
-  document.getElementById("profilePic").querySelector("img").src = user.profilePic || "favicon.png";
-  document.getElementById("userLink").innerText = "Dashboard";
-}
+    function renderDashboard(editMode=false){
+      dashboard.innerHTML = `
+        <div class="profile-header">
+          <div class="profile-pic">
+            <img src="${user.profilePic || 'favicon.png'}" alt="Profile Pic">
+          </div>
+          <div class="profile-info">
+            ${editMode ? `
+              <input type="text" id="name" value="${user.name}">
+              <input type="email" id="email" value="${user.email}" disabled>
+              <input type="text" id="phone" value="${user.phone || ''}">
+              <input type="text" id="city" value="${user.city || ''}" placeholder="City">
+              <input type="text" id="country" value="${user.country || ''}" placeholder="Country">
+              <input type="text" id="skills" value="${user.skills ? user.skills.join(', ') : ''}" placeholder="Skills (comma separated)">
+              <textarea id="about" placeholder="About">${user.about || ''}</textarea>
+              <textarea id="address" placeholder="Address">${user.address || ''}</textarea>
+              <button class="save-btn" id="saveBtn">Save Changes</button>
+            ` : `
+              <h3>${user.name}</h3>
+              <p>Email: ${user.email}</p>
+              <p>Phone: ${user.phone || 'Not provided'}</p>
+              <p>City: ${user.city || 'Not provided'}</p>
+              <p>Country: ${user.country || 'Not provided'}</p>
+              <p>Skills: ${user.skills ? user.skills.join(', ') : 'Not provided'}</p>
+              <p>About: ${user.about || 'Not provided'}</p>
+              <p>Address: ${user.address || 'Not provided'}</p>
+              <button class="edit-btn" id="editBtn">Edit Profile</button>
+            `}
+          </div>
+        </div>
+      `;
 
-loadDashboard();
+      if(editMode){
+        document.getElementById('saveBtn').addEventListener('click', async ()=>{
+          const updatedUser = {
+            email: user.email,
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            city: document.getElementById('city').value,
+            country: document.getElementById('country').value,
+            skills: document.getElementById('skills').value.split(',').map(s=>s.trim()),
+            about: document.getElementById('about').value,
+            address: document.getElementById('address').value
+          };
 
-// Modal controls
-const modal = document.getElementById("editModal");
-document.getElementById("editProfileBtn").addEventListener("click",()=>{
-  modal.style.display="flex";
-  // fill inputs
-  document.getElementById("editFullName").value = user.name || "";
-  document.getElementById("editEmail").value = user.email || "";
-  document.getElementById("editPhone").value = user.phone || "";
-  document.getElementById("editSkills").value = user.skills || "";
-  document.getElementById("editAbout").value = user.about || "";
-  document.getElementById("editAddress").value = user.address || "";
-  document.getElementById("editPortfolio").value = user.portfolio || "";
-  document.getElementById("editExperience").value = user.experience || "";
-  document.getElementById("editProfilePic").value = user.profilePic || "";
-});
-document.getElementById("closeModalBtn").addEventListener("click",()=>{ modal.style.display="none"; });
+          const res = await fetch('https://solvoro-web-backend.onrender.com/update-profile',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(updatedUser)
+          });
+          const data = await res.json();
+          if(res.ok){
+            alert('Profile updated!');
+            localStorage.setItem('solvoroUser', JSON.stringify(data.user));
+            renderDashboard(false);
+          } else {
+            alert(data.message || 'Update failed');
+          }
+        });
+      } else {
+        document.getElementById('editBtn').addEventListener('click', ()=> renderDashboard(true));
+      }
+    }
 
-// Save profile
-document.getElementById("saveProfileBtn").addEventListener("click",()=>{
-  // update localStorage (later can be sent to backend)
-  user.name = document.getElementById("editFullName").value.trim();
-  user.phone = document.getElementById("editPhone").value.trim();
-  user.skills = document.getElementById("editSkills").value.trim();
-  user.about = document.getElementById("editAbout").value.trim();
-  user.address = document.getElementById("editAddress").value.trim();
-  user.portfolio = document.getElementById("editPortfolio").value.trim();
-  user.experience = document.getElementById("editExperience").value.trim();
-  user.profilePic = document.getElementById("editProfilePic").value.trim();
-  localStorage.setItem("solvoroUser", JSON.stringify(user));
-  loadDashboard();
-  modal.style.display="none";
-  alert("Profile updated successfully!");
-});
+    renderDashboard();
+  }
 </script>
 
 </body>
 </html>
-
-
