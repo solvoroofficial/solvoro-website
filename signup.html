@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign Up | Solvoro</title>
+  <title>Signup | Solvoro</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #001f3f, #4b0082);
+      background: linear-gradient(135deg, #001f3f, #0d6efd);
       color: #fff;
       display: flex;
       justify-content: center;
@@ -17,56 +17,55 @@
     }
     .container {
       background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 20px;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
       width: 90%;
       max-width: 400px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
     h2 {
       text-align: center;
-      margin-bottom: 25px;
-      color: #ffcc00;
+      margin-bottom: 20px;
     }
     input {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 0;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       outline: none;
+      font-size: 1rem;
     }
     button {
       width: 100%;
-      padding: 12px;
+      background: #6f42c1;
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      background: #ffcc00;
-      color: #000;
-      font-weight: 600;
+      padding: 12px;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 1rem;
       transition: 0.3s;
     }
     button:hover {
-      background: #ffd633;
+      background: #59359c;
     }
     p {
       text-align: center;
       margin-top: 10px;
     }
     a {
-      color: #ffcc00;
+      color: #ffd700;
       text-decoration: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Create Account</h2>
+    <h2>Create Your Account</h2>
     <form id="signupForm">
       <input type="text" id="name" placeholder="Full Name" required />
-      <input type="email" id="email" placeholder="Email" required />
+      <input type="email" id="email" placeholder="Email Address" required />
       <input type="password" id="password" placeholder="Password" required />
       <button type="submit">Sign Up</button>
     </form>
@@ -74,30 +73,31 @@
   </div>
 
   <script>
-    const API_URL = "https://solvoro-web-backend.onrender.com";
-
-    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    document.querySelector("#signupForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+
+      const name = document.querySelector("#name").value;
+      const email = document.querySelector("#email").value;
+      const password = document.querySelector("#password").value;
 
       try {
-        const res = await fetch(`${API_URL}/api/signup`, {
+        const res = await fetch("https://solvoro-web-backend.onrender.com/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, password }),
         });
 
         const data = await res.json();
+
         if (res.ok) {
-          alert("✅ Signup successful! Now login.");
+          alert("Signup Successful ✅");
           window.location.href = "login.html";
         } else {
-          alert("⚠️ " + data.message);
+          alert(data.error || "Signup failed ❌");
         }
       } catch (err) {
-        alert("Server error. Try again later.");
+        alert("Server Error ⚠️. Please try again later.");
+        console.error(err);
       }
     });
   </script>
