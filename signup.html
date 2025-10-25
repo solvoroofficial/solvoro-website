@@ -1,130 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solvoro — Signup</title>
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | Solvoro</title>
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: #071024;
-      color: #e6eef6;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #001f3f, #4b0082);
+      color: #fff;
       display: flex;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      align-items: center;
+      height: 100vh;
       margin: 0;
     }
-    .signup-card {
-      background: #0b1220;
-      padding: 36px;
-      border-radius: 16px;
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
       max-width: 400px;
-      width: 100%;
-      border: 1px solid rgba(255,255,255,0.05);
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
-    .signup-card h2 {
+    h2 {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 25px;
+      color: #ffcc00;
     }
-    .signup-card label {
-      display: block;
-      margin-top: 12px;
-      font-weight: 500;
-    }
-    .signup-card input {
+    input {
       width: 100%;
-      padding: 10px 12px;
-      margin-top: 6px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: #071024;
-      color: #e6eef6;
-    }
-    .signup-card button {
-      width: 100%;
-      margin-top: 20px;
       padding: 12px;
-      border-radius: 12px;
+      margin: 10px 0;
       border: none;
-      font-weight: 700;
-      background: linear-gradient(90deg,#7c3aed,#06b6d4);
-      color: #fff;
+      border-radius: 8px;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #ffcc00;
+      color: #000;
+      font-weight: 600;
       cursor: pointer;
       transition: 0.3s;
     }
-    .signup-card button:hover {
-      filter: brightness(0.95);
+    button:hover {
+      background: #ffd633;
     }
-    .signup-card p {
+    p {
       text-align: center;
-      margin-top: 12px;
-      font-size: 14px;
+      margin-top: 10px;
     }
-    .signup-card p a {
-      color: #06b6d4;
+    a {
+      color: #ffcc00;
       text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <div class="signup-card">
+  <div class="container">
     <h2>Create Account</h2>
     <form id="signupForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" required placeholder="Enter your name">
-
-      <label for="email">Email</label>
-      <input type="email" id="email" required placeholder="Enter your email">
-
-      <label for="phone">Phone Number</label>
-      <input type="text" id="phone" required placeholder="Enter your phone number">
-
-      <label for="password">Password</label>
-      <input type="password" id="password" required placeholder="Enter your password">
-
-      <button type="submit">Signup</button>
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
     </form>
-    <p>Already have an account? <a href="login.html">Login here</a></p>
+    <p>Already have an account? <a href="login.html">Login</a></p>
   </div>
 
   <script>
-    const signupForm = document.getElementById('signupForm');
+    const API_URL = "https://solvoro-web-backend.onrender.com";
 
-    signupForm.addEventListener('submit', async (e) => {
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const password = document.getElementById('password').value.trim();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       try {
-        const res = await fetch('http://localhost:5000/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, phone, password })
+        const res = await fetch(`${API_URL}/api/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
         });
 
         const data = await res.json();
-
-        if(res.ok){
-          alert('Signup successful! You can now login.');
-          window.location.href = 'login.html';
+        if (res.ok) {
+          alert("✅ Signup successful! Now login.");
+          window.location.href = "login.html";
         } else {
-          alert(data.message || 'Signup failed!');
+          alert("⚠️ " + data.message);
         }
-
-      } catch(err) {
-        console.error(err);
-        alert('Server error! Please try again later.');
+      } catch (err) {
+        alert("Server error. Try again later.");
       }
     });
   </script>
 </body>
 </html>
-
-
