@@ -1,10 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Solvoro — About</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0f29">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg-main:#071024;
@@ -15,256 +18,304 @@
       --accent-end:#06b6d4;
       --border-light:rgba(255,255,255,0.05);
       --radius:12px;
-      --max-width:1100px;
+      --max-width:1200px;
+      --topbar-height:56px;
+      --mobile-bottom-height:70px;
+      --sidebar-width:260px;
     }
-
-    *{box-sizing:border-box;margin:0;padding:0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
     body{
       font-family:'Inter',sans-serif;
       background:var(--bg-main);
       color:var(--text-light);
-      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+      display:flex;flex-direction:column;
+      padding-top:var(--topbar-height);
+      padding-bottom:var(--mobile-bottom-height);
+      overflow-x:hidden;
     }
     a{color:inherit;text-decoration:none}
 
-    /* Header */
-    header{
-      position:sticky;top:0;z-index:60;
-      background:rgba(7,16,36,0.95);
+    /* ---------- COMMON ---------- */
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
+    section{padding:48px 0}
+    h1{font-size:2.4rem;font-weight:800;line-height:1.1}
+    h2.section-title{
+      text-align:center;margin-bottom:32px;font-size:1.5rem;font-weight:700;
+      background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      -webkit-background-clip:text;background-clip:text;
+      color:transparent;
+    }
+
+    /* ---------- MOBILE TOPBAR ---------- */
+    .topbar{
+      position:fixed;top:0;left:0;right:0;z-index:140;
+      height:var(--topbar-height);
+      background:rgba(7,16,36,.95);
       border-bottom:1px solid var(--border-light);
       backdrop-filter:blur(6px);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:8px 16px;padding-top:env(safe-area-inset-top);
     }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      max-width:var(--max-width);
-      margin:0 auto;
-      padding:12px 20px;
-      position:relative;
-    }
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center}
-    .logo img{width:100%;height:100%;object-fit:cover;display:block}
-    .brand-text{font-weight:700;font-size:18px;color:var(--text-light)}
-
-    nav ul{
-      display:flex;
-      gap:20px;
-      list-style:none;
-      align-items:center;
-      margin:0;
-      transition:max-height 300ms ease,opacity 220ms ease;
-    }
-    nav ul li a{
-      padding:6px 8px;
-      border-radius:8px;
-      display:inline-block;
-      color:var(--text-light);
-      font-weight:600;
+    .topbar .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem}
+    .topbar .brand img{width:36px;height:36px;border-radius:50%}
+    .topbar .menu-btn{
+      width:40px;height:40px;background:transparent;border:none;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;
+      color:var(--text-light);font-size:22px;
     }
 
-    #menuBtn{
-      display:none;
-      background:transparent;
-      border:none;
-      font-size:22px;
-      cursor:pointer;
-      color:var(--text-light);
-      width:44px;height:44px;
-      border-radius:10px;
-      display:grid;
-      place-items:center;
+    /* ---------- MOBILE MENU OVERLAY ---------- */
+    .mobile-menu-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:199;
+      opacity:0;pointer-events:none;transition:opacity .2s
     }
-
-    /* Footer */
-    footer{
-      padding:26px 20px;
-      background:var(--bg-main);
-      color:var(--text-muted);
-      border-top:1px solid var(--border-light);
-      text-align:center;
-      margin-top:40px;
+    .mobile-menu-overlay.show{opacity:1;pointer-events:all}
+    .mobile-menu{
+      position:fixed;top:0;left:0;right:0;background:var(--bg-card);
+      padding:16px;padding-top:calc(var(--topbar-height)+env(safe-area-inset-top));
+      border-radius:0 0 16px 16px;box-shadow:0 10px 20px rgba(0,0,0,.3);
+      transform:translateY(-100%);transition:transform .3s;z-index:200;
+      max-height:80vh;overflow-y:auto
     }
-    footer a{color:var(--text-muted)}
-    footer a:hover{color:var(--accent-start)}
+    .mobile-menu.show{transform:translateY(0)}
+    .mobile-menu .close-menu{
+      position:absolute;top:12px;right:12px;background:none;border:none;
+      font-size:1.5rem;cursor:pointer;color:var(--text-muted)
+    }
+    .mobile-menu .nav{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+    .mobile-menu a{
+      display:flex;gap:12px;align-items:center;padding:14px 16px;
+      color:var(--text-light);text-decoration:none;border-radius:10px;
+      font-weight:500;transition:all .15s
+    }
+    .mobile-menu a:hover{background:rgba(255,255,255,.05);color:var(--accent-end)}
 
-    /* Mobile nav */
-    @media(max-width:768px){
-      #menuBtn{
-        display:grid;
-        position:absolute;
-        right:20px;
-        top:50%;
-        transform:translateY(-50%);
-      }
-      nav ul{
+    /* ---------- MAIN CONTENT ---------- */
+    main{flex:1;overflow-y:auto;padding:16px 0}
+
+    /* ---------- MOBILE BOTTOM NAV ---------- */
+    .mobile-bottom-nav{
+      position:fixed;left:0;right:0;bottom:0;height:var(--mobile-bottom-height);
+      background:rgba(7,16,36,.95);border-top:1px solid var(--border-light);
+      display:flex;justify-content:space-around;align-items:center;
+      z-index:160;padding-bottom:env(safe-area-inset-bottom);
+      box-shadow:0 -2px 10px rgba(0,0,0,.2)
+    }
+    .mobile-bottom-nav a{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:5px;text-decoration:none;color:var(--text-muted);font-size:11px;font-weight:500;
+      width:25%;padding:8px 0;border-radius:8px;transition:all .15s
+    }
+    .mobile-bottom-nav svg{width:22px;height:22px;stroke:currentColor;fill:none}
+    .mobile-bottom-nav a.active{color:var(--accent-end);font-weight:600}
+    .mobile-bottom-nav a:active{transform:scale(.93)}
+
+    /* ---------- DESKTOP SIDEBAR ---------- */
+    .sidebar{display:none}
+
+    /* ==================== DESKTOP / LAPTOP ==================== */
+    @media (min-width:769px){
+      body{
+        padding-top:0;padding-bottom:0;padding-left:var(--sidebar-width);
         flex-direction:column;
-        gap:0;
-        align-items:stretch;
-        position:absolute;
-        top:calc(100% + 8px);
-        right:20px;
-        width:220px;
-        background:#0b1220;
-        border:1px solid var(--border-light);
-        border-radius:12px;
-        padding:6px 0;
-        z-index:50;
-        max-height:0;
-        overflow:hidden;
-        opacity:0;
-        pointer-events:none;
-        transition:max-height 300ms ease,opacity 220ms ease,transform 220ms ease;
       }
-      nav ul.show{
-        max-height:520px;
-        opacity:1;
-        pointer-events:auto;
+      .topbar,.mobile-bottom-nav,.mobile-menu-overlay,.mobile-menu{display:none !important}
+      .sidebar{
+        display:flex;width:var(--sidebar-width);background:var(--bg-card);
+        border-right:1px solid var(--border-light);padding:24px 16px;
+        position:fixed;top:0;bottom:0;left:0;flex-direction:column;
+        justify-content:space-between;gap:12px;z-index:120;overflow-y:auto
       }
-      nav ul li a{
-        display:block;
-        padding:12px 16px;
-        color:#ffffff;
+      .brand img{width:42px;height:42px}
+      .brand .name{font-size:1.2rem}
+      .nav{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+      .nav a{
+        display:flex;gap:10px;align-items:center;padding:10px 14px;
+        color:var(--text-light);text-decoration:none;border-radius:10px;
+        font-weight:500;transition:all .15s
       }
+      .nav a:hover{background:rgba(255,255,255,.08);color:var(--accent-end)}
+      .nav svg{width:20px;height:20px;stroke:currentColor;fill:none}
+      .sidebar-footer{font-size:.85rem;color:var(--text-muted);border-top:1px solid var(--border-light);padding-top:12px;text-align:center}
+      main{padding:40px 32px}
+      .container{max-width:1000px}
     }
 
-    /* About content */
-    main{padding:28px 20px 48px}
-    .container{max-width:var(--max-width);margin:0 auto;padding:20px;}
-    .hero-mini{text-align:center;max-width:900px;margin:0 auto 28px;}
-    .hero-mini h1{font-size:34px;margin:6px 0 10px;font-weight:800}
-    .hero-mini p{color:var(--text-muted);font-size:15px;max-width:880px;margin:0 auto}
+    /* ---------- ABOUT CONTENT ---------- */
+    .hero-mini{text-align:center;max-width:900px;margin:0 auto 32px;}
+    .hero-mini h1{font-size:2.4rem;margin:6px 0 12px;font-weight:800}
+    .hero-mini p{color:var(--text-muted);font-size:1.1rem;max-width:880px;margin:0 auto}
+
     .about-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:20px;
-      max-width:var(--max-width);
-      margin:26px auto;
+      display:grid;gap:20px;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      align-items:stretch;
     }
     .about-card{
-      background:var(--bg-card);
-      border:1px solid var(--border-light);
-      border-radius:var(--radius);
-      padding:18px;
+      background:var(--bg-card);padding:20px;border-radius:var(--radius);
+      border:1px solid var(--border-light);display:flex;flex-direction:column;
+      gap:10px;height:100%
     }
-    .about-card h3{margin-bottom:6px;font-size:18px}
-    .about-card p{margin:0;color:var(--text-muted);font-size:14px;line-height:1.6}
+    .about-card h3{font-size:1.15rem;font-weight:700;margin-bottom:6px}
+    .about-card p{color:var(--text-muted);font-size:0.95rem;line-height:1.6}
+
     .more-block{
-      max-width:980px;margin:18px auto 36px;
+      max-width:980px;margin:32px auto 0;
       background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.005));
-      border-radius:12px;border:1px solid var(--border-light);padding:18px;
+      border-radius:12px;border:1px solid var(--border-light);padding:20px;
     }
-    .more-block p{color:var(--text-muted);font-size:14px;line-height:1.7;margin:0 0 10px}
+    .more-block h3{margin:0 0 12px;font-size:1.15rem;font-weight:700}
+    .more-block p{color:var(--text-muted);font-size:0.95rem;line-height:1.7;margin:0 0 10px}
     .read-toggle{
-      display:inline-block;margin-top:10px;background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--text-light);cursor:pointer
+      display:inline-block;margin-top:10px;background:transparent;
+      border:1px solid rgba(255,255,255,0.06);padding:8px 14px;
+      border-radius:10px;color:var(--text-light);cursor:pointer;
+      font-size:0.9rem;font-weight:600;
+    }
+    .read-toggle:hover{background:rgba(255,255,255,0.05)}
+
+    /* ---------- RESPONSIVE ---------- */
+    @media(max-width:1000px){.hero-mini h1{font-size:2.1rem}}
+    @media(max-width:700px){
+      .hero-mini h1{font-size:1.9rem}
+      .hero-mini p{font-size:1rem}
+      .about-card{padding:18px}
+    }
+    @media(max-width:480px){
+      .container{padding:0 16px}
+      section{padding:36px 0}
+      .about-grid{gap:16px}
     }
   </style>
 </head>
 <body>
 
-  <!-- Header (from homepage) -->
-  <header>
-    <div class="nav">
-      <div class="brand">
-        <div class="logo">
-          <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
-        </div>
-        <div class="brand-text">Solvoro</div>
-      </div>
-
-      <button id="menuBtn" aria-label="Toggle navigation">☰</button>
-
-      <nav>
-        <ul id="mainNavList">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="partners.html">Partners</a></li>
-          <li><a href="contact-us.html">Contact</a></li>
-        </ul>
-      </nav>
+  <!-- ==== MOBILE TOPBAR ==== -->
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
+      <div>Solvoro</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="menu-btn" id="openMenuBtn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <button id="darkToggle" class="menu-btn" aria-label="Toggle dark mode">
+        <svg class="sun-icon" viewBox="0 0 24 24" style="display:none"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707.707M6.343 6.343l-.707.707m12.728 0l-.707-.707M6.343 17.657l-.707-.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
     </div>
   </header>
 
-  <!-- About Page Content -->
-  <main>
-    <div class="container">
-      <section class="hero-mini" aria-labelledby="about-hero">
-        <h1 id="about-hero">About Solvoro</h1>
-        <p>A focused creative studio that builds logos, websites, and social visuals which help small businesses look professional and sell better.</p>
-      </section>
+  <!-- ==== MOBILE MENU ==== -->
+  <div class="mobile-menu-overlay" id="menuOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu" id="closeMenuBtn">×</button>
+    <nav class="nav" aria-label="Mobile menu">
+      <a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5"></path><path d="M9 22V12h6v10"></path></svg><span>Home</span></a>
+      <a href="about.html" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/></svg><span>About</span></a>
+      <a href="services.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8"></rect><rect x="13" y="3" width="8" height="4"></rect><rect x="13" y="11" width="8" height="10"></rect><rect x="3" y="13" width="8" height="8"></rect></svg><span>Services</span></a>
+      <a href="contact-us.html"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg><span>Contact</span></a>
+    </nav>
+  </div>
 
-      <section class="about-grid">
-        <article class="about-card"><h3>Who we are</h3><p>We’re a compact team of designers and builders focused on clarity, speed, and brand-first thinking. Ayam M. Shukla leads Solvoro with a founder mindset and an eye for clean design.</p></article>
-        <article class="about-card"><h3>What we do</h3><p>We deliver websites, logos and social media posts that are optimized for engagement — every project follows a clear brief, mockups, revisions, and final delivery workflow.</p></article>
-        <article class="about-card"><h3>Our mission</h3><p>Make professional design accessible for startups and creators — quality outcomes, clear communication, and predictable timelines.</p></article>
-        <article class="about-card"><h3>Our vision</h3><p>To be a trusted creative partner for fast-growing brands — helping them communicate clearly with beautiful visuals.</p></article>
-        <article class="about-card"><h3>Our values</h3><p>Creativity, transparency, and practical design. We prioritize measurable outcomes and client satisfaction in every brief.</p></article>
-        <article class="about-card"><h3>Why choose us</h3><p>Fast turnarounds, brand-aligned work, and revision cycles that ensure you get the result you need without confusion.</p></article>
-      </section>
-
-      <section class="more-block">
-        <h3 style="margin:0 0 10px;font-size:18px;">More about Solvoro</h3>
-        <p id="shortText">Solvoro was created to give small businesses access to professional design without the high price tag. We focus on brand clarity and practical creativity.</p>
-
-        <div id="longText" style="display:none;">
-          <p>Our founder Ayam M. Shukla is building the company with an ambitious but realistic roadmap: steady growth, quality control, and expanding services in Phase 2 (additional demo case studies, templates, and partner integrations).</p>
-          <p>We follow streamlined processes: discovery → concept → draft → refine → deliver. Clients receive clear milestones and direct updates. We currently support up to 15 revisions per project to make sure the final result meets expectations.</p>
-          <p>Our commitment to clients includes clear pricing, transparent timelines, and the option for maintenance packages after delivery. We believe trust is built through predictable work and open communication.</p>
-        </div>
-
-        <button id="readMoreBtn" class="read-toggle" aria-expanded="false">Read more</button>
-      </section>
+  <!-- ==== DESKTOP SIDEBAR ==== -->
+  <aside class="sidebar" role="navigation" aria-label="Sidebar">
+    <div>
+      <div class="brand">
+        <img src="https://solvoro.odoo.com/web/image/501-f67bde90/image_1754291209729.webp" alt="Solvoro logo">
+        <div class="name">Solvoro</div>
+      </div>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5"></path><path d="M9 22V12h6v10"></path></svg><span>Home</span></a>
+        <a href="about.html" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/></svg><span>About</span></a>
+        <a href="services.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8"></rect><rect x="13" y="3" width="8" height="4"></rect><rect x="13" y="11" width="8" height="10"></rect><rect x="3" y="13" width="8" height="8"></rect></svg><span>Services</span></a>
+        <a href="contact-us.html"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg><span>Contact</span></a>
+      </nav>
     </div>
+    <div style="display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;">
+      <button id="darkToggleDesktop" style="background:none;border:none;cursor:pointer;padding:6px;">
+        <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" style="display:none"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707.707M6.343 6.343l-.707.707m12.728 0l-.707-.707M6.343 17.657l-.707-.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+    <div class="sidebar-footer">© 2025 Solvoro</div>
+  </aside>
+
+  <!-- ==== MAIN CONTENT ==== -->
+  <main class="container" id="mainContent">
+    <section class="hero-mini" aria-labelledby="about-hero">
+      <h1 id="about-hero">About Solvoro</h1>
+      <p>A focused creative studio that builds logos, websites, and social visuals which help small businesses look professional and sell better.</p>
+    </section>
+
+    <section class="about-grid">
+      <article class="about-card"><h3>Who we are</h3><p>We’re a compact team of designers and builders focused on clarity, speed, and brand-first thinking. Ayam M. Shukla leads Solvoro with a founder mindset and an eye for clean design.</p></article>
+      <article class="about-card"><h3>What we do</h3><p>We deliver websites, logos and social media posts that are optimized for engagement — every project follows a clear brief, mockups, revisions, and final delivery workflow.</p></article>
+      <article class="about-card"><h3>Our mission</h3><p>Make professional design accessible for startups and creators — quality outcomes, clear communication, and predictable timelines.</p></article>
+      <article class="about-card"><h3>Our vision</h3><p>To be a trusted creative partner for fast-growing brands — helping them communicate clearly with beautiful visuals.</p></article>
+      <article class="about-card"><h3>Our values</h3><p>Creativity, transparency, and practical design. We prioritize measurable outcomes and client satisfaction in every brief.</p></article>
+      <article class="about-card"><h3>Why choose us</h3><p>Fast turnarounds, brand-aligned work, and revision cycles that ensure you get the result you need without confusion.</p></article>
+    </section>
+
+    <section class="more-block">
+      <h3>More about Solvoro</h3>
+      <p id="shortText">Solvoro was created to give small businesses access to professional design without the high price tag. We focus on brand clarity and practical creativity.</p>
+      <div id="longText" style="display:none;">
+        <p>Our founder Ayam M. Shukla is building the company with an ambitious but realistic roadmap: steady growth, quality control, and expanding services in Phase 2 (additional demo case studies, templates, and partner integrations).</p>
+        <p>We follow streamlined processes: discovery → concept → draft → refine → deliver. Clients receive clear milestones and direct updates. We currently support up to 15 revisions per project to make sure the final result meets expectations.</p>
+        <p>Our commitment to clients includes clear pricing, transparent timelines, and the option for maintenance packages after delivery. We believe trust is built through predictable work and open communication.</p>
+      </div>
+      <button id="readMoreBtn" class="read-toggle" aria-expanded="false">Read more</button>
+    </section>
   </main>
 
-  <!-- Footer (from homepage) -->
-  <footer>
-    <a href="https://www.instagram.com/solvoro.freelancing" target="_blank">Follow us on Instagram</a>
-    <p>Mail: solvoro.official@gmail.com</p>
-    <p>&copy; 2025 Solvoro. All Rights Reserved.</p>
-  </footer>
+  <!-- ==== MOBILE BOTTOM NAV ==== -->
+  <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">
+    <a href="index.html" id="mb-home"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5"></path><path d="M9 22V12h6v10"></path></svg><span>Home</span></a>
+    <a href="about.html" id="mb-about" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/></svg><span>About</span></a>
+    <a href="services.html" id="mb-services"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8"></rect><rect x="13" y="3" width="8" height="4"></rect><rect x="13" y="11" width="8" height="10"></rect><rect x="3" y="13" width="8" height="8"></rect></svg><span>Services</span></a>
+    <a href="contact-us.html" id="mb-contact"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg><span>Contact</span></a>
+  </nav>
 
-  <script>
-    // ===== Mobile menu toggle =====
+  <!-- ==== SCRIPT ==== -->
+  <script type="module">
+    // Mobile menu
+    const openMenuBtn = document.getElementById('openMenuBtn');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    openMenuBtn?.addEventListener('click',()=>{mobileMenu.classList.add('show');menuOverlay.classList.add('show');});
+    closeMenuBtn?.addEventListener('click',()=>{mobileMenu.classList.remove('show');menuOverlay.classList.remove('show');});
+    menuOverlay?.addEventListener('click',()=>{mobileMenu.classList.remove('show');menuOverlay.classList.remove('show');});
+
+    // Dark mode
+    function updateIcons() {
+      const isDark = document.body.classList.contains('dark');
+      document.querySelectorAll('.sun-icon').forEach(el => el.style.display = isDark ? 'block' : 'none');
+      document.querySelectorAll('.moon-icon').forEach(el => el.style.display = isDark ? 'none' : 'block');
+    }
+    function toggleDark() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+      updateIcons();
+    }
+    document.getElementById('darkToggle')?.addEventListener('click', toggleDark);
+    document.getElementById('darkToggleDesktop')?.addEventListener('click', toggleDark);
+    if(localStorage.getItem('darkMode')==='true') document.body.classList.add('dark');
+    updateIcons();
+
+    // Active nav
     (function(){
-      const menuBtn = document.getElementById('menuBtn');
-      const navList = document.getElementById('mainNavList');
-
-      function closeMenu(){
-        navList.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded','false');
-      }
-      function openMenu(){
-        navList.classList.add('show');
-        menuBtn.setAttribute('aria-expanded','true');
-      }
-
-      menuBtn.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        if(navList.classList.contains('show')) closeMenu();
-        else openMenu();
-      });
-
-      document.addEventListener('click', (e)=>{
-        if(window.innerWidth > 768) return;
-        if(!navList.contains(e.target) && !menuBtn.contains(e.target)){
-          closeMenu();
-        }
-      });
-
-      document.addEventListener('keydown',(e)=>{
-        if(e.key === 'Escape'){ closeMenu(); }
-      });
-
-      window.addEventListener('resize', ()=>{
-        if(window.innerWidth > 768){ closeMenu(); }
-      });
+      const path = location.pathname.split('/').pop()||'index.html';
+      const map={'index.html':'mb-home','about.html':'mb-about','services.html':'mb-services','contact-us.html':'mb-contact'};
+      const id=map[path];
+      if(id) document.getElementById(id)?.classList.add('active');
     })();
 
-    // ===== Read More Toggle =====
+    // Read More Toggle
     (function(){
       const btn = document.getElementById('readMoreBtn');
       const longText = document.getElementById('longText');
@@ -278,7 +329,7 @@
           longText.style.display = 'block';
           btn.textContent = 'Show less';
           btn.setAttribute('aria-expanded','true');
-          longText.scrollIntoView({behavior:'smooth', block:'start'});
+          longText.scrollIntoView({behavior:'smooth', block:'nearest'});
         }
       });
     })();
