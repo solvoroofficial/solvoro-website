@@ -1,526 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Solvoro — Dashboard</title>
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solvoro Dashboard</title>
   <style>
-    :root{
-      --bg: #071024;
-      --panel: #0b1220;
-      --muted: #94a3b8;
-      --text: #e6eef6;
-      --accent1: #7c3aed;
-      --accent2: #06b6d4;
-      --glass: rgba(255,255,255,0.03);
-      --card-radius: 14px;
-      --container: 1150px;
-      --shadow: 0 6px 18px rgba(2,6,23,0.6);
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0b132b;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
     }
-
-    /* Light theme (switches variables when [data-theme="light"]) */
-    [data-theme="light"]{
-      --bg: #f6fbff;
-      --panel: #ffffff;
-      --muted: #5b6b7b;
-      --text: #071329;
-      --glass: rgba(7,18,41,0.03);
-      --shadow: 0 6px 18px rgba(7,18,41,0.06);
+    .card {
+      background: #1c2541;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      width: 350px;
     }
-
-    *{box-sizing:border-box}
-    html,body{height:100%;}
-    body{
-      margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:linear-gradient(180deg,var(--bg),#020617 120%); color:var(--text);
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    button {
+      background: #5bc0be;
+      color: #000;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
     }
-
-    a{color:inherit}
-    .wrap{max-width:var(--container);margin:0 auto;padding:20px}
-
-    /* Header */
-    header{position:sticky;top:0;z-index:60;background:transparent;backdrop-filter:blur(6px);}
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:46px;height:46px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent1),var(--accent2));box-shadow:var(--shadow)}
-    .logo img{width:80%;height:80%;object-fit:contain}
-    .brand h1{font-size:18px;margin:0;font-weight:700}
-    .nav-actions{display:flex;align-items:center;gap:10px}
-
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
-    .btn-ghost{background:transparent;color:var(--muted);}
-    .btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;box-shadow:var(--shadow)}
-    .icon{width:18px;height:18px;display:inline-block}
-
-    /* Layout */
-    .layout{display:grid;grid-template-columns:260px 1fr;gap:20px;margin-top:18px}
-
-    /* Sidebar */
-    .sidebar{background:var(--panel);border-radius:var(--card-radius);padding:18px;border:1px solid var(--glass);height:calc(100vh - 120px);position:sticky;top:70px;overflow:auto}
-    .profile-mini{display:flex;align-items:center;gap:12px}
-    .avatar{width:64px;height:64px;border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,0.04)}
-    .avatar img{width:100%;height:100%;object-fit:cover}
-    .small{font-size:13px;color:var(--muted)}
-    .menu{margin-top:18px;display:flex;flex-direction:column;gap:6px}
-    .menu a{padding:10px;border-radius:10px;color:var(--muted);display:flex;align-items:center;gap:10px;font-weight:600}
-    .menu a.active{background:linear-gradient(90deg,rgba(124,58,237,0.12),rgba(6,182,212,0.06));color:var(--text)}
-
-    /* Main area */
-    .main{min-height:70vh}
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
-
-    /* Cards */
-    .card{background:var(--panel);border-radius:12px;padding:16px;border:1px solid var(--glass);box-shadow:var(--shadow)}
-    .card h3{margin:0 0 10px 0;color:var(--accent1)}
-    .profile-large{display:flex;gap:18px;align-items:center}
-    .profile-large .pic{width:120px;height:120px;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,0.04)}
-    .profile-large .pic img{width:100%;height:100%;object-fit:cover}
-
-    .meta p{margin:6px 0;color:var(--muted)}
-    .meta .role{font-weight:700;color:var(--text)}
-
-    /* Skills */
-    .skills{display:flex;flex-direction:column;gap:10px}
-    .skill{display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .progress{height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden;flex:1;margin-left:12px}
-    .progress > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2))}
-
-    /* Projects & Education list */
-    .list{display:flex;flex-direction:column;gap:12px}
-    .project{display:flex;gap:12px;align-items:center}
-    .proj-thumb{width:72px;height:52px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,0.03);display:grid;place-items:center}
-    .proj-thumb img{width:100%;height:100%;object-fit:cover}
-    .proj-info{flex:1}
-
-    /* Responsive */
-    @media(max-width:980px){
-      .layout{grid-template-columns:1fr;}
-      .sidebar{position:relative;height:auto;top:0}
-      .grid{grid-template-columns:1fr}
+    button:hover {
+      opacity: 0.8;
     }
-
-    @media(max-width:520px){
-      .brand h1{font-size:15px}
-      .avatar{width:56px;height:56px}
-      .profile-large{flex-direction:column;align-items:flex-start}
-      .profile-large .pic{width:96px;height:96px}
-    }
-
-    /* Tiny helpers */
-    .row{display:flex;align-items:center;gap:10px}
-    .muted{color:var(--muted)}
-    .hidden{display:none}
-    .shadow-sm{box-shadow:0 6px 12px rgba(2,6,23,0.35)}
-
-    /* footer */
-    .foot{margin-top:20px;padding:16px;text-align:center;color:var(--muted)}
-
-    /* Mobile bottom bar */
-    .mobile-bar{display:none;position:fixed;left:12px;right:12px;bottom:18px;background:linear-gradient(90deg,var(--panel),var(--panel));border-radius:12px;padding:10px;border:1px solid var(--glass);gap:8px;justify-content:space-between}
-    @media(max-width:980px){.mobile-bar{display:flex;z-index:90}}
-
   </style>
 </head>
-<body data-theme>
-  <div class="wrap">
-    <header>
-      <div class="topbar">
-        <div class="brand">
-          <div class="logo"><img src="favicon.png" alt="logo"></div>
-          <h1>Solvoro</h1>
-        </div>
-
-        <div class="nav-actions">
-          <button class="btn btn-ghost" id="toggleTheme" title="Toggle theme">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-            <span class="hidden md">Theme</span>
-          </button>
-          <button class="btn btn-ghost" id="openMenu" title="Open menu">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-          </button>
-          <button class="btn btn-primary" id="logoutBtn">Logout</button>
-        </div>
-      </div>
-    </header>
-
-    <div class="layout">
-      <aside class="sidebar" id="sidebar">
-        <div class="profile-mini">
-          <div class="avatar"><img id="miniAvatar" src="favicon.png" alt="avatar"></div>
-          <div>
-            <div id="miniName" style="font-weight:700">Guest</div>
-            <div class="small muted" id="miniEmail">guest@solvoro.com</div>
-          </div>
-        </div>
-
-        <nav class="menu" id="menuNav">
-          <a href="#profile" class="active" data-section="profile">Profile</a>
-          <a href="#skills" data-section="skills">Skills</a>
-          <a href="#projects" data-section="projects">Projects</a>
-          <a href="#education" data-section="education">Education</a>
-          <a href="#settings" data-section="settings">Settings</a>
-        </nav>
-
-        <div style="margin-top:18px" class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center"><div class="small muted">Profile completeness</div><div id="completePct">—</div></div>
-          <div style="height:10px;background:rgba(255,255,255,0.03);border-radius:999px;margin-top:8px;overflow:hidden"><i id="completeBar" style="display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent1),var(--accent2))"></i></div>
-        </div>
-
-        <div class="foot">© 2025 Solvoro</div>
-      </aside>
-
-      <main class="main">
-        <div class="grid">
-          <section>
-            <div class="card" id="profileCard">
-              <div style="display:flex;justify-content:space-between;align-items:start">
-                <h3>Profile</h3>
-                <div class="row">
-                  <button class="btn btn-ghost" id="editProfileBtn">Edit</button>
-                </div>
-              </div>
-
-              <div class="profile-large" style="margin-top:12px">
-                <div class="pic"><img id="profilePic" src="favicon.png" alt="profile"></div>
-                <div class="meta">
-                  <div style="display:flex;gap:12px;align-items:center"><div style="font-size:18px;font-weight:700" id="fullName">Guest User</div><div class="muted" id="role">—</div></div>
-                  <p class="muted" id="bio">No bio provided yet.</p>
-                  <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap" id="socialLinks"></div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="card" style="margin-top:16px" id="skillsCard">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <h3>Skills</h3>
-                <div class="row"><button class="btn btn-primary" id="addSkillBtn">Add Skill</button></div>
-              </div>
-              <div style="margin-top:12px" class="skills" id="skillsList">
-                <!-- skill items injected -->
-              </div>
-            </div>
-
-            <div class="card" style="margin-top:16px" id="projectsCard">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <h3>Portfolio — Projects</h3>
-                <div class="row"><button class="btn btn-primary" id="addProjectBtn">Add Project</button></div>
-              </div>
-              <div style="margin-top:12px" class="list" id="projectsList">
-                <!-- projects injected -->
-              </div>
-            </div>
-
-            <div class="card" style="margin-top:16px" id="educationCard">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <h3>Education</h3>
-                <div class="row"><button class="btn btn-primary" id="addEduBtn">Add</button></div>
-              </div>
-              <div style="margin-top:12px" class="list" id="eduList">
-                <!-- education injected -->
-              </div>
-            </div>
-
-          </section>
-
-          <aside>
-            <div class="card" id="contactCard">
-              <h3>Contact</h3>
-              <div style="margin-top:8px">
-                <div class="small muted">Email</div>
-                <div style="font-weight:700;margin-bottom:8px" id="contactEmail">—</div>
-                <div class="small muted">Phone</div>
-                <div style="font-weight:700;margin-bottom:8px" id="contactPhone">—</div>
-                <div class="small muted">Location</div>
-                <div style="font-weight:700" id="contactLocation">—</div>
-              </div>
-            </div>
-
-            <div class="card" style="margin-top:12px" id="settingsCard">
-              <h3>Quick settings</h3>
-              <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
-                <button class="btn btn-ghost" id="editBtnRight">Edit profile</button>
-                <button class="btn btn-ghost" id="resetBtn">Reset local data</button>
-              </div>
-            </div>
-
-          </aside>
-        </div>
-
-      </main>
-    </div>
-
-    <div class="mobile-bar shadow-sm" id="mobileBar">
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-ghost" id="mbProfile">Profile</button>
-        <button class="btn btn-ghost" id="mbProjects">Projects</button>
-      </div>
-      <div>
-        <button class="btn btn-primary" id="mbAdd">Add</button>
-      </div>
-    </div>
-
+<body>
+  <div class="card">
+    <h2>Welcome to Solvoro 👋</h2>
+    <p id="welcomeText">Loading your info...</p>
+    <div id="userInfo"></div>
+    <button id="logoutBtn">Logout</button>
   </div>
 
-  <script>
-    // Grab user from localStorage (existing behaviour)
-    const stored = localStorage.getItem('solvoroUser');
-    let user = stored ? JSON.parse(stored) : null;
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // Fall back guest user if none
-    if(!user){
-      // We will STILL redirect to login as original page does, but provide nicer notice
-      alert('Please login to access your dashboard — you will be redirected to login page');
-      window.location.href = 'login.html';
-    }
+    // 🔥 Solvoro Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
+      authDomain: "solvoro-c9155.firebaseapp.com",
+      projectId: "solvoro-c9155",
+      storageBucket: "solvoro-c9155.firebasestorage.app",
+      messagingSenderId: "536457030363",
+      appId: "1:536457030363:web:e3315527c15fc037ba3afe",
+      measurementId: "G-Z47VFQ3C7Q"
+    };
 
-    // Element refs
-    const miniAvatar = document.getElementById('miniAvatar');
-    const miniName = document.getElementById('miniName');
-    const miniEmail = document.getElementById('miniEmail');
-    const profilePic = document.getElementById('profilePic');
-    const fullName = document.getElementById('fullName');
-    const roleEl = document.getElementById('role');
-    const bioEl = document.getElementById('bio');
-    const socialLinks = document.getElementById('socialLinks');
-    const contactEmail = document.getElementById('contactEmail');
-    const contactPhone = document.getElementById('contactPhone');
-    const contactLocation = document.getElementById('contactLocation');
-    const completePct = document.getElementById('completePct');
-    const completeBar = document.getElementById('completeBar');
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    const skillsList = document.getElementById('skillsList');
-    const projectsList = document.getElementById('projectsList');
-    const eduList = document.getElementById('eduList');
+    const welcomeText = document.getElementById("welcomeText");
+    const userInfo = document.getElementById("userInfo");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    // Buttons
-    const logoutBtn = document.getElementById('logoutBtn');
-    const editProfileBtn = document.getElementById('editProfileBtn');
-    const addSkillBtn = document.getElementById('addSkillBtn');
-    const addProjectBtn = document.getElementById('addProjectBtn');
-    const addEduBtn = document.getElementById('addEduBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const openMenu = document.getElementById('openMenu');
-    const sidebar = document.getElementById('sidebar');
-    const toggleTheme = document.getElementById('toggleTheme');
+    // 🧠 Check if user is logged in
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
 
-    // Mobile bar
-    const mbAdd = document.getElementById('mbAdd');
+        try {
+          const docRef = doc(db, "users", uid);
+          const docSnap = await getDoc(docRef);
 
-    // Menu nav
-    document.querySelectorAll('#menuNav a').forEach(a => a.addEventListener('click', (e)=>{
-      document.querySelectorAll('#menuNav a').forEach(x=>x.classList.remove('active'));
-      e.currentTarget.classList.add('active');
-      const sec = e.currentTarget.dataset.section;
-      document.getElementById(sec+'Card')?.scrollIntoView({behavior:'smooth'});
-    }));
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            welcomeText.textContent = `Welcome, ${data.name}!`;
+            userInfo.innerHTML = `
+              <p><strong>Email:</strong> ${data.email}</p>
+              <p><strong>Phone:</strong> ${data.phone || "Not provided"}</p>
+              <p><strong>Business:</strong> ${data.businessName || "N/A"}</p>
+              <p><strong>Type:</strong> ${data.businessType || "N/A"}</p>
+              <p><strong>City:</strong> ${data.city}</p>
+              <p><strong>Joined:</strong> ${new Date(data.joined).toDateString()}</p>
+            `;
+          } else {
+            welcomeText.textContent = "Profile not found!";
+          }
 
-    // Fill user info
-    function renderUser(){
-      miniAvatar.src = user.profilePic || 'favicon.png';
-      miniName.textContent = user.name || '—';
-      miniEmail.textContent = user.email || '—';
-      profilePic.src = user.profilePic || 'favicon.png';
-      fullName.textContent = user.name || '—';
-      roleEl.textContent = user.role || 'Developer';
-      bioEl.textContent = user.about || 'No bio yet.';
-      contactEmail.textContent = user.email || '—';
-      contactPhone.textContent = user.phone || '—';
-      contactLocation.textContent = (user.city || '') + (user.country ? (', '+user.country) : '') || '—';
+        } catch (error) {
+          console.error(error);
+          welcomeText.textContent = "Error loading your info.";
+        }
 
-      // social links
-      socialLinks.innerHTML = '';
-      if(user.social && Array.isArray(user.social)){
-        user.social.forEach(s=>{
-          const a = document.createElement('a'); a.href = s.url; a.target = '_blank'; a.className = 'btn btn-ghost'; a.textContent = s.label; socialLinks.appendChild(a);
-        });
+      } else {
+        // 🚪 No user logged in → redirect
+        window.location.href = "signup.html";
       }
-
-      // completeness
-      const keys = ['name','email','profilePic','about','skills'];
-      let filled = keys.reduce((c,k)=> c + (user[k] && (Array.isArray(user[k]) ? user[k].length>0 : user[k].toString().trim() !== '') ? 1 : 0), 0);
-      const pct = Math.round((filled/keys.length)*100);
-      completePct.textContent = pct + '%';
-      completeBar.style.width = pct + '%';
-    }
-
-    // Render lists
-    function renderSkills(){
-      skillsList.innerHTML = '';
-      const skills = user.skills || [];
-      if(skills.length===0){
-        skillsList.innerHTML = '<div class="muted">No skills added yet — click Add Skill.</div>';
-        return;
-      }
-      skills.forEach((s,idx)=>{
-        const el = document.createElement('div'); el.className = 'skill';
-        const label = document.createElement('div'); label.textContent = s.name || s; label.style.minWidth='120px';
-        const pr = document.createElement('div'); pr.className='progress'; const bar = document.createElement('i'); bar.style.width = (s.level||60)+'%'; pr.appendChild(bar);
-        const actions = document.createElement('div'); actions.style.minWidth='46px'; actions.innerHTML = `<button class='btn btn-ghost' data-idx='${idx}' data-act='edit'>Edit</button><button class='btn btn-ghost' data-idx='${idx}' data-act='del'>Del</button>`;
-        el.appendChild(label); el.appendChild(pr); el.appendChild(actions);
-        skillsList.appendChild(el);
-      });
-    }
-
-    function renderProjects(){
-      projectsList.innerHTML = '';
-      const projects = user.projects || [];
-      if(projects.length===0){ projectsList.innerHTML = '<div class="muted">No projects yet — add one.</div>'; return; }
-      projects.forEach((p,idx)=>{
-        const item = document.createElement('div'); item.className='project card'; item.style.padding='10px';
-        item.innerHTML = `<div class='proj-thumb'><img src='${p.image||'favicon.png'}' alt='thumb'></div><div class='proj-info'><div style='font-weight:700'>${p.title}</div><div class='muted' style='font-size:13px'>${p.description||''}</div></div><div style='display:flex;flex-direction:column;gap:6px'><button class='btn btn-ghost' data-idx='${idx}' data-act='edit'>Edit</button><button class='btn btn-ghost' data-idx='${idx}' data-act='del'>Del</button></div>`;
-        projectsList.appendChild(item);
-      });
-    }
-
-    function renderEdu(){
-      eduList.innerHTML = '';
-      const edu = user.education || [];
-      if(edu.length===0){ eduList.innerHTML = '<div class="muted">No education added.</div>'; return; }
-      edu.forEach((e,idx)=>{
-        const item = document.createElement('div'); item.className='card'; item.style.padding='10px';
-        item.innerHTML = `<div style='display:flex;justify-content:space-between;align-items:center'><div><div style='font-weight:700'>${e.institute}</div><div class='muted'>${e.degree} • ${e.year||''}</div></div><div style='display:flex;flex-direction:column;gap:6px'><button class='btn btn-ghost' data-idx='${idx}' data-act='edit'>Edit</button><button class='btn btn-ghost' data-idx='${idx}' data-act='del'>Del</button></div></div>`;
-        eduList.appendChild(item);
-      });
-    }
-
-    // Initialize
-    renderUser(); renderSkills(); renderProjects(); renderEdu();
-
-    // Add / edit handlers (simple prompt-driven UI for redesign - front-end only)
-    addSkillBtn.addEventListener('click', ()=>{
-      const name = prompt('Skill name (e.g. JavaScript)'); if(!name) return;
-      const lvl = parseInt(prompt('Skill level (0-100)', '75') || '75');
-      user.skills = user.skills || [];
-      user.skills.push({name:name, level: Math.max(0, Math.min(100, isNaN(lvl)?75:lvl))});
-      localStorage.setItem('solvoroUser', JSON.stringify(user)); renderSkills(); renderUser();
     });
 
-    projectsList.addEventListener('click', (e)=>{ const btn = e.target.closest('button'); if(!btn) return; const idx = btn.dataset.idx; const act = btn.dataset.act; if(act==='del'){ if(confirm('Delete this project?')){ user.projects.splice(idx,1); localStorage.setItem('solvoroUser',JSON.stringify(user)); renderProjects(); }} if(act==='edit'){ const p = user.projects[idx]; const title = prompt('Title', p.title); if(!title) return; const desc = prompt('Short description', p.description||''); const image = prompt('Image URL', p.image||''); user.projects[idx] = {title, description:desc, image}; localStorage.setItem('solvoroUser',JSON.stringify(user)); renderProjects(); }});
-
-    addProjectBtn.addEventListener('click', ()=>{
-      const title = prompt('Project title'); if(!title) return; const description = prompt('Short description',''); const image = prompt('Image URL (optional)',''); user.projects = user.projects||[]; user.projects.unshift({title, description, image}); localStorage.setItem('solvoroUser', JSON.stringify(user)); renderProjects(); renderUser();
+    // 🔒 Logout
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "signup.html";
     });
-
-    eduList.addEventListener('click', (e)=>{ const btn = e.target.closest('button'); if(!btn) return; const idx = btn.dataset.idx; const act = btn.dataset.act; if(act==='del'){ if(confirm('Delete this entry?')){ user.education.splice(idx,1); localStorage.setItem('solvoroUser',JSON.stringify(user)); renderEdu(); }} if(act==='edit'){ const it = user.education[idx]; const institute = prompt('Institute', it.institute||''); if(!institute) return; const degree = prompt('Degree', it.degree||''); const year = prompt('Year', it.year||''); user.education[idx] = {institute, degree, year}; localStorage.setItem('solvoroUser', JSON.stringify(user)); renderEdu(); }});
-
-    addEduBtn.addEventListener('click', ()=>{
-      const institute = prompt('Institute name'); if(!institute) return; const degree = prompt('Degree / Course',''); const year = prompt('Year',''); user.education = user.education||[]; user.education.unshift({institute, degree, year}); localStorage.setItem('solvoroUser', JSON.stringify(user)); renderEdu(); renderUser();
-    });
-
-    // Edit profile - open a compact form overlay
-    editProfileBtn.addEventListener('click', ()=> openEditOverlay());
-    document.getElementById('editBtnRight').addEventListener('click', ()=> openEditOverlay());
-
-    function openEditOverlay(){
-      const overlay = document.createElement('div'); overlay.style.position='fixed'; overlay.style.left=0; overlay.style.top=0; overlay.style.right=0; overlay.style.bottom=0; overlay.style.display='grid'; overlay.style.placeItems='center'; overlay.style.background='rgba(2,6,23,0.6)'; overlay.style.zIndex=9999;
-      const form = document.createElement('div'); form.className='card'; form.style.width='min(720px,95%)'; form.innerHTML = `
-        <div style='display:flex;justify-content:space-between;align-items:center'><h3>Edit profile</h3><button class='btn btn-ghost' id='closeEdit'>Close</button></div>
-        <div style='display:grid;grid-template-columns:160px 1fr;gap:12px;margin-top:12px'>
-          <div>
-            <div style='width:140px;height:140px;border-radius:10px;overflow:hidden'><img src='${user.profilePic||'favicon.png'}' style='width:100%;height:100%;object-fit:cover'></div>
-            <div style='margin-top:8px'><input id='profilePicInput' placeholder='Profile image URL' value='${user.profilePic||''}' style='width:100%;padding:8px;border-radius:8px;background:var(--bg);border:1px solid var(--glass)'></div>
-          </div>
-          <div>
-            <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'><input id='nameInput' placeholder='Full name' value='${user.name||''}' style='padding:8px;border-radius:8px;background:var(--bg);border:1px solid var(--glass)'><input id='roleInput' placeholder='Role' value='${user.role||"Developer"}' style='padding:8px;border-radius:8px;background:var(--bg);border:1px solid var(--glass)'></div>
-            <div style='margin-top:8px'><input id='emailInput' disabled value='${user.email||""}' style='padding:8px;border-radius:8px;background:var(--bg);border:1px solid var(--glass)'></div>
-            <div style='margin-top:8px'><input id='phoneInput' placeholder='Phone' value='${user.phone||""}' style='padding:8px;border-radius:8px;background:var(--bg);border:1px solid var(--glass)'></div>
-            <div style='margin-top:8px'><input id='cityInput' placeholder='City' value='${user.city||""}' style='padding:8px;border-radius:8px;background:var(--bg);border:1px solid var(--glass)'></div>
-            <div style='margin-top:8px'><textarea id='aboutInput' placeholder='Short bio' style='width:100%;padding:8px;border-radius:8px;background:var(--bg);border:1px solid var(--glass);min-height:80px'>${user.about||''}</textarea></div>
-            <div style='margin-top:10px;display:flex;gap:8px;justify-content:flex-end'><button class='btn btn-ghost' id='cancelSave'>Cancel</button><button class='btn btn-primary' id='saveProfileLocal'>Save</button></div>
-          </div>
-        </div>
-      `;
-      overlay.appendChild(form); document.body.appendChild(overlay);
-
-      overlay.querySelector('#closeEdit').addEventListener('click', ()=> overlay.remove());
-      overlay.querySelector('#cancelSave').addEventListener('click', ()=> overlay.remove());
-      overlay.querySelector('#saveProfileLocal').addEventListener('click', async ()=>{
-        // update local user and attempt remote update (original behaviour uses a POST)
-        user.name = document.getElementById('nameInput').value;
-        user.role = document.getElementById('roleInput').value;
-        user.phone = document.getElementById('phoneInput').value;
-        user.city = document.getElementById('cityInput').value;
-        user.about = document.getElementById('aboutInput').value;
-        user.profilePic = document.getElementById('profilePicInput').value;
-
-        localStorage.setItem('solvoroUser', JSON.stringify(user));
-        renderUser();
-
-        // Try to update on backend (best-effort, keep existing behaviour)
-        try{
-          const res = await fetch('https://solvoro-web-backend.onrender.com/update-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-            email:user.email, name:user.name, phone:user.phone, city:user.city, country:user.country, skills:user.skills, about:user.about, address:user.address
-          })});
-          if(res.ok){ const data = await res.json(); localStorage.setItem('solvoroUser', JSON.stringify(data.user)); user = data.user; renderUser(); alert('Profile saved'); overlay.remove(); }
-          else { const err = await res.json(); alert(err.message || 'Saved locally — remote update failed'); overlay.remove(); }
-        } catch(err){ alert('Saved locally — remote update failed'); overlay.remove(); }
-      });
-    }
-
-    // Skill edit/delete via delegation
-    skillsList.addEventListener('click', (e)=>{
-      const btn = e.target.closest('button'); if(!btn) return; const idx = btn.dataset.idx; const act = btn.dataset.act;
-      if(act==='del'){ if(confirm('Delete this skill?')){ user.skills.splice(idx,1); localStorage.setItem('solvoroUser', JSON.stringify(user)); renderSkills(); renderUser(); }}
-      if(act==='edit'){ const s = user.skills[idx]; const name = prompt('Skill name', s.name||s); if(!name) return; const lvl = parseInt(prompt('Skill level (0-100)', s.level||75)||75); user.skills[idx] = {name, level:Math.max(0,Math.min(100,isNaN(lvl)?75:lvl))}; localStorage.setItem('solvoroUser', JSON.stringify(user)); renderSkills(); renderUser(); }
-    });
-
-    // Add delegation for skill actions
-    function attachSkillActions(){
-      document.querySelectorAll('.skill button').forEach(b=>{
-        b.addEventListener('click', ()=>{});
-      });
-    }
-
-    // Logout
-    logoutBtn.addEventListener('click', ()=>{
-      localStorage.removeItem('solvoroUser'); alert('Logged out'); window.location.href = 'login.html';
-    });
-
-    // Reset local data
-    resetBtn.addEventListener('click', ()=>{ if(confirm('Clear all saved local dashboard data?')){ localStorage.removeItem('solvoroUser'); location.reload(); }});
-
-    // Sidebar open (mobile)
-    openMenu.addEventListener('click', ()=>{ sidebar.scrollIntoView({behavior:'smooth'}); sidebar.style.boxShadow='0 8px 30px rgba(2,6,23,0.6)'; setTimeout(()=>sidebar.style.boxShadow='none',1200); });
-
-    // Theme toggle
-    const root = document.documentElement;
-    const currentTheme = localStorage.getItem('solvoroTheme') || 'dark';
-    document.body.setAttribute('data-theme', currentTheme==='light' ? 'light' : '');
-    toggleTheme.addEventListener('click', ()=>{
-      const isLight = document.body.getAttribute('data-theme') === 'light';
-      if(isLight){ document.body.removeAttribute('data-theme'); localStorage.setItem('solvoroTheme','dark'); } else { document.body.setAttribute('data-theme','light'); localStorage.setItem('solvoroTheme','light'); }
-    });
-
-    // Mobile add button: quick add menu
-    mbAdd.addEventListener('click', ()=>{
-      const choice = prompt('Add: skill, project, education? (type skill/project/edu)'); if(!choice) return;
-      if(choice.toLowerCase().startsWith('s')) addSkillBtn.click();
-      else if(choice.toLowerCase().startsWith('p')) addProjectBtn.click();
-      else if(choice.toLowerCase().startsWith('e')) addEduBtn.click();
-    });
-
-    // Attach delegated handlers for lists (add delete/edit buttons to existing skills)
-    function refreshDelegates(){
-      // add data attributes to skill buttons
-      document.querySelectorAll('#skillsList .skill').forEach((el,idx)=>{
-        const btns = el.querySelectorAll('button');
-        if(btns.length===0){
-          const actions = document.createElement('div'); actions.style.minWidth='46px'; actions.innerHTML = `<button class='btn btn-ghost' data-idx='${idx}' data-act='edit'>Edit</button><button class='btn btn-ghost' data-idx='${idx}' data-act='del'>Del</button>`; el.appendChild(actions);
-        } else { btns[0].dataset.idx = idx; if(btns[1]) btns[1].dataset.idx = idx; }
-      });
-    }
-
-    // run delegate refresher after each render
-    const origRenderSkills = renderSkills;
-    renderSkills = function(){ origRenderSkills(); refreshDelegates(); };
-    renderSkills();
-
-    // initial small animation
-    setTimeout(()=>{ document.querySelectorAll('.card').forEach((c,i)=>{ c.style.transform='translateY(0)'; c.style.opacity=1; c.style.transition='all 450ms cubic-bezier(.2,.9,.25,1) '+(i*30)+'ms'; c.style.opacity=1; }); },80);
-
   </script>
 </body>
 </html>
