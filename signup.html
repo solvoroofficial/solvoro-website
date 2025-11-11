@@ -35,16 +35,15 @@
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // 🔥 Your Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
-      authDomain: "solvoro-c9155.firebaseapp.com",
-      projectId: "solvoro-c9155",
-      storageBucket: "solvoro-c9155.firebasestorage.app",
-      messagingSenderId: "536457030363",
-      appId: "1:536457030363:web:e3315527c15fc037ba3afe",
-      measurementId: "G-Z47VFQ3C7Q"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
+  authDomain: "solvoro-c9155.firebaseapp.com",
+  projectId: "solvoro-c9155",
+  storageBucket: "solvoro-c9155.appspot.com",
+  messagingSenderId: "536457030363",
+  appId: "1:536457030363:web:e3315527c15fc037ba3afe",
+  measurementId: "G-Z47VFQ3C7Q"
+};
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
