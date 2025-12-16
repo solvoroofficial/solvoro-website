@@ -24,7 +24,7 @@
     .sidebar{
       position:fixed; left:0; top:0; bottom:0; width:260px; background:var(--card);
       border-right:1px solid rgba(0,0,0,0.04); padding:20px 14px; box-shadow:var(--shadow); display:flex;
-      flex-direction:column; gap:12px; z-index:1000; transition:left 320ms var(--ease), width 320ms var(--ease);
+      flex-direction:column; gap:12px; z-index:1200; transition:left 320ms var(--ease), width 320ms var(--ease);
     }
     .sidebar .brand{display:flex;align-items:center;gap:12px}
     .sidebar .brand img{width:52px;height:52px;border-radius:12px;object-fit:contain}
@@ -41,11 +41,11 @@
       box-shadow: 0 10px 30px rgba(18,140,126,0.18), 0 4px 10px rgba(0,0,0,0.06);
     }
     /* main */
-    .main{margin-left:280px;padding:22px;transition:margin-left 320ms var(--ease), transform 320ms var(--ease)}
-    .main.shifted{ transform: translateX(260px); }
+    .main{margin-left:280px;padding:22px;transition:margin-left 320ms var(--ease)}
     .island{
       display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.06), transparent);box-shadow:0 10px 35px rgba(2,6,23,0.08);
       width:100%;max-width:900px;transition:transform 320ms var(--ease);
+      z-index:1150; position:relative;
     }
     .island .circle{width:52px;height:52px;border-radius:999px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:2px solid rgba(0,0,0,0.06);background:var(--card)}
     .island .circle img{width:44px;height:44px;border-radius:999px;object-fit:cover}
@@ -91,13 +91,10 @@
     .btn{background:var(--accent);color:var(--card);border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:900;min-width:44px;font-size:13px}
     .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(0,0,0,0.06)}
     /* modal & other existing styles kept mostly as before */
-    .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(4,6,9,0.55);z-index:1100;padding:18px}
+    .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(4,6,9,0.55);z-index:1400;padding:18px}
     .modal-backdrop.show{display:flex}
     .modal-box{width:980px;max-width:98%;max-height:92vh;overflow:auto;background:var(--card);border-radius:12px;padding:18px;box-shadow:0 30px 70px rgba(2,6,23,0.5);transform:translateY(12px);opacity:0;transition:transform 320ms var(--ease),opacity 320ms var(--ease)}
     .modal-backdrop.show .modal-box{transform:none;opacity:1}
-    .modal-close-top-btn{
-      position:absolute; top:12px; right:12px; z-index:1300; background:transparent; border:0; font-size:22px; cursor:pointer;
-    }
     .detail-top{display:flex;gap:16px;flex-wrap:wrap}
     .detail-image{flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06)}
     .detail-image-gallery{flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:8px;}
@@ -127,14 +124,14 @@
     .qr-area img{width:260px;height:260px;border-radius:8px;object-fit:contain}
     .small{font-size:13px}
     .muted{color:var(--muted)}
-    .toast{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:10px;box-shadow:0 12px 40px rgba(2,6,23,0.12);display:none;z-index:1200}
+    .toast{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:10px;box-shadow:0 12px 40px rgba(2,6,23,0.12);display:none;z-index:1600}
     .toast.show{display:block;animation:pop .42s var(--ease)}
     @keyframes pop{0%{transform:translateY(8px);opacity:0}100%{transform:translateY(0);opacity:1}}
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:1200;}
-    .lightbox img { transition: opacity 0.3s ease; max-width:90%;max-height:90%;object-fit:contain;}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:1700;padding:18px}
+    .lightbox img { transition: opacity 0.3s ease; max-width:90%;max-height:90%;object-fit:contain;display:block;margin:0 auto;}
     .lightbox button:hover { opacity: 0.7; }
 
-    /* ===== MOBILE + SAFE AREA FIXES ===== */
+    /* ===== SAFE AREA + MOBILE ===== */
     :root{
       --safe-top: env(safe-area-inset-top);
       --safe-bottom: env(safe-area-inset-bottom);
@@ -151,7 +148,7 @@
       opacity:0;
       pointer-events:none;
       transition:opacity 300ms ease;
-      z-index:999;
+      z-index:1190;
     }
     .mobile-overlay.show{
       opacity:1;
@@ -161,19 +158,15 @@
     /* responsive */
     @media(max-width:920px){ .service-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))} .main{margin-left:80px;padding:14px} .sidebar{width:72px} .sidebar nav a{display:none} .order-grid{grid-template-columns:1fr} }
     @media(max-width:760px){
-      /* Sidebar behavior for mobile */
-      .sidebar{position:fixed;left:-320px;width:260px;transition:left 360ms var(--ease);padding-top:calc(20px + var(--safe-top));height:100vh;z-index:1205;}
+      /* Sidebar becomes drawer */
+      .sidebar{position:fixed;left:-320px;width:260px;transition:left 360ms var(--ease);padding-top:calc(20px + var(--safe-top));height:100vh}
       .sidebar.open{left:0}
       .main{margin-left:0;padding:12px;padding-top:calc(12px + var(--safe-top))}
       .detail-image,.detail-image-gallery{flex-basis:100%;max-width:100%}
       .detail-right{width:100%}
       .sidebar .brand .title{display:none}
       .sidebar nav a{display:block}
-      .modal-box{width:calc(100% - 32px);padding:14px;margin-bottom:var(--safe-bottom)}
-      .modal-box{max-height:80vh}
-      /* Fullscreen modal style on mobile (applied when overlay is visible) */
-      .modal-backdrop.show .modal-box{width:100%;height:calc(100vh - var(--safe-top) - var(--safe-bottom));max-height:none;border-radius:0;margin:0;padding:18px;box-shadow:none;overflow:auto}
-      .modal-close-top-btn{ color:var(--accent); background:transparent; }
+      .modal-box{width:100%;max-width:100%;max-height:100vh;height:100vh;border-radius:0;padding:calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));margin-bottom:0;box-shadow:none}
       .actions{flex-direction:column;align-items:stretch}
       .btn{width:100%}
       .gallery-thumbs{flex-direction:row;max-height:none;overflow-x:auto;}
@@ -186,8 +179,27 @@
       header h1{font-size:20px}
       .categories-box{padding-bottom:8px}
       .chip{padding:8px 10px;font-size:13px}
-      /* ensure top close is easy to tap over content */
-      .modal-close-top-btn{position:fixed; right:12px; top: calc(8px + var(--safe-top)); font-size:22px; background:transparent; border:0; z-index:1305}
+
+      /* Remove dynamic-island logo on mobile (keeps sidebar logo) */
+      .island .circle{display:none}
+
+      /* When sidebar drawer is open, shift island to align visually with the drawer */
+      body.sidebar-open .main .island{ transform: translateX(260px); }
+
+      /* Make lightbox fully use viewport on small screens */
+      .lightbox{padding:0;align-items:center;justify-content:center}
+      .lightbox img{max-width:100vw;max-height:100vh;object-fit:contain}
+      .lightbox button{color:#fff; background:transparent; border:0; cursor:pointer}
+
+      /* When modal displays on small screens, make gallery previews center and full-width */
+      .main-preview img{width:100%;height:auto;object-fit:contain;display:block}
+      .detail-image-gallery .main-preview{height:auto}
+    }
+
+    /* large-screen tweaks */
+    @media(min-width:961px){
+      .modal-box{max-height:92vh;border-radius:12px}
+      .lightbox img{max-width:90%;max-height:90%}
     }
   </style>
 </head>
@@ -227,7 +239,7 @@
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <button id="hamburger" aria-label="Open menu" aria-expanded="false" style="display:none;background:transparent;border:0;padding:10px;border-radius:8px;cursor:pointer">
+        <button id="hamburger" aria-label="Open menu" style="display:none;background:transparent;border:0;padding:10px;border-radius:8px;cursor:pointer">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
         </button>
       </div>
@@ -255,7 +267,6 @@
   <!-- Detail modal -->
   <div id="detailModal" class="modal-backdrop" role="dialog" aria-hidden="true">
     <div class="modal-box" role="document" id="modalBox" aria-modal="true" tabindex="-1">
-      <div class="modal-close-top-btn" style="display:none" aria-hidden="true"></div>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -263,7 +274,6 @@
   <!-- Order modal -->
   <div id="orderModal" class="modal-backdrop" role="dialog" aria-hidden="true">
     <div class="modal-box" role="document" id="orderBox" aria-modal="true" tabindex="-1">
-      <div class="modal-close-top-btn" style="display:none" aria-hidden="true"></div>
       <div id="orderContent"></div>
     </div>
   </div>
@@ -288,7 +298,7 @@
 
     const $ = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
-    const el = (tag, attrs={}, html='') => { const n=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>{ if (k === 'class') n.className = v; else n.setAttribute(k,v); }); n.innerHTML=html; return n; };
+    const el = (tag, attrs={}, html='') => { const n=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); n.innerHTML=html; return n; };
     function escapeHtml(s=''){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     function showToast(msg='Saved'){ const t=$('#toast'); t.textContent = msg; t.classList.add('show'); t.style.display='block'; setTimeout(()=>{ t.classList.remove('show'); }, 2300); }
     function isMobileWidth(){ return window.innerWidth <= 760; }
@@ -311,7 +321,6 @@
     const orderModal = $('#orderModal'), orderContent = $('#orderContent');
     const sidebar = $('#sidebar'), hamburger = $('#hamburger'), mobileOverlay = document.getElementById('mobileOverlay'), demoBtn = $('#demoBtn');
     const categoriesBox = $('#categoriesBox');
-    const main = $('#main');
 
     function disableBodyScroll(){ document.body.style.overflow = 'hidden'; }
     function enableBodyScroll(){ document.body.style.overflow = ''; }
@@ -320,18 +329,14 @@
     function openSidebar(){
       sidebar.classList.add('open');
       mobileOverlay.classList.add('show');
+      document.body.classList.add('sidebar-open'); // used to shift island on mobile
       disableBodyScroll();
-      // shift main so island and hamburger align visually with drawer
-      if (window.innerWidth <= 760) main.classList.add('shifted');
-      // mark aria-expanded
-      hamburger.setAttribute('aria-expanded','true');
     }
     function closeSidebar(){
       sidebar.classList.remove('open');
       mobileOverlay.classList.remove('show');
+      document.body.classList.remove('sidebar-open');
       enableBodyScroll();
-      main.classList.remove('shifted');
-      hamburger.setAttribute('aria-expanded','false');
     }
     function syncLayout(){
       if (window.innerWidth <= 760){
@@ -340,39 +345,14 @@
         hamburger.style.display = 'none';
         closeSidebar();
       }
-      // if switching to desktop, ensure no transform left behind
-      if (window.innerWidth > 760) main.classList.remove('shifted');
     }
     window.addEventListener('resize', syncLayout);
     syncLayout();
-    hamburger.addEventListener('click', ()=> {
+    hamburger.addEventListener('click', () => {
       if (sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
     });
     mobileOverlay.addEventListener('click', closeSidebar);
     demoBtn && demoBtn.addEventListener('click', ()=> { demoBtn.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:300}); window.scrollTo({top:0,behavior:'smooth'}); });
-
-    /* Insert a top close button into a modal box (used on mobile) */
-    function ensureModalCloseBtn(modalBackdrop){
-      try {
-        const box = modalBackdrop.querySelector('.modal-box');
-        if (!box) return;
-        let btn = box.querySelector('.modal-close-top-btn');
-        if (!btn){
-          btn = el('button', { class: 'modal-close-top-btn', type: 'button', 'aria-label': 'Close modal' }, '✕');
-          box.appendChild(btn);
-          btn.addEventListener('click', () => {
-            modalBackdrop.classList.remove('show'); modalBackdrop.setAttribute('aria-hidden','true');
-            enableBodyScroll();
-            // if closing detail, release trap
-            if (modalBackdrop === detailModal && typeof untrapDetail === 'function') { untrapDetail(); untrapDetail = null; }
-            // remove any lingering shift if sidebar is open on mobile
-            main.classList.remove('shifted');
-          });
-        }
-        // make it visible when modal is shown
-        btn.style.display = 'block';
-      } catch(e){ /* ignore */ }
-    }
 
     /* Firebase fetchers */
     async function fetchCategories(){ const snap = await getDocs(collection(db,'categories')); return snap.docs.map(d => ({ id:d.id, ...d.data() })); }
@@ -382,8 +362,7 @@
     function showLoading(txt='Loading…'){ loadingIndicator.textContent = txt; loadingIndicator.style.opacity = 1; }
     function hideLoading(){ loadingIndicator.style.opacity = 0; }
 
-    /* RENDERING: categories as chips + product grid showing only image, name, short desc, buttons
-       IMPORTANT: This version EXCLUDES any products that belong to categories marked as "service". */
+    /* RENDERING: categories as chips + product grid showing only image, name, short desc, buttons */
     async function renderCatalog(){
       showLoading('Loading products…');
       try {
@@ -454,14 +433,13 @@
 
         const thumbSrc = images.length ? escapeHtml(images[0]) : '';
         const desc = p.shortDescription || p.longDescription || '';
-        // choose truncation length: pick between 10 and 30 words depending on available space (we'll use 20 words default)
         const short = shortTextByWords(desc || '', 20);
 
         const card = document.createElement('article');
         card.className = 'card';
         card.setAttribute('data-id', p.id);
         card.innerHTML = `
-          <div class="thumb" onclick="openDetail('${escapeHtml(p.id)}')" role="button" aria-label="Open ${escapeHtml(p.title || 'product')}">
+          <div class="thumb" role="button" aria-label="Open ${escapeHtml(p.title || 'product')}">
             ${ thumbSrc ? `<img src="${thumbSrc}" alt="${escapeHtml(p.title || '')}">` : `<div style="padding:12px;color:var(--muted);font-size:14px">No image</div>` }
           </div>
           <div>
@@ -476,6 +454,10 @@
             </div>
           </div>
         `;
+        // clicking thumb opens detail (and on detail user can open lightbox)
+        const thumbEl = card.querySelector('.thumb');
+        thumbEl.addEventListener('click', ()=> openDetail(p.id));
+
         productsGrid.appendChild(card);
       });
 
@@ -525,6 +507,7 @@
         } else if (p.thumbnail) {
           images.push(p.thumbnail);
         }
+        // Build image gallery HTML
         let imageHtml = `<div class="detail-image-gallery" style="flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:8px;">`;
         if (images.length) {
           imageHtml += `<div class="gallery-thumbs" style="display:flex;gap:4px;overflow-x:auto;padding:4px;background:#f8f9fa;border-radius:8px 8px 0 0;white-space:nowrap;">`;
@@ -533,7 +516,7 @@
             imageHtml += `<img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(p.title || '')} ${idx + 1}" class="thumb-preview ${isActive}" data-full-src="${escapeHtml(imgSrc)}" data-idx="${idx}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid ${isActive ? 'var(--accent)' : 'transparent'};flex-shrink:0;">`;
           });
           imageHtml += `</div>`;
-          imageHtml += `<div class="main-preview" style="height:260px;background:#efefef;border-radius:0 0 8px 8px;overflow:hidden;"><img src="${escapeHtml(images[0])}" alt="${escapeHtml(p.title || '')}" style="width:100%;height:100%;object-fit:cover;"></div>`;
+          imageHtml += `<div class="main-preview" style="height:260px;background:#efefef;border-radius:0 0 8px 8px;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="${escapeHtml(images[0])}" alt="${escapeHtml(p.title || '')}" style="max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;"></div>`;
         } else {
           imageHtml += `<div style="height:100%;background:#efefef;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);">No images</div>`;
         }
@@ -574,7 +557,7 @@
           </div>
         `;
         const lightboxHtml = `
-          <div id="lightbox" class="lightbox" style="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:1200;">
+          <div id="lightbox" class="lightbox" style="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:1700;">
             <button id="lightboxClose" style="position:absolute;top:20px;right:20px;color:#fff;background:none;border:0;font-size:30px;cursor:pointer;">&times;</button>
             <button id="lightboxPrev" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);color:#fff;background:none;border:0;font-size:40px;cursor:pointer;">&#8249;</button>
             <button id="lightboxNext" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#fff;background:none;border:0;font-size:40px;cursor:pointer;">&#8250;</button>
@@ -583,14 +566,16 @@
           </div>
         `;
         modalContent.innerHTML = lightboxHtml + content;
+
         // Lightbox logic
         const lightbox = $('#lightbox'), lightboxImg = $('#lightboxImg'), lightboxCounter = $('#lightboxCounter');
         const lightboxClose = $('#lightboxClose'), lightboxPrev = $('#lightboxPrev'), lightboxNext = $('#lightboxNext');
         let currentImgIdx = 0;
         function openLightbox(idx) {
-          currentImgIdx = idx;
-          lightboxImg.src = images[idx];
-          lightboxCounter.textContent = `${idx + 1} / ${images.length}`;
+          if (!images.length) return;
+          currentImgIdx = Math.max(0, Math.min(idx, images.length - 1));
+          lightboxImg.src = images[currentImgIdx];
+          lightboxCounter.textContent = `${currentImgIdx + 1} / ${images.length}`;
           lightbox.style.display = 'flex';
           disableBodyScroll();
         }
@@ -615,6 +600,7 @@
             else if (e.key === 'ArrowRight') lightboxNext.click();
           }
         });
+
         // Gallery thumb clicks (update main preview + open lightbox)
         $$('.thumb-preview').forEach(thumb => {
           thumb.addEventListener('click', (e) => {
@@ -622,16 +608,28 @@
             // Update border for active thumb
             $$('.thumb-preview').forEach(t => t.style.borderColor = 'transparent');
             e.currentTarget.style.borderColor = 'var(--accent)';
-            // Update main preview
-            $('.main-preview img').src = e.currentTarget.dataset.fullSrc;
-            // Open lightbox
+            // Update main preview image
+            const mainImg = $('.main-preview img');
+            if (mainImg) mainImg.src = e.currentTarget.dataset.fullSrc;
+            // Open lightbox at the selected index
             openLightbox(idx);
           });
         });
+
+        // Click on main preview should open lightbox as well (index 0 or current shown)
+        const mainPreviewImg = $('.main-preview img');
+        if (mainPreviewImg){
+          mainPreviewImg.style.cursor = 'zoom-in';
+          mainPreviewImg.addEventListener('click', () => {
+            // find index of current src in images array
+            const idx = images.indexOf(mainPreviewImg.src) >= 0 ? images.indexOf(mainPreviewImg.src) : 0;
+            openLightbox(idx);
+          });
+        }
+
+        // ensure detail modal shows centered (or full-screen on mobile)
         detailModal.classList.add('show'); detailModal.setAttribute('aria-hidden','false');
         disableBodyScroll();
-        // ensure top close appears (mobile)
-        ensureModalCloseBtn(detailModal);
         const box = detailModal.querySelector('.modal-box') || detailModal;
         untrapDetail = trapFocus(box);
         $('#orderFromDetail').addEventListener('click', (e)=> {
@@ -729,7 +727,6 @@
         orderContent.innerHTML = html;
         orderModal.classList.add('show'); orderModal.setAttribute('aria-hidden','false');
         disableBodyScroll();
-        ensureModalCloseBtn(orderModal);
         const proceedPay = $('#proceedPay'), cancelOrder = $('#cancelOrder'), formMsg = $('#formMsg');
         const upiOption = $('#upiOption'), qrOption = $('#qrOption');
         const upiArea = $('#upiArea'), qrArea = $('#qrArea');
