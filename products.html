@@ -41,7 +41,8 @@
       box-shadow: 0 10px 30px rgba(18,140,126,0.18), 0 4px 10px rgba(0,0,0,0.06);
     }
     /* main */
-    .main{margin-left:280px;padding:22px;transition:margin-left 320ms var(--ease)}
+    .main{margin-left:280px;padding:22px;transition:margin-left 320ms var(--ease), transform 320ms var(--ease)}
+    .main.shifted{ transform: translateX(260px); }
     .island{
       display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.06), transparent);box-shadow:0 10px 35px rgba(2,6,23,0.08);
       width:100%;max-width:900px;transition:transform 320ms var(--ease);
@@ -94,6 +95,9 @@
     .modal-backdrop.show{display:flex}
     .modal-box{width:980px;max-width:98%;max-height:92vh;overflow:auto;background:var(--card);border-radius:12px;padding:18px;box-shadow:0 30px 70px rgba(2,6,23,0.5);transform:translateY(12px);opacity:0;transition:transform 320ms var(--ease),opacity 320ms var(--ease)}
     .modal-backdrop.show .modal-box{transform:none;opacity:1}
+    .modal-close-top-btn{
+      position:absolute; top:12px; right:12px; z-index:1300; background:transparent; border:0; font-size:22px; cursor:pointer;
+    }
     .detail-top{display:flex;gap:16px;flex-wrap:wrap}
     .detail-image{flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06)}
     .detail-image-gallery{flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:8px;}
@@ -153,10 +157,12 @@
       opacity:1;
       pointer-events:auto;
     }
+
     /* responsive */
     @media(max-width:920px){ .service-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))} .main{margin-left:80px;padding:14px} .sidebar{width:72px} .sidebar nav a{display:none} .order-grid{grid-template-columns:1fr} }
     @media(max-width:760px){
-      .sidebar{position:fixed;left:-320px;width:260px;transition:left 360ms var(--ease);padding-top:calc(20px + var(--safe-top));}
+      /* Sidebar behavior for mobile */
+      .sidebar{position:fixed;left:-320px;width:260px;transition:left 360ms var(--ease);padding-top:calc(20px + var(--safe-top));height:100vh;z-index:1205;}
       .sidebar.open{left:0}
       .main{margin-left:0;padding:12px;padding-top:calc(12px + var(--safe-top))}
       .detail-image,.detail-image-gallery{flex-basis:100%;max-width:100%}
@@ -164,6 +170,10 @@
       .sidebar .brand .title{display:none}
       .sidebar nav a{display:block}
       .modal-box{width:calc(100% - 32px);padding:14px;margin-bottom:var(--safe-bottom)}
+      .modal-box{max-height:80vh}
+      /* Fullscreen modal style on mobile (applied when overlay is visible) */
+      .modal-backdrop.show .modal-box{width:100%;height:calc(100vh - var(--safe-top) - var(--safe-bottom));max-height:none;border-radius:0;margin:0;padding:18px;box-shadow:none;overflow:auto}
+      .modal-close-top-btn{ color:var(--accent); background:transparent; }
       .actions{flex-direction:column;align-items:stretch}
       .btn{width:100%}
       .gallery-thumbs{flex-direction:row;max-height:none;overflow-x:auto;}
@@ -176,6 +186,8 @@
       header h1{font-size:20px}
       .categories-box{padding-bottom:8px}
       .chip{padding:8px 10px;font-size:13px}
+      /* ensure top close is easy to tap over content */
+      .modal-close-top-btn{position:fixed; right:12px; top: calc(8px + var(--safe-top)); font-size:22px; background:transparent; border:0; z-index:1305}
     }
   </style>
 </head>
@@ -215,7 +227,7 @@
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <button id="hamburger" aria-label="Open menu" style="display:none;background:transparent;border:0;padding:10px;border-radius:8px;cursor:pointer">
+        <button id="hamburger" aria-label="Open menu" aria-expanded="false" style="display:none;background:transparent;border:0;padding:10px;border-radius:8px;cursor:pointer">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
         </button>
       </div>
@@ -243,6 +255,7 @@
   <!-- Detail modal -->
   <div id="detailModal" class="modal-backdrop" role="dialog" aria-hidden="true">
     <div class="modal-box" role="document" id="modalBox" aria-modal="true" tabindex="-1">
+      <div class="modal-close-top-btn" style="display:none" aria-hidden="true"></div>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -250,6 +263,7 @@
   <!-- Order modal -->
   <div id="orderModal" class="modal-backdrop" role="dialog" aria-hidden="true">
     <div class="modal-box" role="document" id="orderBox" aria-modal="true" tabindex="-1">
+      <div class="modal-close-top-btn" style="display:none" aria-hidden="true"></div>
       <div id="orderContent"></div>
     </div>
   </div>
@@ -274,7 +288,7 @@
 
     const $ = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
-    const el = (tag, attrs={}, html='') => { const n=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); n.innerHTML=html; return n; };
+    const el = (tag, attrs={}, html='') => { const n=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>{ if (k === 'class') n.className = v; else n.setAttribute(k,v); }); n.innerHTML=html; return n; };
     function escapeHtml(s=''){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     function showToast(msg='Saved'){ const t=$('#toast'); t.textContent = msg; t.classList.add('show'); t.style.display='block'; setTimeout(()=>{ t.classList.remove('show'); }, 2300); }
     function isMobileWidth(){ return window.innerWidth <= 760; }
@@ -297,6 +311,7 @@
     const orderModal = $('#orderModal'), orderContent = $('#orderContent');
     const sidebar = $('#sidebar'), hamburger = $('#hamburger'), mobileOverlay = document.getElementById('mobileOverlay'), demoBtn = $('#demoBtn');
     const categoriesBox = $('#categoriesBox');
+    const main = $('#main');
 
     function disableBodyScroll(){ document.body.style.overflow = 'hidden'; }
     function enableBodyScroll(){ document.body.style.overflow = ''; }
@@ -306,11 +321,17 @@
       sidebar.classList.add('open');
       mobileOverlay.classList.add('show');
       disableBodyScroll();
+      // shift main so island and hamburger align visually with drawer
+      if (window.innerWidth <= 760) main.classList.add('shifted');
+      // mark aria-expanded
+      hamburger.setAttribute('aria-expanded','true');
     }
     function closeSidebar(){
       sidebar.classList.remove('open');
       mobileOverlay.classList.remove('show');
       enableBodyScroll();
+      main.classList.remove('shifted');
+      hamburger.setAttribute('aria-expanded','false');
     }
     function syncLayout(){
       if (window.innerWidth <= 760){
@@ -319,12 +340,39 @@
         hamburger.style.display = 'none';
         closeSidebar();
       }
+      // if switching to desktop, ensure no transform left behind
+      if (window.innerWidth > 760) main.classList.remove('shifted');
     }
     window.addEventListener('resize', syncLayout);
     syncLayout();
-    hamburger.addEventListener('click', openSidebar);
+    hamburger.addEventListener('click', ()=> {
+      if (sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
+    });
     mobileOverlay.addEventListener('click', closeSidebar);
     demoBtn && demoBtn.addEventListener('click', ()=> { demoBtn.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:300}); window.scrollTo({top:0,behavior:'smooth'}); });
+
+    /* Insert a top close button into a modal box (used on mobile) */
+    function ensureModalCloseBtn(modalBackdrop){
+      try {
+        const box = modalBackdrop.querySelector('.modal-box');
+        if (!box) return;
+        let btn = box.querySelector('.modal-close-top-btn');
+        if (!btn){
+          btn = el('button', { class: 'modal-close-top-btn', type: 'button', 'aria-label': 'Close modal' }, '✕');
+          box.appendChild(btn);
+          btn.addEventListener('click', () => {
+            modalBackdrop.classList.remove('show'); modalBackdrop.setAttribute('aria-hidden','true');
+            enableBodyScroll();
+            // if closing detail, release trap
+            if (modalBackdrop === detailModal && typeof untrapDetail === 'function') { untrapDetail(); untrapDetail = null; }
+            // remove any lingering shift if sidebar is open on mobile
+            main.classList.remove('shifted');
+          });
+        }
+        // make it visible when modal is shown
+        btn.style.display = 'block';
+      } catch(e){ /* ignore */ }
+    }
 
     /* Firebase fetchers */
     async function fetchCategories(){ const snap = await getDocs(collection(db,'categories')); return snap.docs.map(d => ({ id:d.id, ...d.data() })); }
@@ -335,9 +383,7 @@
     function hideLoading(){ loadingIndicator.style.opacity = 0; }
 
     /* RENDERING: categories as chips + product grid showing only image, name, short desc, buttons
-       IMPORTANT: This version EXCLUDES any products that belong to categories marked as "service".
-       It will still show products that have no category (uncategorized) and all categories shown in chips
-       are only those with type === 'product'. */
+       IMPORTANT: This version EXCLUDES any products that belong to categories marked as "service". */
     async function renderCatalog(){
       showLoading('Loading products…');
       try {
@@ -584,6 +630,8 @@
         });
         detailModal.classList.add('show'); detailModal.setAttribute('aria-hidden','false');
         disableBodyScroll();
+        // ensure top close appears (mobile)
+        ensureModalCloseBtn(detailModal);
         const box = detailModal.querySelector('.modal-box') || detailModal;
         untrapDetail = trapFocus(box);
         $('#orderFromDetail').addEventListener('click', (e)=> {
@@ -681,6 +729,7 @@
         orderContent.innerHTML = html;
         orderModal.classList.add('show'); orderModal.setAttribute('aria-hidden','false');
         disableBodyScroll();
+        ensureModalCloseBtn(orderModal);
         const proceedPay = $('#proceedPay'), cancelOrder = $('#cancelOrder'), formMsg = $('#formMsg');
         const upiOption = $('#upiOption'), qrOption = $('#qrOption');
         const upiArea = $('#upiArea'), qrArea = $('#qrArea');
@@ -740,7 +789,7 @@
                 </div>`;
               setTimeout(()=> {
                 const copyQrUpi = $('#copyQrUpi'), copyQrAmt = $('#copyQrAmt');
-                copyQrUpi && copyQrUpi.addEventListener('click', ()=> { try { navigator.clipboard.writeText($('#qrUpiId').value); showToast('UPI ID copied'); } catch(e){ showToast('Copied'); }});
+                copyQrUpi && copyQrUpi.addEventListener('click', ()=> { try { navigator.clipboard.writeText($('#qrUpiId').value); showToast('UPI ID copied'); } catch(e){ showToast('Copied'); }}); 
                 copyQrAmt && copyQrAmt.addEventListener('click', ()=> { try { navigator.clipboard.writeText($('#qrAmount').value); showToast('Amount copied'); } catch(e){ showToast('Copied'); }});
               }, 40);
             }
@@ -802,39 +851,27 @@
           if (typeof onReady === 'function') onReady();
 
           // === NEW: automatically unlock downloads after timer even if not marked paid ===
-          // This populates the downloads UI the same way markOrderPaid does but WITHOUT updating order.status in Firestore.
-          // It uses currentOrderDocRef/currentProductId populated earlier when the order was created.
           (async function autoUnlock(){
             try {
-              // get product data (prefer currentProductId if available)
               const pid = currentProductId;
               if (!pid){
-                // fallback: if we have order ref, read productId from it
                 if (currentOrderDocRef){
                   const od = await getDoc(currentOrderDocRef);
                   if (od.exists()) currentProductId = od.data().productId || currentProductId;
                 }
               }
-              if (!currentProductId){
-                // nothing to unlock
-                return;
-              }
-              // fetch product
+              if (!currentProductId) return;
               const prodSnap = await getDoc(doc(db,'products', currentProductId));
               const p = prodSnap.exists() ? prodSnap.data() : null;
-
-              // Show downloads section
               $('#paymentStep').style.display = 'none';
               $('#doneStep').style.display = 'block';
               const downloadsWrap = $('#downloadsWrap');
-
               const downloads = [];
               if (p){
                 if (p.downloadLinks && Array.isArray(p.downloadLinks) && p.downloadLinks.length) downloads.push(...p.downloadLinks);
                 else if (p.deliverableUrl) downloads.push({ label: 'Download', url: p.deliverableUrl });
                 else if (p.images && p.images.length) downloads.push({ label: 'File', url: p.images[0] });
               }
-
               if (!downloads.length){
                 downloadsWrap.innerHTML = '<div class="muted">No download links configured for this product. Contact support.</div>';
               } else {
