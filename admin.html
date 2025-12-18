@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Solvoro — Admin</title>
+  <link rel="icon" href="favicon.png">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Solvoro Admin Console — manage products, services, orders and settings">
+  <style>
+    :root{
+      --bg:#f7f7fb; --card:#ffffff; --muted:#6b7280; --accent:#0f1724;
+      --glass: rgba(12,17,23,0.06); --radius:12px; --shadow-lg: 0 10px 30px rgba(12,17,23,0.08);
+      --max-width:1280px; --gap:16px; --success:#16a34a; --danger:#dc2626;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--accent)}
+    a{color:inherit;text-decoration:none}
+    .app-wrap{max-width:var(--max-width);margin:28px auto;padding:20px;position:relative}
+    header.centered{display:flex;align-items:center;justify-content:center;gap:12px;padding:20px 24px;border-radius:12px;background:transparent;position:relative}
+    header .title{text-align:center}
+    header h1{margin:0;font-size:18px;font-weight:700}
+    header p{margin:0;font-size:13px;color:var(--muted)}
+    header .logo-bar{position:absolute;right:18px;top:16px;display:flex;align-items:center;gap:10px}
+    .logo-bar img{width:44px;height:44px;border-radius:10px;object-fit:contain;box-shadow:var(--shadow-lg)}
+    .divider{height:1px;background:linear-gradient(to right,transparent,rgba(0,0,0,0.04),transparent);margin-top:16px;border-radius:2px}
+    .sidebar{position:fixed;left:20px;top:120px;width:220px;background:var(--card);border-radius:20px;padding:12px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;gap:8px;z-index:40;backdrop-filter: blur(6px)}
+    .brand{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px}
+    .brand img{width:36px;height:36px;border-radius:10px}
+    .nav{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+    .nav button{background:transparent;border:0;padding:10px 12px;border-radius:10px;text-align:left;cursor:pointer;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:10px}
+    .nav button.active{background:var(--glass);box-shadow:inset 0 -1px 0 rgba(0,0,0,0.02)}
+    .content{margin-left:270px;padding:12px 24px 80px 24px}
+    .grid-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:12px}
+    .card{background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow-lg)}
+    .card h3{margin:0;font-size:13px;color:var(--muted)}
+    .card .v{font-size:22px;font-weight:800;margin-top:8px}
+    .section{margin-top:18px;background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow-lg)}
+    .section h2{margin:0 0 12px 0;font-size:16px}
+    .small{font-size:13px;color:var(--muted)}
+    .btn{background:#0f1724;color:#fff;border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid #eef0f2}
+    input,select,textarea{padding:10px;border-radius:8px;border:1px solid #eef0f2;font-size:14px;width:100%}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #f3f4f6;text-align:left}
+    .thumb{width:64px;height:44px;object-fit:cover;border-radius:8px}
+    .flex{display:flex;gap:8px;align-items:center}
+    .muted{color:var(--muted)}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(6,8,14,0.45);z-index:100;padding:20px;overflow-y:auto}
+    .modal .box{width:980px;max-width:95%;max-height:90vh;overflow-y:auto;background:var(--card);padding:20px;border-radius:16px;box-shadow:var(--shadow-lg)}
+    .uploads-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+    .file-card{background:var(--card);padding:8px;border-radius:10px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;gap:8px}
+    .error-box{background:#fee2e2;color:#991b1b;padding:8px;border-radius:8px;margin-top:8px;display:none}
+    .success-box{background:#dcfce7;color:#065f46;padding:8px;border-radius:8px;margin-top:8px;display:none}
+    :focus{outline:3px solid rgba(15,23,42,0.08);outline-offset:3px}
+    .form-grid{display:grid;grid-template-columns:1fr 320px;gap:16px}
+    .dl-row{display:flex;gap:8px;align-items:center;margin-top:8px}
+    .dl-row input[type="text"]{flex:1}
+    .dl-actions button{padding:8px;border-radius:8px;border:0;cursor:pointer}
+    /* new mobile / orders card styles */
+    .orders-card{background:var(--card);padding:12px;border-radius:12px;box-shadow:var(--shadow-lg);margin-bottom:12px}
+    .orders-card h4{margin:0;font-weight:800}
+    .orders-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+    .orders-card .muted{font-size:13px}
+    @media (max-width:1100px){
+      .grid-cards{grid-template-columns:repeat(2,1fr)}
+      .content{margin-left:16px;padding:12px}
+      .sidebar{position:static;width:auto;display:flex;flex-direction:row;gap:8px;padding:8px;margin-bottom:12px;border-radius:12px}
+      .brand .name{display:none}
+      .form-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:700px){
+      .grid-cards{grid-template-columns:1fr}
+      .sidebar{display:none}
+      header{padding:12px}
+      .content{margin:0;padding:12px}
+      .modal .box{padding:12px;border-radius:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrap" id="appWrap">
+    <header class="centered" role="banner" aria-label="Admin header">
+      <div class="title">
+        <h1>Solvoro — Admin</h1>
+        <p class="small muted">Products · Services · Orders · Uploads · Settings</p>
+      </div>
+      <div class="logo-bar">
+        <img id="logoImg" src="logo-black.png" alt="logo">
+      </div>
+    </header>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <aside class="sidebar" role="navigation" aria-label="Admin navigation">
+      <div class="brand">
+        <img src="logo-black.png" alt="logo">
+        <div class="name">
+          <div style="font-weight:800">Solvoro</div>
+          <div style="font-size:12px;color:var(--muted)">Admin</div>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav">
+        <button data-page="dashboard" class="active">Dashboard</button>
+        <button data-page="categories">Categories</button>
+        <button data-page="products">Products</button>
+        <button data-page="services">Services</button>
+        <button data-page="orders">Orders</button>
+        <button data-page="uploads">Uploads</button>
+        <button data-page="settings">Settings</button>
+      </nav>
+
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button id="signOutBtn" class="btn ghost">Sign out</button>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--muted)">Signed in as <span id="signedEmail">—</span></div>
+    </aside>
+
+    <main class="content" id="content">
+      <!-- Dashboard -->
+      <section id="page-dashboard" class="section page">
+        <h2>Overview</h2>
+        <div class="small muted">Site snapshot</div>
+
+        <div class="grid-cards" style="margin-top:12px">
+          <div class="card">
+            <h3>Products</h3>
+            <div class="v" id="countProducts">0</div>
+          </div>
+          <div class="card">
+            <h3>Services</h3>
+            <div class="v" id="countServices">0</div>
+          </div>
+          <div class="card">
+            <h3>Pending Orders</h3>
+            <div class="v" id="countPending">0</div>
+          </div>
+          <div class="card">
+            <h3>Total Orders</h3>
+            <div class="v" id="countOrders">0</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button id="quickAddProduct" class="btn">Add Product</button>
+          <button id="quickAddService" class="btn">Add Service</button>
+          <button id="refreshBtn" class="btn ghost">Refresh</button>
+        </div>
+        <div style="margin-top:12px" id="dashMsg"></div>
+      </section>
+
+      <!-- Categories -->
+      <section id="page-categories" class="section page" style="display:none">
+        <h2>Categories</h2>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <input id="catName" placeholder="Category name" />
+          <select id="catType"><option value="product">Product</option><option value="service">Service</option></select>
+          <button id="addCatBtn" class="btn">Add</button>
+        </div>
+        <div id="catsList" style="margin-top:12px"></div>
+      </section>
+
+      <!-- Products -->
+      <section id="page-products" class="section page" style="display:none">
+        <h2>Products</h2>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
+          <input id="searchProduct" placeholder="Search products..." />
+          <button id="addProductBtn" class="btn">New Product</button>
+          <button id="exportProductsBtn" class="btn ghost">Export JSON</button>
+        </div>
+        <div id="productsTable" style="margin-top:12px"></div>
+      </section>
+
+      <!-- Services -->
+      <section id="page-services" class="section page" style="display:none">
+        <h2>Services</h2>
+        <div style="margin-top:12px">
+          <div class="small muted">List of items whose category is marked as service — site offer applies here</div>
+        </div>
+        <div id="servicesTable" style="margin-top:12px"></div>
+      </section>
+
+      <!-- Orders -->
+      <section id="page-orders" class="section page" style="display:none">
+        <h2>Orders</h2>
+        <div id="ordersTable" style="margin-top:12px"></div>
+      </section>
+
+      <!-- Uploads -->
+      <section id="page-uploads" class="section page" style="display:none">
+        <h2>Uploads</h2>
+        <div id="uploadsArea" style="margin-top:12px"></div>
+      </section>
+
+      <!-- Settings -->
+      <section id="page-settings" class="section page" style="display:none">
+        <h2>Settings</h2>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <div style="flex:1">
+            <label class="small">Business name</label>
+            <input id="settingName" placeholder="Solvoro" />
+            <label class="small" style="margin-top:8px">Default UPI ID</label>
+            <input id="settingUPI" placeholder="7007532343@fam" />
+            <label class="small" style="margin-top:8px">Top banner text</label>
+            <input id="settingBanner" placeholder="Diwali Offer - 20% off on every service" />
+            <label class="small" style="margin-top:8px">Active offer (%) — applies to services only</label>
+            <input id="settingOffer" type="number" min="0" max="100" placeholder="0" />
+            <div style="margin-top:12px">
+              <button id="saveSettingsBtn" class="btn">Save</button>
+              <button id="testOfferBtn" class="btn ghost">Preview Offer (open services)</button>
+            </div>
+            <div id="settingsMsg" style="margin-top:8px"></div>
+          </div>
+          <div style="width:220px;text-align:center">
+            <label class="small">Admin logo</label>
+            <div style="margin-top:8px"><img id="settingLogoPreview" src="logo-black.png" alt="logo" style="width:120px;height:120px;border-radius:14px;object-fit:contain"></div>
+            <input id="logoUpload" type="file" accept="image/*" style="margin-top:8px" />
+            <div class="small muted" style="margin-top:6px">Recommended: PNG / SVG</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal (used for login/product editor/order preview) -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="box">
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Firebase + App logic -->
+  <script type="module">
+    // ---- Firebase imports ----
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+    import {
+      getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, deleteDoc,
+      updateDoc, query, where, orderBy, serverTimestamp, limit
+    } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-storage.js";
+
+    // ---- CONFIG (unchanged) ----
+    const firebaseConfig = {
+      apiKey: "AIzaSyAPdXACIbpkug9CZkCun08paAz7un9-xjI",
+      authDomain: "usss-96c7f.firebaseapp.com",
+      projectId: "usss-96c7f",
+      storageBucket: "usss-96c7f.firebasestorage.app",
+      messagingSenderId: "120676939304",
+      appId: "1:120676939304:web:069e4d64eccfeab58e671d",
+      measurementId: "G-BYWDK4HBZ1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // ---- UI refs ----
+    const nav = document.getElementById('nav');
+    const pages = document.querySelectorAll('.page');
+    const signedEmail = document.getElementById('signedEmail');
+    const signOutBtn = document.getElementById('signOutBtn');
+
+    const countProducts = document.getElementById('countProducts');
+    const countServices = document.getElementById('countServices');
+    const countPending = document.getElementById('countPending');
+    const countOrders = document.getElementById('countOrders');
+
+    const catsList = document.getElementById('catsList');
+    const productsTable = document.getElementById('productsTable');
+    const servicesTable = document.getElementById('servicesTable');
+    const ordersTable = document.getElementById('ordersTable');
+    const uploadsArea = document.getElementById('uploadsArea');
+
+    const settingName = document.getElementById('settingName');
+    const settingUPI = document.getElementById('settingUPI');
+    const logoUpload = document.getElementById('logoUpload');
+    const settingLogoPreview = document.getElementById('settingLogoPreview');
+
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+
+    // ---- Quick actions ----
+    document.getElementById('quickAddProduct').addEventListener('click', ()=> openProductEditor(false));
+    document.getElementById('quickAddService').addEventListener('click', ()=> openProductEditor(true));
+    document.getElementById('refreshBtn').addEventListener('click', init);
+    document.getElementById('addCatBtn').addEventListener('click', addCategory);
+    document.getElementById('addProductBtn').addEventListener('click', ()=> openProductEditor(false));
+    document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
+    document.getElementById('testOfferBtn').addEventListener('click', ()=> { alert('Open your public services page to preview offers.'); });
+
+    document.getElementById('exportProductsBtn').addEventListener('click', async ()=> {
+      try {
+        const snap = await safeGetDocsColl('products', { orderByField: 'createdAt', limitCount: 1000 });
+        const arr = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+        const blob = new Blob([JSON.stringify(arr, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'products-export.json'; a.click();
+        URL.revokeObjectURL(url);
+      } catch (err) { alert('Export failed: ' + (err.message || err)); }
+    });
+
+    // ---- Navigation behavior ----
+    nav.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        nav.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const page = btn.dataset.page;
+        pages.forEach(p=> p.style.display = (p.id === 'page-'+page ? 'block' : 'none'));
+        if (page === 'categories') loadCategories();
+        if (page === 'products') loadProducts();
+        if (page === 'services') loadServices();
+        if (page === 'orders') loadOrders();
+        if (page === 'uploads') loadUploads();
+        if (page === 'settings') loadSettings();
+      });
+    });
+
+    // ---- Sign out ----
+    signOutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+      showLoginModal();
+    });
+
+    // ---- AUTH + admin auto-create ----
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { showLoginModal(); return; }
+      signedEmail.textContent = user.email || user.uid;
+      try {
+        const aDoc = await getDoc(doc(db,'admins', user.uid));
+        if (!aDoc.exists()) {
+          await setDoc(doc(db,'admins', user.uid), { role:'admin', createdAt: serverTimestamp(), email: user.email || '' });
+        }
+      } catch (err) { console.error('admin check/create failed', err); }
+      init();
+    });
+
+    // ---- LOGIN MODAL ----
+    function showLoginModal(){
+      modalContent.innerHTML = `
+        <div style="display:flex;gap:18px;align-items:stretch;flex-wrap:wrap">
+          <div style="flex:1;min-width:300px">
+            <h3 style="margin-top:0">Admin sign in</h3>
+            <div id="loginErr" style="display:none;background:#fee2e2;color:#991b1b;padding:8px;border-radius:8px;margin-bottom:8px"></div>
+            <label class="small">Email</label><input id="loginEmail" type="text" placeholder="admin@yourdomain.com"/>
+            <label class="small" style="margin-top:8px">Password</label><input id="loginPass" type="password" placeholder="••••••"/>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button id="doLogin" class="btn">Sign in</button>
+              <button id="doCancel" class="btn ghost">Cancel</button>
+            </div>
+            <div style="margin-top:12px" class="small muted">If first-time login, create an admin user in Firebase Console → Authentication → Add user.</div>
+          </div>
+          <div style="width:320px">
+            <img src="logo-black.png" style="width:100%;border-radius:12px;object-fit:cover" alt="logo">
+            <p class="small muted" style="margin-top:8px">Secure admin area. Keep credentials safe.</p>
+          </div>
+        </div>
+      `;
+      modal.style.display = 'flex';
+      document.getElementById('doCancel').addEventListener('click', ()=> modal.style.display='none');
+      document.getElementById('doLogin').addEventListener('click', async ()=>{
+        const e = document.getElementById('loginEmail').value.trim();
+        const p = document.getElementById('loginPass').value.trim();
+        const errBox = document.getElementById('loginErr'); errBox.style.display='none';
+        if (!e || !p) { errBox.textContent = 'Email & password required'; errBox.style.display='block'; return; }
+        try {
+          await signInWithEmailAndPassword(auth, e, p);
+          modal.style.display = 'none';
+        } catch (err) {
+          errBox.textContent = err.message || 'Login failed';
+          errBox.style.display='block';
+        }
+      });
+    }
+
+    // ---- INIT ----
+    async function init(){
+      try {
+        await loadCounts();
+        pages.forEach(p=> p.style.display = (p.id === 'page-dashboard' ? 'block' : 'none'));
+        nav.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.page==='dashboard'));
+      } catch (err) { console.error('init failed', err); }
+    }
+
+    // ---- SAFETY: resilient getDocs for collections ----
+    async function safeGetDocsColl(collName, options = {}) {
+      try {
+        const refColl = collection(db, collName);
+        const clauses = [];
+        if (options.whereClause && Array.isArray(options.whereClause) && options.whereClause.length === 3) clauses.push(where(options.whereClause[0], options.whereClause[1], options.whereClause[2]));
+        if (options.orderByField) clauses.push(orderBy(options.orderByField, 'desc'));
+        if (options.limitCount && typeof options.limitCount === 'number') clauses.push(limit(options.limitCount));
+        if (clauses.length) {
+          const q = query(refColl, ...clauses);
+          return await getDocs(q);
+        } else {
+          return await getDocs(refColl);
+        }
+      } catch (err) {
+        console.warn('safeGetDocsColl fallback for', collName, ' — ', err && err.message ? err.message : err);
+        return await getDocs(collection(db, collName));
+      }
+    }
+
+    // ---- COUNTS ----
+    async function loadCounts(){
+      try {
+        const prodSnap = await safeGetDocsColl('products', { orderByField:'createdAt', limitCount: 1000 });
+        const catSnap = await safeGetDocsColl('categories', { orderByField:'createdAt' });
+        const ordersSnap = await safeGetDocsColl('orders', { orderByField:'createdAt', limitCount: 1000 });
+        const serviceIds = catSnap.docs.filter(d=>d.data().type==='service').map(d=>d.id);
+        let servCount = 0;
+        prodSnap.docs.forEach(d => { if (serviceIds.includes(d.data().categoryId)) servCount++; });
+        const prodCount = Math.max(0, prodSnap.size - servCount);
+        countProducts.textContent = prodCount;
+        countServices.textContent = servCount;
+        countOrders.textContent = ordersSnap.size;
+        const pending = ordersSnap.docs.filter(d => d.data().status === 'pending' || d.data().status === 'pending_payment').length;
+        countPending.textContent = pending;
+      } catch (err) { console.error('loadCounts failed', err); }
+    }
+
+    // ---- CATEGORIES ----
+    async function addCategory(){
+      const name = document.getElementById('catName').value.trim();
+      const type = document.getElementById('catType').value;
+      if (!name) return alert('Category name required');
+      try {
+        await addDoc(collection(db,'categories'), { name, type, createdAt: serverTimestamp() });
+        document.getElementById('catName').value = ''; loadCategories(); loadCounts();
+      } catch (err) { alert('Could not add category: '+(err.message||err)); }
+    }
+
+    async function loadCategories(){
+      try {
+        const snap = await safeGetDocsColl('categories', { orderByField: 'createdAt' });
+        if (!snap || snap.empty) { catsList.innerHTML = '<div class="small muted">No categories yet</div>'; return; }
+        const table = document.createElement('table');
+        table.innerHTML = `<thead><tr><th>Name</th><th>Type</th><th>Actions</th></tr></thead>`;
+        const tbody = document.createElement('tbody');
+        for (const d of snap.docs){
+          const r = d.data();
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.type)}</td><td><button class="btn ghost btnDelCat" data-id="${d.id}">Delete</button></td>`;
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody); catsList.innerHTML = ''; catsList.appendChild(table);
+        document.querySelectorAll('.btnDelCat').forEach(b => b.addEventListener('click', async ()=> {
+          if (!confirm('Delete category?')) return;
+          await deleteDoc(doc(db,'categories', b.dataset.id)); loadCategories(); loadCounts();
+        }));
+      } catch (err) { console.error('loadCategories failed', err); catsList.innerHTML = '<div class="small muted">Failed to load categories</div>'; }
+    }
+
+    // ---- PRODUCTS (editor/list) ----
+    async function openProductEditor(isService=false, editing=null){
+      modalContent.innerHTML = `
+        <div style="display:flex;gap:12px;align-items:stretch;flex-wrap:wrap">
+          <div style="flex:1;min-width:320px">
+            <h3 style="margin-top:0">${editing ? 'Edit Item' : (isService ? 'Add Service' : 'Add Product')}</h3>
+            <div class="form-grid">
+              <div>
+                <label class="small">Title</label><input id="peTitle" value="${editing?escapeHtml(editing.title||''):''}" />
+                <label class="small" style="margin-top:8px">SKU</label><input id="peSku" placeholder="Auto: SRV-12345" value="${editing?escapeHtml(editing.sku||''):''}" />
+                <label class="small" style="margin-top:8px">Category</label><select id="peCategory"><option value=''>Loading categories...</option></select>
+                <label class="small" style="margin-top:8px">Short description</label><textarea id="peShort" rows="3">${editing?escapeHtml(editing.shortDescription||''):''}</textarea>
+                <label class="small" style="margin-top:8px">Long description</label><textarea id="peLong" rows="6">${editing?escapeHtml(editing.longDescription||''):''}</textarea>
+                <label class="small" style="margin-top:8px">Features (comma separated)</label><input id="peFeatures" value="${editing && editing.features ? escapeHtml(editing.features.join(',')) : ''}" />
+                <label class="small" style="margin-top:8px">Delivery Time</label><input id="peDelivery" placeholder="e.g., 24 hours" value="${editing?escapeHtml(editing.deliveryTime||''):''}" />
+                <label class="small" style="margin-top:8px">What’s included</label><textarea id="peIncluded" rows="2">${editing?escapeHtml(editing.whatIncluded||''):''}</textarea>
+                <label class="small" style="margin-top:8px">Requirements</label><textarea id="peReq" rows="3">${editing?escapeHtml(editing.requirements||''):''}</textarea>
+                <label class="small" style="margin-top:8px">Process steps (comma separated)</label><input id="peProcess" placeholder="Step1, Step2" value="${editing && editing.processSteps ? escapeHtml(editing.processSteps.join(',')) : ''}" />
+                <label class="small" style="margin-top:8px">Guarantee / Policy</label><input id="peGuarantee" placeholder="Refund policy..." value="${editing?escapeHtml(editing.guarantee||''):''}" />
+                <label class="small" style="margin-top:8px">FAQs (one per line — Q|A)</label><textarea id="peFaqs" rows="4">${editing && editing.faqs ? escapeHtml((editing.faqs||[]).map(f=>f.q+'|'+f.a).join('\n')) : ''}</textarea>
+                <label class="small" style="margin-top:8px">Tags (comma)</label><input id="peTags" value="${editing && editing.tags ? escapeHtml(editing.tags.join(',')) : ''}" />
+                <label class="small" style="margin-top:8px">SEO Title</label><input id="peSeoTitle" value="${editing?escapeHtml(editing.seoTitle||''):''}" />
+                <label class="small" style="margin-top:8px">SEO Description</label><textarea id="peSeoDesc" rows="2">${editing?escapeHtml(editing.seoDescription||''):''}</textarea>
+                <label class="small" style="margin-top:8px">Price (INR)</label><input id="pePrice" type="number" value="${editing?escapeHtml(editing.price||0):0}" />
+                <label class="small" style="margin-top:8px">Old price (optional)</label><input id="peOld" type="number" value="${editing?escapeHtml(editing.oldPrice||''):''}" />
+                <label class="small" style="margin-top:8px">Offer percent (optional) — services only</label><input id="peOfferPercent" type="number" min="0" max="100" placeholder="e.g., 20" value="${editing && editing.offerPercent ? escapeHtml(editing.offerPercent) : ''}" />
+              </div>
+
+              <!-- Right column: media, qr & download links -->
+              <div>
+                <label class="small">Thumbnail Image (single)</label><input id="peThumb" type="file" accept="image/*" />
+                <div style="height:8px"></div>
+                <label class="small">Product images (multiple)</label><input id="peImages" type="file" accept="image/*" multiple />
+                <div style="height:8px"></div>
+                <label class="small">Deliverable file (optional) — upload to Storage and add to download links</label><input id="peFile" type="file" accept=".pdf,.zip,.rar,.7z" />
+                <div style="height:8px"></div>
+
+                <label class="small" style="margin-top:8px">Payment QR (image URL) — optional</label>
+                <input id="peQrUrl" placeholder="https://..." value="${editing && editing.qrUrl ? escapeHtml(editing.qrUrl) : ''}" />
+                <div style="display:flex;gap:8px;margin-top:6px">
+                  <input id="peQrUpload" type="file" accept="image/*" />
+                  <button id="peQrUploadBtn" class="btn ghost" type="button">Upload QR</button>
+                </div>
+                <div class="small muted" style="margin-top:6px">If set, this QR will appear on public product page. If not set, site will use admin UPI fallback.</div>
+
+                <div style="margin-top:12px">
+                  <label class="small">Download links (label + url). Use Upload to store file & auto-fill URL.</label>
+                  <div id="downloadLinksArea" style="margin-top:8px"></div>
+                  <div style="display:flex;gap:8px;margin-top:8px">
+                    <button id="addDlRow" class="btn ghost" type="button">+ Add link</button>
+                    <button id="autoAddUploaded" class="btn" type="button">Add deliverable file as link</button>
+                  </div>
+                </div>
+
+                <div style="margin-top:12px;display:flex;gap:8px">
+                  <button id="peSave" class="btn">${editing ? 'Save changes' : 'Create'}</button>
+                  <button id="peCancel" class="btn ghost">Cancel</button>
+                </div>
+                <div id="peError" class="error-box"></div>
+                <div id="peSuccess" class="success-box"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.style.display = 'flex';
+      const peCancel = document.getElementById('peCancel'); peCancel.onclick = ()=> modal.style.display='none';
+
+      // fill category select
+      await fillCategorySelect(isService ? 'service' : 'product', editing ? editing.categoryId : '');
+
+      // downloadLinks area setup
+      const downloadLinksArea = document.getElementById('downloadLinksArea');
+      const addDlRowBtn = document.getElementById('addDlRow');
+      const autoAddUploadedBtn = document.getElementById('autoAddUploaded');
+      const qrUploadBtn = document.getElementById('peQrUploadBtn');
+      const qrUploadInput = document.getElementById('peQrUpload');
+
+      function makeDlRow(linkObj = { label:'', url:'' }){
+        const wrapper = document.createElement('div');
+        wrapper.className = 'dl-row';
+        wrapper.innerHTML = `
+          <input type="text" class="dl-label" placeholder="Label (e.g. Main PDF)" value="${escapeHtml(linkObj.label||'')}" />
+          <input type="text" class="dl-url" placeholder="https://..." value="${escapeHtml(linkObj.url||'')}" />
+          <div class="dl-actions">
+            <input type="file" class="dl-file" accept=".pdf,.zip,.rar,.7z" style="display:none" />
+            <button type="button" class="btn ghost btn-upload">Upload</button>
+            <button type="button" class="btn ghost btn-remove">Remove</button>
+          </div>
+        `;
+        const btnUpload = wrapper.querySelector('.btn-upload');
+        const fileInput = wrapper.querySelector('.dl-file');
+        const urlInput = wrapper.querySelector('.dl-url');
+        const removeBtn = wrapper.querySelector('.btn-remove');
+
+        btnUpload.addEventListener('click', ()=> fileInput.click());
+        fileInput.addEventListener('change', async ()=>{
+          if (!fileInput.files || !fileInput.files[0]) return;
+          const f = fileInput.files[0];
+          btnUpload.disabled = true; btnUpload.textContent = 'Uploading...';
+          try {
+            const path = `product_files/${Date.now()}_${f.name}`;
+            const r = ref(storage, path);
+            await uploadBytes(r, f);
+            const url = await getDownloadURL(r);
+            urlInput.value = url; btnUpload.textContent = 'Uploaded';
+          } catch (err) {
+            console.error('dl upload failed', err);
+            alert('Upload failed: ' + (err && err.message ? err.message : err));
+            btnUpload.textContent = 'Upload';
+          } finally { btnUpload.disabled = false; }
+        });
+
+        removeBtn.addEventListener('click', ()=> wrapper.remove());
+        return wrapper;
+      }
+
+      // prefill downloadLinks if editing
+      if (editing && Array.isArray(editing.downloadLinks) && editing.downloadLinks.length){
+        editing.downloadLinks.forEach(dl => downloadLinksArea.appendChild(makeDlRow(dl)));
+      }
+
+      addDlRowBtn.onclick = ()=> downloadLinksArea.appendChild(makeDlRow({label:'', url:''}));
+
+      autoAddUploadedBtn.onclick = async ()=>{
+        const fi = document.getElementById('peFile');
+        if (!fi || !fi.files || !fi.files[0]) { alert('No deliverable file selected'); return; }
+        const f = fi.files[0];
+        try {
+          autoAddUploadedBtn.disabled = true; autoAddUploadedBtn.textContent = 'Uploading...';
+          const path = `product_files/${Date.now()}_${f.name}`;
+          const r = ref(storage, path);
+          await uploadBytes(r, f);
+          const url = await getDownloadURL(r);
+          downloadLinksArea.appendChild(makeDlRow({ label: f.name || 'Deliverable', url }));
+          autoAddUploadedBtn.textContent = 'Added';
+        } catch (err) {
+          console.error('auto upload failed', err);
+          alert('Upload failed: ' + (err && err.message ? err.message : err));
+          autoAddUploadedBtn.textContent = 'Add deliverable file as link';
+        } finally { autoAddUploadedBtn.disabled = false; }
+      };
+
+      // QR upload handler
+      qrUploadBtn.addEventListener('click', ()=> qrUploadInput.click());
+      qrUploadInput.addEventListener('change', async ()=>{
+        if (!qrUploadInput.files || !qrUploadInput.files[0]) return;
+        const f = qrUploadInput.files[0];
+        qrUploadBtn.disabled = true; qrUploadBtn.textContent = 'Uploading...';
+        try {
+          const path = `product_qr/${Date.now()}_${f.name}`;
+          const r = ref(storage, path);
+          await uploadBytes(r, f);
+          const url = await getDownloadURL(r);
+          document.getElementById('peQrUrl').value = url;
+          qrUploadBtn.textContent = 'Uploaded';
+        } catch (err) {
+          console.error('QR upload failed', err);
+          alert('QR upload failed: ' + (err && err.message ? err.message : err));
+          qrUploadBtn.textContent = 'Upload QR';
+        } finally { qrUploadBtn.disabled = false; }
+      });
+
+      // save handler
+      const peSave = document.getElementById('peSave');
+      peSave.onclick = async ()=>{
+        const errEl = document.getElementById('peError'); errEl.style.display='none'; errEl.textContent='';
+        const sucEl = document.getElementById('peSuccess'); sucEl.style.display='none'; sucEl.textContent='';
+        try {
+          const title = document.getElementById('peTitle').value.trim();
+          const cat = document.getElementById('peCategory').value;
+          if (!title || !cat) { errEl.style.display='block'; errEl.textContent='Title and category required'; return; }
+
+          let sku = document.getElementById('peSku').value.trim();
+          if (!sku) sku = "SRV-" + Math.floor(10000 + Math.random() * 90000);
+
+          const short = document.getElementById('peShort').value.trim();
+          const longDescription = document.getElementById('peLong').value.trim();
+          const features = (document.getElementById('peFeatures').value || '').split(',').map(s=>s.trim()).filter(Boolean);
+          const deliveryTime = document.getElementById('peDelivery').value.trim();
+          const whatIncluded = document.getElementById('peIncluded').value.trim();
+          const requirements = document.getElementById('peReq').value.trim();
+          const processSteps = (document.getElementById('peProcess').value || '').split(',').map(s=>s.trim()).filter(Boolean);
+          const guarantee = document.getElementById('peGuarantee').value.trim();
+          const faqsRaw = (document.getElementById('peFaqs').value || '').split('\n').map(l=>l.trim()).filter(Boolean);
+          const faqs = faqsRaw.map(l=>{ const parts = l.split('|'); return { q: parts[0].trim(), a: (parts[1]||'').trim() }; }).filter(f=>f.q);
+          const seoTitle = document.getElementById('peSeoTitle').value.trim();
+          const seoDescription = document.getElementById('peSeoDesc').value.trim();
+          const price = Number(document.getElementById('pePrice').value) || 0;
+          const oldPrice = document.getElementById('peOld').value ? Number(document.getElementById('peOld').value) : null;
+          const tags = (document.getElementById('peTags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
+          let offerPercentVal = document.getElementById('peOfferPercent').value ? Number(document.getElementById('peOfferPercent').value) : null;
+          const qrUrlVal = document.getElementById('peQrUrl').value.trim();
+
+          // download links
+          const dlRows = downloadLinksArea.querySelectorAll('.dl-row');
+          const downloadLinks = [];
+          dlRows.forEach(r => {
+            const label = r.querySelector('.dl-label').value.trim();
+            const url = r.querySelector('.dl-url').value.trim();
+            if (url) downloadLinks.push({ label: label || 'Download', url });
+          });
+
+          // determine category type (product/service)
+          const catDoc = await getDoc(doc(db,'categories', cat));
+          const catType = (catDoc.exists() && catDoc.data().type) ? catDoc.data().type : 'product';
+
+          // If this is a product category, enforce no offers (clear it)
+          if (catType === 'product') offerPercentVal = null;
+
+          const payload = {
+            sku, title, shortDescription: short, longDescription,
+            features, deliveryTime, whatIncluded, requirements,
+            processSteps, guarantee, faqs,
+            seoTitle, seoDescription, price, oldPrice, tags,
+            offerPercent: offerPercentVal, categoryId: cat,
+            downloadLinks, qrUrl: qrUrlVal
+          };
+
+          let docRef;
+          if (editing && editing.id) {
+            docRef = doc(db,'products', editing.id);
+            await updateDoc(docRef, { ...payload, updatedAt: serverTimestamp() });
+          } else {
+            const newDoc = await addDoc(collection(db,'products'), { ...payload, createdAt: serverTimestamp() });
+            docRef = doc(db,'products', newDoc.id);
+          }
+
+          // Uploads: thumbnail, images, deliverables (same as before)
+          const thumbInput = document.getElementById('peThumb');
+          if (thumbInput && thumbInput.files && thumbInput.files[0]) {
+            const f = thumbInput.files[0];
+            try {
+              const path = `product_assets/thumb_${Date.now()}_${f.name}`;
+              const r = ref(storage, path);
+              await uploadBytes(r, f);
+              const url = await getDownloadURL(r);
+              await updateDoc(docRef, { thumbnailUrl: url });
+            } catch (err) {
+              console.error('thumb upload failed', err);
+              throw err;
+            }
+          }
+
+          const imagesInput = document.getElementById('peImages');
+          if (imagesInput && imagesInput.files && imagesInput.files.length) {
+            const urls = [];
+            for (const f of Array.from(imagesInput.files)) {
+              const path = `product_images/${Date.now()}_${f.name}`;
+              const r = ref(storage, path);
+              await uploadBytes(r, f);
+              const url = await getDownloadURL(r);
+              urls.push(url);
+            }
+            const currentDoc = await getDoc(docRef);
+            const existing = (currentDoc.exists() && currentDoc.data().images) ? currentDoc.data().images : [];
+            await updateDoc(docRef, { images: existing.concat(urls) });
+          }
+
+          // deliverable file
+          const fileInput = document.getElementById('peFile');
+          if (fileInput && fileInput.files && fileInput.files[0]) {
+            const f = fileInput.files[0];
+            const path = `product_files/${Date.now()}_${f.name}`;
+            const r = ref(storage, path);
+            await uploadBytes(r, f);
+            const deliverUrl = await getDownloadURL(r);
+            const label = f.name || 'Deliverable';
+            const curDoc = await getDoc(docRef);
+            const prev = (curDoc.exists() && curDoc.data().downloadLinks) ? curDoc.data().downloadLinks : [];
+            prev.push({ label, url: deliverUrl });
+            await updateDoc(docRef, { downloadLinks: prev });
+          }
+
+          sucEl.style.display='block';
+          sucEl.textContent = 'Saved successfully';
+          setTimeout(()=> { modal.style.display='none'; loadProducts(); loadServices(); loadCounts(); }, 700);
+        } catch (err) {
+          console.error('save product error', err);
+          const eMsg = err && err.message ? err.message : String(err);
+          const errEl2 = document.getElementById('peError'); errEl2.style.display='block'; errEl2.textContent = 'Could not save item: ' + eMsg;
+        }
+      };
+    }
+
+    // -- helper to populate category select
+    async function fillCategorySelect(typeOrBool = null, selectedId = ''){
+      const sel = document.getElementById('peCategory'); if (!sel) return;
+      sel.innerHTML = '<option value="">Loading categories...</option>';
+      let type = null;
+      if (typeof typeOrBool === 'boolean') type = typeOrBool ? 'service' : 'product';
+      else if (typeof typeOrBool === 'string') type = (typeOrBool === 'service' || typeOrBool === 'product') ? typeOrBool : null;
+      try {
+        let snap;
+        if (type) snap = await safeGetDocsColl('categories', { whereClause: ['type','==', type], orderByField: 'createdAt' });
+        else snap = await safeGetDocsColl('categories', { orderByField: 'createdAt' });
+        sel.innerHTML = '<option value="">Select category</option>';
+        if (!snap || snap.empty) { sel.innerHTML = '<option value="">No categories — create one first</option>'; return; }
+        let foundSelected = false;
+        snap.forEach(d => {
+          const o = document.createElement('option');
+          o.value = d.id; o.textContent = d.data().name + (d.data().type ? ` — ${d.data().type}` : '');
+          if (d.id === selectedId) { o.selected = true; foundSelected = true; }
+          sel.appendChild(o);
+        });
+        if (selectedId && !foundSelected) {
+          const placeholder = document.createElement('option');
+          placeholder.value = selectedId;
+          placeholder.textContent = 'Previously selected (missing)';
+          placeholder.selected = true;
+          sel.appendChild(placeholder);
+        }
+      } catch (err) { console.error('fillCategorySelect error', err); sel.innerHTML = '<option value="">Could not load categories</option>'; }
+    }
+
+    // ---- Products list (no offers for products) ----
+    async function loadProducts(){
+      try {
+        const snap = await safeGetDocsColl('products', { orderByField:'createdAt' });
+        productsTable.innerHTML = '';
+        if (!snap || snap.empty) { productsTable.innerHTML = '<div class="small muted">No products</div>'; return; }
+        const table = document.createElement('table');
+        table.innerHTML = `<thead><tr><th></th><th>Title / SKU</th><th>Category</th><th>Price</th><th>Offers</th><th>Download Links</th><th>Actions</th></tr></thead>`;
+        const tbody = document.createElement('tbody');
+        for (const d of snap.docs){
+          const data = d.data(); const id = d.id;
+          let catName = '-';
+          if (data.categoryId) {
+            const c = await getDoc(doc(db,'categories',data.categoryId));
+            if (c.exists()) catName = c.data().name;
+          }
+          const thumb = data.images && data.images[0] ? `<img class="thumb" src="${escapeHtml(data.images[0])}">` : '';
+          const skuHtml = `<div style="font-weight:800">${escapeHtml(data.title||'')}</div><div class="small muted">SKU: ${escapeHtml(data.sku||'—')}</div>`;
+          // IMPORTANT: products must not have active offers — show "N/A"
+          const offerHtml = '<div class="small muted">N/A (products)</div>';
+          const dlCount = (data.downloadLinks && data.downloadLinks.length) ? `${data.downloadLinks.length}` : '0';
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${thumb}</td><td>${skuHtml}</td><td>${escapeHtml(catName)}</td><td>₹${escapeHtml(String(data.price||0))}</td><td>${offerHtml}</td><td class="small muted">${dlCount} link(s)</td>
+            <td>
+              <button class="btn ghost btnEdit" data-id="${id}">Edit</button>
+              <button class="btn ghost btnDel" data-id="${id}">Delete</button>
+            </td>`;
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody); productsTable.appendChild(table);
+
+        document.querySelectorAll('.btnEdit').forEach(b => b.addEventListener('click', async ()=> {
+          const id = b.dataset.id;
+          const d = await getDoc(doc(db,'products',id));
+          if (!d.exists()) return alert('Product not found');
+          openProductEditor(false, { id:d.id, ...d.data() });
+        }));
+        document.querySelectorAll('.btnDel').forEach(b => b.addEventListener('click', async ()=> {
+          if (!confirm('Delete this product?')) return;
+          await deleteDoc(doc(db,'products', b.dataset.id));
+          loadProducts(); loadCounts();
+        }));
+      } catch (err) { console.error('loadProducts failed', err); productsTable.innerHTML = '<div class="small muted">Failed to load products</div>'; }
+    }
+
+    // ---- SERVICES (applies site activeOffer when item doesn't have its own offer) ----
+    async function loadServices(){
+      try {
+        const metaDoc = await getDoc(doc(db,'meta','site'));
+        const meta = metaDoc.exists() ? metaDoc.data() : {};
+        const siteOffer = (typeof meta.activeOffer !== 'undefined' && meta.activeOffer !== null) ? Number(meta.activeOffer) : 0;
+
+        const catSnap = await safeGetDocsColl('categories', { whereClause: ['type','==','service'] });
+        const ids = catSnap.docs.map(d=>d.id);
+        const prodSnap = await safeGetDocsColl('products', { orderByField:'createdAt' });
+        servicesTable.innerHTML = '';
+        const rows = prodSnap.docs.filter(d => ids.includes(d.data().categoryId));
+        if (!rows.length) { servicesTable.innerHTML = '<div class="small muted">No services</div>'; return; }
+        const table = document.createElement('table');
+        table.innerHTML = `<thead><tr><th>Title / SKU</th><th>Category</th><th>Price</th><th>Offer</th><th>Actions</th></tr></thead>`;
+        const tbody = document.createElement('tbody');
+        for (const d of rows){
+          const data = d.data();
+          const c = await getDoc(doc(db,'categories',data.categoryId));
+          const catName = c.exists() ? c.data().name : '-';
+          const skuHtml = `<div style="font-weight:800">${escapeHtml(data.title||'')}</div><div class="small muted">SKU: ${escapeHtml(data.sku||'—')}</div>`;
+          // compute applied offer percent: item-level takes precedence; otherwise siteOffer applies
+          const itemOffer = (typeof data.offerPercent !== 'undefined' && data.offerPercent !== null) ? Number(data.offerPercent) : null;
+          const appliedOffer = (itemOffer !== null && !isNaN(itemOffer)) ? itemOffer : (siteOffer || 0);
+          let priceDisplay = `₹${Number(data.price||0)}`;
+          let offerHtml = '<div class="small muted">—</div>';
+          if (appliedOffer > 0) {
+            const final = Math.round(Number(data.price||0) * (1 - appliedOffer/100));
+            offerHtml = `<div class="small muted">${appliedOffer}% OFF — Final: ₹${final}</div>`;
+            priceDisplay = `<div class="small muted">Base: ₹${Number(data.price||0)}</div><div style="font-weight:800">Now: ₹${final}</div>`;
+          }
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${skuHtml}</td><td>${escapeHtml(catName)}</td><td>${priceDisplay}</td><td>${offerHtml}</td>
+            <td><button class="btn ghost btnEditS" data-id="${d.id}">Edit</button><button class="btn ghost btnDelS" data-id="${d.id}">Delete</button></td>`;
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody); servicesTable.appendChild(table);
+
+        document.querySelectorAll('.btnEditS').forEach(b=> b.addEventListener('click', async ()=> {
+          const id = b.dataset.id; const d = await getDoc(doc(db,'products',id)); if (!d.exists()) return alert('Item missing');
+          openProductEditor(true, { id: d.id, ...d.data() });
+        }));
+        document.querySelectorAll('.btnDelS').forEach(b=> b.addEventListener('click', async ()=> {
+          if (!confirm('Delete?')) return; await deleteDoc(doc(db,'products', b.dataset.id)); loadServices(); loadCounts();
+        }));
+      } catch (err) { console.error('loadServices failed', err); servicesTable.innerHTML = '<div class="small muted">Failed to load services</div>'; }
+    }
+
+    // ---- ORDERS (mobile-friendly cards + delete for completed) ----
+    async function loadOrders(){
+      try {
+        const snap = await safeGetDocsColl('orders', { orderByField:'createdAt' });
+        ordersTable.innerHTML = '';
+        if (!snap || snap.empty) { ordersTable.innerHTML = '<div class="small muted">No orders yet</div>'; return; }
+
+        // mobile: display cards; desktop: table
+        if (window.innerWidth <= 760) {
+          const container = document.createElement('div');
+          for (const d of snap.docs){
+            const o = d.data(); const id = d.id;
+            // fetch product title & sku if available
+            let title = '-'; let sku = '-';
+            if (o.productId) {
+              const p = await getDoc(doc(db,'products',o.productId));
+              if (p.exists()) { title = p.data().title; sku = p.data().sku || (p.id ? 'SRV-' + p.id.slice(0,6).toUpperCase() : '-') }
+            }
+            const card = document.createElement('div'); card.className = 'orders-card';
+            card.innerHTML = `
+              <div style="display:flex;justify-content:space-between;align-items:start">
+                <div>
+                  <h4>${escapeHtml(title)}</h4>
+                  <div class="muted small">Order: ${escapeHtml(id)}</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="muted small">SKU: ${escapeHtml(sku)}</div>
+                  <div style="margin-top:6px;font-weight:800">${escapeHtml((o.priceFinal||o.priceFinal===0) ? '₹'+String(o.priceFinal) : '₹'+String(o.priceBase||0))}</div>
+                </div>
+              </div>
+              <div style="margin-top:8px" class="muted small">Customer: ${escapeHtml(o.customerName||o.customerEmail||'—')}</div>
+              <div style="margin-top:6px" class="muted small">Status: ${escapeHtml(o.status||'—')}</div>
+              <div class="orders-actions">
+                <button class="btn ghost btnViewOrder" data-id="${id}">View</button>
+                <button class="btn ghost btnMarkPaid" data-id="${id}">Mark Paid</button>
+                <button class="btn ghost btnDeliver" data-id="${id}">Deliver</button>
+                ${ (o.status === 'paid' || o.status === 'delivered') ? `<button class="btn ghost btnDeleteOrder" data-id="${id}">Delete</button>` : '' }
+              </div>
+            `;
+            container.appendChild(card);
+          }
+          ordersTable.appendChild(container);
+
+        } else {
+          // desktop table (existing)
+          const table = document.createElement('table');
+          table.innerHTML = `<thead><tr><th>Order</th><th>Item</th><th>SKU</th><th>Customer</th><th>Proof</th><th>Status</th><th>Actions</th></tr></thead>`;
+          const tbody = document.createElement('tbody');
+          for (const d of snap.docs){
+            const o = d.data(); const id = d.id;
+            let title = '-'; let sku = '-';
+            if (o.productId) {
+              const p = await getDoc(doc(db,'products',o.productId));
+              if (p.exists()) { title = p.data().title; sku = p.data().sku || (p.id ? 'SRV-' + p.id.slice(0,6).toUpperCase() : '-') }
+            }
+            const proof = o.proofUrl ? `<a href="${o.proofUrl}" target="_blank"><img src="${o.proofUrl}" style="width:120px;height:80px;object-fit:cover;border-radius:8px"></a>` : '<div class="muted small">No proof</div>';
+            const statusHtml = o.status === 'pending' || o.status === 'pending_payment' ? `<span class="status-pill pending">PENDING</span>` : (o.status === 'paid' ? `<span class="status-pill paid">PAID</span>` : `<span class="status-pill deliv">DELIVERED</span>`);
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${escapeHtml(id)}</td><td>${escapeHtml(title)}</td><td>${escapeHtml(sku)}</td><td>${escapeHtml(o.customerName||o.customerEmail||'—')}</td><td>${proof}</td><td>${statusHtml}</td>
+              <td>
+                <button class="btn ghost btnViewOrder" data-id="${id}">View</button>
+                <button class="btn ghost btnMarkPaid" data-id="${id}">Mark Paid</button>
+                <button class="btn ghost btnDeliver" data-id="${id}">Deliver</button>
+                ${ (o.status === 'paid' || o.status === 'delivered') ? `<button class="btn ghost btnDeleteOrder" data-id="${id}">Delete</button>` : '' }
+              </td>`;
+            tbody.appendChild(tr);
+          }
+          table.appendChild(tbody); ordersTable.appendChild(table);
+        }
+
+        // Attach handlers (unified)
+        ordersTable.querySelectorAll('.btnViewOrder').forEach(b => b.addEventListener('click', async ()=> {
+          const id = b.dataset.id; const s = await getDoc(doc(db,'orders',id));
+          if (!s.exists()) return alert('Order not found');
+          const o = s.data();
+          modalContent.innerHTML = `
+            <div style="padding:4px">
+              <h3 style="margin-top:0">Order ${escapeHtml(id)}</h3>
+              <div style="margin-top:8px"><strong>Name:</strong> ${escapeHtml(o.customerName||'—')}</div>
+              <div style="margin-top:4px"><strong>Phone:</strong> ${escapeHtml(o.customerPhone||'—')}</div>
+              <div style="margin-top:4px"><strong>Email:</strong> ${escapeHtml(o.customerEmail||'—')}</div>
+              <div style="margin-top:4px"><strong>Product SKU:</strong> ${escapeHtml(o.productSku||'—')}</div>
+              ${o.requirements ? `<div style="margin-top:12px"><strong>Requirements:</strong><br>${escapeHtml(o.requirements)}</div>` : ''}
+              ${ o.proofUrl ? `<div style="margin-top:14px"><strong>Payment Proof:</strong><br><img src="${o.proofUrl}" style="width:100%;max-height:360px;object-fit:contain;border-radius:12px"></div>` : `<div style="margin-top:14px" class="small muted">No proof provided</div>` }
+              <div style="margin-top:20px;text-align:right">
+                <button id="closePreview" class="btn ghost">Close</button>
+              </div>
+            </div>`;
+          modal.style.display = 'flex';
+          document.getElementById('closePreview').addEventListener('click', ()=> modal.style.display='none');
+        }));
+
+        ordersTable.querySelectorAll('.btnMarkPaid').forEach(b => b.addEventListener('click', async ()=> {
+          if (!confirm('Mark as paid?')) return;
+          await updateDoc(doc(db,'orders', b.dataset.id), { status:'paid', paymentVerifiedBy: auth.currentUser.uid, updatedAt: serverTimestamp() });
+          loadOrders(); loadCounts();
+        }));
+        ordersTable.querySelectorAll('.btnDeliver').forEach(b => b.addEventListener('click', async ()=> {
+          const link = prompt('Paste deliverable link (public file URL):');
+          if (!link) return;
+          await updateDoc(doc(db,'orders', b.dataset.id), { status:'delivered', deliverableLink: link, updatedAt: serverTimestamp() });
+          loadOrders(); loadCounts();
+          alert('Delivery link saved');
+        }));
+        // delete completed orders
+        ordersTable.querySelectorAll('.btnDeleteOrder').forEach(b => b.addEventListener('click', async ()=> {
+          if (!confirm('Delete this completed order? This is permanent.')) return;
+          await deleteDoc(doc(db,'orders', b.dataset.id));
+          loadOrders(); loadCounts();
+          showToast('Order deleted');
+        }));
+
+      } catch (err) { console.error('loadOrders failed', err); ordersTable.innerHTML = '<div class="small muted">Failed to load orders</div>'; }
+    }
+
+    // ---- UPLOADS ----
+    async function loadUploads(){
+      try {
+        uploadsArea.innerHTML = '<div class="small muted">Loading...</div>';
+        const images = [];
+        const pSnap = await safeGetDocsColl('products', { orderByField:'createdAt' });
+        pSnap.forEach(d => { (d.data().images || []).forEach(u => images.push({ url:u, type:'image' })); if (d.data().downloadLinks) (d.data().downloadLinks||[]).forEach(l=>images.push({ url: l.url, type:'file' })); if (d.data().qrUrl) images.push({ url: d.data().qrUrl, type:'qr' }); });
+        const oSnap = await safeGetDocsColl('orders', { orderByField:'createdAt' });
+        oSnap.forEach(d => { if (d.data().proofUrl) images.push({ url: d.data().proofUrl, type:'proof' }); if (d.data().deliverableLink) images.push({ url: d.data().deliverableLink, type:'delivered' }); });
+        if (!images.length) { uploadsArea.innerHTML = '<div class="small muted">No uploads found</div>'; return; }
+        const grid = document.createElement('div'); grid.className='uploads-grid';
+        images.forEach(item => {
+          const c = document.createElement('div'); c.className='file-card';
+          c.innerHTML = `<a href="${item.url}" target="_blank"><img src="${item.url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px"></a>
+            <input style="padding:8px;border-radius:8px;border:1px solid #efefef" value="${item.url}" readonly />`;
+          grid.appendChild(c);
+        });
+        uploadsArea.innerHTML = ''; uploadsArea.appendChild(grid);
+      } catch (err) { console.error('loadUploads failed', err); uploadsArea.innerHTML = '<div class="small muted">Failed to load uploads</div>'; }
+    }
+
+    // ---- SETTINGS ----
+    async function loadSettings(){
+      try {
+        const sDoc = await getDoc(doc(db,'meta','site'));
+        if (!sDoc.exists()) {
+          settingName.value = ''; settingUPI.value = ''; document.getElementById('settingBanner').value = ''; document.getElementById('settingOffer').value = 0;
+          return;
+        }
+        const s = sDoc.data();
+        settingName.value = s.businessName || '';
+        settingUPI.value = s.upiId || '';
+        document.getElementById('settingBanner').value = s.bannerText || '';
+        document.getElementById('settingOffer').value = (typeof s.activeOffer !== 'undefined' && s.activeOffer !== null) ? s.activeOffer : 0;
+        if (s.adminLogo) { settingLogoPreview.src = s.adminLogo; document.getElementById('logoImg').src = s.adminLogo; }
+      } catch (err) { console.error('loadSettings failed', err); }
+    }
+    async function saveSettings(){
+      try {
+        const bannerText = document.getElementById('settingBanner').value || '';
+        const activeOffer = Number(document.getElementById('settingOffer').value) || 0;
+        await setDoc(doc(db,'meta','site'), {
+          businessName: settingName.value || '',
+          upiId: settingUPI.value || '',
+          bannerText,
+          activeOffer: Number(activeOffer)
+        }, { merge: true });
+
+        if (logoUpload.files && logoUpload.files[0]) {
+          const f = logoUpload.files[0];
+          const path = `admin_assets/logo_${Date.now()}_${f.name}`;
+          const r = ref(storage, path);
+          await uploadBytes(r, f);
+          const url = await getDownloadURL(r);
+          await setDoc(doc(db,'meta','site'), { adminLogo: url }, { merge:true });
+          settingLogoPreview.src = url; document.getElementById('logoImg').src = url;
+        }
+        const msg = document.getElementById('settingsMsg');
+        msg.innerHTML = `<div class="success-box">Settings saved</div>`;
+        setTimeout(()=> msg.innerHTML = '', 2000);
+      } catch (err) {
+        console.error('saveSettings failed', err);
+        const msg = document.getElementById('settingsMsg');
+        msg.innerHTML = `<div class="error-box">Could not save settings: ${escapeHtml(err.message || err)}</div>`;
+      }
+    }
+
+    // ---- HELPERS ----
+    function escapeHtml(s=''){ return String(s).replace(/[&<>\"']/g, m=> ({'&':'&amp;','<':'&lt;','>':'&gt;', '"':'&quot;',"'":'&#39;'})[m]); }
+    function showToast(msg='Saved'){ const el = document.getElementById('toast') || (function(){ const t = document.createElement('div'); t.id='toast'; t.className='toast'; t.style.position='fixed'; t.style.right='18px'; t.style.bottom='18px'; document.body.appendChild(t); return t; })(); el.textContent = msg; el.style.display='block'; setTimeout(()=> el.style.display='none',2200); }
+    window.addEventListener('resize', ()=> { if (document.querySelector('#page-orders').style.display !== 'none') loadOrders(); });
+
+    // exports for debugging
+    window.loadProducts = loadProducts;
+    window.loadCategories = loadCategories;
+    window.loadServices = loadServices;
+    window.loadOrders = loadOrders;
+    window.loadUploads = loadUploads;
+    window.loadSettings = loadSettings;
+
+    console.log('Admin single-file (upload-ready) loaded — waiting for auth...');
+  </script>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Demo Arena — Solvoro</title>
+  <meta name="description" content="Demo Arena — interactive samples, templates and component playgrounds from Solvoro.">
+  <link rel="icon" href="favicon.png">
+  <style>
+    :root{
+      --bg:#0b1220;
+      --bg-2:#0f1724;
+      --card:#ffffff;
+      --muted:#9aa4b2;
+      --glass: rgba(255,255,255,0.04);
+      --accent:#0ea5a4;
+      --accent-2:#2563eb;
+      --radius:14px;
+      --ease:cubic-bezier(.16,.84,.24,1);
+      --glass-2: rgba(255,255,255,0.03);
+      --text: #e6eef8;
+      --max-width:1180px;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--text);background:linear-gradient(180deg,var(--bg),var(--bg-2));-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max-width);margin:0 auto;padding:20px;position:relative}
+    .hero{display:flex;flex-direction:column;gap:18px;padding:28px;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 20px 60px rgba(2,6,23,0.6)}
+    .hero-grid{display:flex;flex-direction:column;gap:14px}
+    .hero .title{font-size:clamp(20px,4.2vw,40px);line-height:1.02;font-weight:800;letter-spacing:-0.02em}
+    .hero .lead{color:var(--muted);max-width:68ch}
+    .hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:var(--card);padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 8px 30px rgba(10,20,40,0.45);transition:transform 220ms var(--ease),box-shadow 220ms var(--ease)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+    .hero-meta{display:flex;gap:12px;align-items:center;color:var(--muted);font-weight:700}
+    .blobs{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+    .blob{position:absolute;border-radius:50%;filter:blur(36px);opacity:0.7;transform-origin:center}
+    .blob.b1{width:420px;height:420px;background:radial-gradient(circle at 20% 20%, rgba(37,99,235,0.18), transparent 40%);left:-8%;top:-12%;animation:blobMove1 10s infinite linear}
+    .blob.b2{width:520px;height:520px;background:radial-gradient(circle at 60% 40%, rgba(14,165,164,0.18), transparent 30%);right:-12%;top:-6%;animation:blobMove2 12s infinite linear}
+    .blob.b3{width:260px;height:260px;background:radial-gradient(circle at 50% 50%, rgba(99,102,241,0.12), transparent 40%);left:40%;bottom:-8%;animation:blobMove3 8s infinite linear}
+    @keyframes blobMove1{0%{transform:translateY(0) scale(1)}50%{transform:translateY(40px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
+    @keyframes blobMove2{0%{transform:translateX(0) scale(1)}50%{transform:translateX(-30px) scale(1.04)}100%{transform:translateX(0) scale(1)}}
+    @keyframes blobMove3{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.02)}100%{transform:translateY(0) scale(1)}}
+    section{margin-top:28px}
+    .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+    .section-head h2{margin:0;font-size:18px;font-weight:800}
+    .section-sub{color:var(--muted);font-weight:700}
+    .demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:14px}
+    .demo-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transform-style:preserve-3d;transition:transform 300ms var(--ease),box-shadow 300ms var(--ease),opacity 300ms var(--ease);border:1px solid rgba(255,255,255,0.03)}
+    .demo-card:focus{outline:2px solid rgba(37,99,235,0.18);outline-offset:2px}
+    .demo-card .demo-thumb{height:140px;border-radius:8px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;position:relative}
+    .demo-card .demo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .demo-card .demo-meta{display:flex;justify-content:space-between;align-items:center}
+    .demo-card .demo-title{font-weight:800}
+    .demo-card .demo-desc{color:var(--muted);font-size:13px}
+    .demo-actions{display:flex;gap:8px;align-items:center}
+    .small-btn{padding:8px 10px;border-radius:10px;border:0;background:rgba(255,255,255,0.03);color:var(--text);font-weight:800;cursor:pointer}
+    .anim-fade-up{opacity:0;transform:translateY(10px);animation:fadeUp 680ms forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+    .tilt-wrap{transform-origin:center;will-change:transform}
+    .playground{display:grid;grid-template-columns:1fr 360px;gap:16px}
+    .play-area{background:var(--glass);border-radius:12px;padding:12px;min-height:220px;display:flex;align-items:center;justify-content:center}
+    .controls{background:linear-gradient(180deg, rgba(0,0,0,0.06), transparent);padding:12px;border-radius:12px}
+    .control-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+    .backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.8);z-index:1400;padding:18px}
+    .backdrop.show{display:flex}
+    .preview-box{width:100%;max-width:1100px;height:80vh;background:#071022;border-radius:12px;padding:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(2,6,23,0.6)}
+    .preview-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .preview-frame{flex:1;border-radius:8px;margin-top:8px;background:#021018;overflow:hidden;border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;padding:18px}
+    .preview-frame iframe{width:100%;height:100%;border:0}
+    .image-lightbox img{max-width:100%;max-height:100%;object-fit:contain;display:block;margin:0 auto}
+    .case-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+    .case-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .case-card .kpis{display:flex;gap:12px;margin-top:10px;font-weight:800;color:var(--accent-2)}
+    .note{margin-top:22px;color:var(--muted);font-size:13px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.02)}
+    @media(max-width:960px){ .playground{grid-template-columns:1fr} .preview-box{max-width:100%;height:78vh} .hero{padding:18px} .demo-card .demo-thumb{height:120px} }
+    @media(max-width:520px){
+      .wrap{padding:16px}
+      .hero{padding:14px;border-radius:12px}
+      .demo-grid{grid-template-columns:1fr}
+      .preview-box{height:100vh;border-radius:0;padding:12px}
+      .backdrop.show .preview-box{width:100%;height:100vh;border-radius:0}
+      .preview-frame{height:calc(100vh - 68px)}
+    }
+    button:focus{outline:2px solid rgba(14,165,164,0.14);outline-offset:3px}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="wrap">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="blobs" aria-hidden="true">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <div class="title" id="heroTitle">Demo Arena — samples, playgrounds and micro-interactions</div>
+          <p class="lead">A professional gallery of Solvoro's templates, UI components and live micro-interactions. Use this space to preview templates, run live prototypes, and test behavior before you buy or download.</p>
+        </div>
+
+        <div class="hero-actions" role="toolbar" aria-label="Hero actions">
+          <button class="btn" id="exploreSamples">Explore samples</button>
+          <button class="btn ghost" id="openPlayground">Open playground</button>
+          <button class="btn ghost" id="openGallery">Micro-interactions</button>
+          <div class="hero-meta" aria-hidden="false">
+            <div>Prototypes • Templates • Live previews</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="samplesSection" aria-labelledby="samplesHead">
+      <div class="section-head">
+        <h2 id="samplesHead">Sample Previews</h2>
+        <div class="section-sub">High-fidelity templates and page previews</div>
+      </div>
+
+      <div class="demo-grid" id="samplesGrid" role="list">
+        <!-- demo cards generated by JS -->
+      </div>
+    </section>
+
+    <section id="playgroundSection" aria-labelledby="playHead" style="display:none">
+      <div class="section-head">
+        <h2 id="playHead">Component Playground</h2>
+        <div class="section-sub">Toggle states, interactions and quick theme previews</div>
+      </div>
+
+      <div class="playground" id="playground">
+        <div class="play-area" id="playArea">
+          <div id="widgetPreview" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column">
+            <div style="font-weight:900;font-size:18px;margin-bottom:8px">Button micro-interaction</div>
+            <button class="btn" id="sampleButton">Primary CTA</button>
+            <div class="muted small" style="margin-top:10px;color:var(--muted)">Click the controls to animate the component</div>
+          </div>
+        </div>
+
+        <aside class="controls" id="controls">
+          <div class="control-row">
+            <label for="toggleVariant" style="min-width:90px;font-weight:800">Variant</label>
+            <select id="toggleVariant" style="flex:1;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)">
+              <option value="primary">Primary</option>
+              <option value="ghost">Ghost</option>
+              <option value="accent">Accent</option>
+            </select>
+          </div>
+          <div class="control-row">
+            <label style="min-width:90px;font-weight:800">Animation</label>
+            <button class="small-btn" id="animPulse">Pulse</button>
+            <button class="small-btn" id="animGlow">Glow</button>
+          </div>
+          <div class="control-row">
+            <label style="min-width:90px;font-weight:800">Size</label>
+            <button class="small-btn" data-size="small">S</button>
+            <button class="small-btn" data-size="medium">M</button>
+            <button class="small-btn" data-size="large">L</button>
+          </div>
+          <div class="control-row">
+            <label style="min-width:90px;font-weight:800">Preview URL</label>
+          </div>
+          <div class="control-row">
+            <input id="previewUrl" placeholder="Paste a prototype URL (optional)" style="flex:1;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)">
+            <button class="small-btn" id="loadPreview">Load</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="microSection" aria-labelledby="microHead" style="display:none">
+      <div class="section-head">
+        <h2 id="microHead">Micro-interactions Gallery</h2>
+        <div class="section-sub">Small components, delightful motion</div>
+      </div>
+      <div class="demo-grid" id="microGrid"></div>
+    </section>
+
+    <section id="caseSection" aria-labelledby="caseHead" style="display:none">
+      <div class="section-head">
+        <h2 id="caseHead">Case Studies (Sample Results)</h2>
+        <div class="section-sub">Real-world outcomes from template use</div>
+      </div>
+
+      <div class="case-grid" id="caseGrid"></div>
+    </section>
+
+    <div class="note">
+      Demo Arena is a preview environment. Click any card to open a focused preview. External sites are opened in a new tab for reliability.
+    </div>
+  </div>
+
+  <div id="backdrop" class="backdrop" role="dialog" aria-hidden="true" aria-modal="true">
+    <div id="previewBox" class="preview-box" role="document" tabindex="-1">
+      <div class="preview-top">
+        <div style="display:flex;align-items:center;gap:12px">
+          <img src="logo.png" alt="Solvoro logo" style="height:36px;border-radius:8px;display:block">
+          <div id="previewTitle" style="font-weight:900">Preview</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button id="openInNew" class="small-btn" title="Open in new window">Open in new</button>
+          <button id="closePreview" class="small-btn" title="Close preview">Close</button>
+        </div>
+      </div>
+      <div class="preview-frame" id="previewFrame" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const samplesGrid = document.getElementById('samplesGrid');
+      const microGrid = document.getElementById('microGrid');
+      const caseGrid = document.getElementById('caseGrid');
+      const backdrop = document.getElementById('backdrop');
+      const previewFrame = document.getElementById('previewFrame');
+      const previewTitle = document.getElementById('previewTitle');
+      const closePreview = document.getElementById('closePreview');
+      const openInNew = document.getElementById('openInNew');
+
+      /* ---- SAMPLES: only the three you requested ----
+         prabhagraphics.in
+         novelmintpublishing.space
+         inspiro.solvoro.online
+      */
+      const samples = [
+        {
+          id: 'sample-prabhagraphics',
+          title: 'PrabhaGraphics',
+          desc: 'Sample site demo for PrabhaGraphics',
+          thumb: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+          previewUrl: 'https://prabhagraphics.in'
+        },
+        {
+          id: 'sample-novelmint',
+          title: 'NovelMint Publishing',
+          desc: 'Sample site demo for NovelMint Publishing',
+          thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+          previewUrl: 'https://novelmintpublishing.space'
+        },
+        {
+          id: 'sample-inspiro',
+          title: 'Inspiro — Solvoro',
+          desc: 'Sample site demo for Inspiro',
+          thumb: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+          previewUrl: 'https://inspiro.solvoro.online'
+        }
+      ];
+
+      const micro = [
+        { id:'m-01', title:'Button Hover', desc:'Micro-hover with scale & ripple' },
+        { id:'m-02', title:'Input Focus', desc:'Floating label + outline grow' },
+        { id:'m-03', title:'Toast Anim', desc:'Slide + fade notification' }
+      ];
+
+      const cases = [
+        { id:'case-01', title:'Store launch', kpis:['+42% conversion','₹1.2M revenue'] }
+      ];
+
+      const mk = (tag, props={}, html='') => {
+        const el = document.createElement(tag);
+        Object.keys(props).forEach(k => el.setAttribute(k, props[k]));
+        el.innerHTML = html;
+        return el;
+      };
+
+      function renderSamples(){
+        samplesGrid.innerHTML = '';
+        samples.forEach((s, i) => {
+          const card = mk('article',{class:'demo-card anim-fade-up tilt-wrap', tabindex:0, role:'listitem', 'data-id':s.id, 'data-preview':s.previewUrl},`
+            <div class="demo-thumb" aria-hidden="true">
+              <img src="${s.thumb}" alt="${s.title}">
+            </div>
+            <div class="demo-meta">
+              <div>
+                <div class="demo-title">${s.title}</div>
+                <div class="demo-desc">${s.desc}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+                <div style="font-weight:900">Preview</div>
+                <div class="demo-actions">
+                  <button class="small-btn preview-btn" data-url="${s.previewUrl}">Open</button>
+                  <button class="small-btn preview-img" data-img="${s.thumb}">Image</button>
+                </div>
+              </div>
+            </div>
+          `);
+          card.style.animationDelay = `${i * 60}ms`;
+          samplesGrid.appendChild(card);
+          attachTilt(card);
+          card.addEventListener('keydown', e => { if (e.key === 'Enter') openPreview(s.previewUrl, s.title); });
+        });
+      }
+
+      function renderMicro(){
+        microGrid.innerHTML = '';
+        micro.forEach((m,i)=> {
+          const c = mk('article',{class:'demo-card anim-fade-up', tabindex:0},`
+            <div style="font-weight:900">${m.title}</div>
+            <div class="demo-desc">${m.desc}</div>
+            <div style="margin-top:auto;display:flex;gap:8px">
+              <button class="small-btn demo-play" data-id="${m.id}">Play</button>
+              <button class="small-btn demo-info" data-id="${m.id}">Info</button>
+            </div>
+          `);
+          c.style.animationDelay = `${i*50}ms`;
+          microGrid.appendChild(c);
+          c.querySelector('.demo-play').addEventListener('click', ()=> playMicro(m.id));
+        });
+      }
+
+      function renderCases(){
+        caseGrid.innerHTML = '';
+        cases.forEach(cs=> {
+          const card = mk('div',{class:'case-card'},`
+            <div style="font-weight:900">${cs.title}</div>
+            <div class="muted small" style="margin-top:8px">Summary of results from template customers</div>
+            <div class="kpis">${cs.kpis.map(k => `<div>${k}</div>`).join('')}</div>
+            <div style="margin-top:12px"><button class="small-btn" data-case="${cs.id}">Read</button></div>
+          `);
+          caseGrid.appendChild(card);
+        });
+      }
+
+      function attachTilt(node){
+        const wrap = node;
+        let width = 0, height = 0, left = 0, top = 0;
+        function updateRect(){ const r = wrap.getBoundingClientRect(); width = r.width; height = r.height; left = r.left; top = r.top; }
+        updateRect();
+        window.addEventListener('resize', updateRect);
+        function onMove(e){
+          const x = (e.touches ? e.touches[0].clientX : e.clientX) - left;
+          const y = (e.touches ? e.touches[0].clientY : e.clientY) - top;
+          const rx = (y - height/2) / (height/2);
+          const ry = (x - width/2) / (width/2);
+          const tiltX = rx * -6;
+          const tiltY = ry * 6;
+          wrap.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(6px)`;
+          wrap.style.boxShadow = `0 18px 40px rgba(2,6,23,0.45)`;
+        }
+        function onLeave(){ wrap.style.transform = ''; wrap.style.boxShadow = ''; }
+        wrap.addEventListener('mousemove', onMove);
+        wrap.addEventListener('touchmove', onMove, {passive:true});
+        wrap.addEventListener('mouseleave', onLeave);
+        wrap.addEventListener('touchend', onLeave);
+      }
+
+      /* openPreview improved: external hosts are not embedded — we show an "Open in new tab" CTA */
+      function openPreview(url, title){
+        previewFrame.innerHTML = '';
+        previewTitle.textContent = title || 'Preview';
+        openInNew.onclick = ()=> { if (url) window.open(url, '_blank', 'noopener'); };
+
+        // images handled as before
+        if (url && /\.(png|jpg|jpeg|gif|webp|avif)(\?.*)?$/.test(url)){
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = title || 'Image preview';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = '100%';
+          img.style.display = 'block';
+          img.style.margin = '0 auto';
+          previewFrame.classList.add('image-lightbox');
+          previewFrame.appendChild(img);
+          openBackdrop();
+          return;
+        }
+
+        // Try to detect external origin — if external, avoid embedding and provide a clear Open-in-new-tab CTA
+        let isExternal = false;
+        try {
+          const parsed = new URL(url, window.location.href);
+          isExternal = parsed.origin !== window.location.origin;
+        } catch (e) {
+          // invalid URL -> show fallback message
+        }
+
+        if (isExternal){
+          previewFrame.classList.remove('image-lightbox');
+          previewFrame.innerHTML = `
+            <div style="text-align:center;max-width:720px">
+              <div style="font-weight:900;font-size:18px;margin-bottom:8px">External site (preview not embedded)</div>
+              <div style="color:var(--muted);margin-bottom:18px">For reliability and security, external sites are opened in a new tab.</div>
+              <div style="display:flex;gap:12px;justify-content:center">
+                <a class="btn" href="${url}" target="_blank" rel="noopener">Open in new tab</a>
+                <button class="small-btn" id="tryEmbed">Try embed</button>
+              </div>
+            </div>
+          `;
+          openBackdrop();
+          // tryEmbed: attempt to embed but with sandbox and fallback message on failure
+          const tryEmbed = previewFrame.querySelector('#tryEmbed');
+          tryEmbed && tryEmbed.addEventListener('click', ()=> {
+            // attempt to create a sandboxed iframe (some sites still block this)
+            previewFrame.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.setAttribute('title','Live preview frame');
+            iframe.setAttribute('allow','accelerometer; autoplay; camera; encrypted-media; geolocation; gyroscope; picture-in-picture');
+            iframe.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin allow-popups');
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            previewFrame.appendChild(iframe);
+          });
+          return;
+        }
+
+        // If same-origin or relative URL, embed as iframe
+        const iframe = document.createElement('iframe');
+        iframe.src = url || 'about:blank';
+        iframe.setAttribute('title','Live preview frame');
+        iframe.setAttribute('allow','accelerometer; autoplay; camera; encrypted-media; geolocation; gyroscope; picture-in-picture');
+        previewFrame.classList.remove('image-lightbox');
+        previewFrame.appendChild(iframe);
+        openBackdrop();
+      }
+
+      function openBackdrop(){
+        backdrop.classList.add('show');
+        backdrop.setAttribute('aria-hidden','false');
+        setTimeout(()=> document.getElementById('previewBox').focus(), 60);
+        document.body.style.overflow = 'hidden';
+      }
+      function closeBackdrop(){
+        backdrop.classList.remove('show');
+        backdrop.setAttribute('aria-hidden','true');
+        previewFrame.innerHTML = '';
+        document.body.style.overflow = '';
+      }
+
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) closeBackdrop();
+      });
+      closePreview.addEventListener('click', closeBackdrop);
+      document.addEventListener('keydown', (e)=>{
+        if (e.key === 'Escape') {
+          if (backdrop.classList.contains('show')) closeBackdrop();
+        }
+      });
+
+      function playMicro(id){
+        if (id === 'm-01'){
+          openPreviewImagePulse();
+        } else {
+          alert('Play demo: ' + id);
+        }
+      }
+
+      function openPreviewImagePulse(){
+        previewTitle.textContent = 'Button hover — micro demo';
+        previewFrame.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column">
+            <div style="font-weight:900;margin-bottom:12px">Hover the button</div>
+            <button id="microBtn" style="padding:14px 20px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(2,6,23,0.4)">Hover me</button>
+          </div>
+        `;
+        openBackdrop();
+        const microBtn = previewFrame.querySelector('#microBtn');
+        microBtn.addEventListener('mouseenter', ()=> microBtn.animate([{transform:'translateY(0) scale(1)'},{transform:'translateY(-6px) scale(1.03)'},{transform:'translateY(0) scale(1)'}], {duration:420, easing:'ease-out'}));
+      }
+
+      const openPlaygroundBtn = document.getElementById('openPlayground');
+      const openGalleryBtn = document.getElementById('openGallery');
+      const exploreBtn = document.getElementById('exploreSamples');
+      const playgroundSection = document.getElementById('playgroundSection');
+      const microSection = document.getElementById('microSection');
+      const caseSection = document.getElementById('caseSection');
+
+      exploreBtn.addEventListener('click', ()=> { window.scrollTo({ top: samplesGrid.getBoundingClientRect().top + window.scrollY - 80, behavior:'smooth' }); });
+      openPlaygroundBtn.addEventListener('click', ()=> {
+        playgroundSection.style.display = 'block';
+        microSection.style.display = 'none';
+        caseSection.style.display = 'none';
+        window.scrollTo({ top: playgroundSection.offsetTop - 80, behavior:'smooth' });
+      });
+      openGalleryBtn.addEventListener('click', ()=> {
+        microSection.style.display = 'block';
+        playgroundSection.style.display = 'none';
+        caseSection.style.display = 'none';
+        window.scrollTo({ top: microSection.offsetTop - 80, behavior:'smooth' });
+      });
+
+      /* Delegated click for sample cards:
+         - Open image in modal (thumb)
+         - 'Open' button uses openPreview which will show a reliable Open-in-new-tab CTA for external sites
+      */
+      samplesGrid.addEventListener('click', (e)=>{
+        const p = e.target.closest('.demo-card');
+        if (!p) return;
+        const previewBtn = e.target.closest('.preview-btn');
+        const imgBtn = e.target.closest('.preview-img');
+        if (previewBtn){
+          const url = previewBtn.getAttribute('data-url');
+          openPreview(url, p.querySelector('.demo-title').textContent);
+        } else if (imgBtn){
+          const img = imgBtn.getAttribute('data-img');
+          openPreview(img, p.querySelector('.demo-title').textContent);
+        } else {
+          // clicking the card opens the preview (delegated)
+          const url = p.getAttribute('data-preview');
+          openPreview(url, p.querySelector('.demo-title').textContent);
+        }
+      });
+
+      const variantSel = document.getElementById('toggleVariant');
+      const sampleButton = document.getElementById('sampleButton');
+      const animPulse = document.getElementById('animPulse');
+      const animGlow = document.getElementById('animGlow');
+      const sizeButtons = document.querySelectorAll('[data-size]');
+      const previewUrlInput = document.getElementById('previewUrl');
+      const loadPreviewBtn = document.getElementById('loadPreview');
+
+      variantSel.addEventListener('change', ()=> {
+        const v = variantSel.value;
+        sampleButton.className = 'btn';
+        if (v === 'ghost'){ sampleButton.classList.add('ghost'); sampleButton.style.background='transparent'; sampleButton.style.border='1px solid rgba(255,255,255,0.06)'; sampleButton.style.color='var(--text)'; }
+        else if (v === 'accent'){ sampleButton.style.background='linear-gradient(90deg,#8b5cf6,#06b6d4)'; sampleButton.style.color='#fff'; }
+        else { sampleButton.style.background='linear-gradient(90deg,var(--accent),var(--accent-2))'; sampleButton.style.color='#fff'; }
+      });
+
+      animPulse.addEventListener('click', ()=> {
+        sampleButton.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:600,iterations:2,easing:'ease-in-out'});
+      });
+      animGlow.addEventListener('click', ()=> {
+        sampleButton.animate([{boxShadow:'0 8px 30px rgba(14,165,164,0.08)'},{boxShadow:'0 18px 60px rgba(14,165,164,0.24)'},{boxShadow:'0 8px 30px rgba(14,165,164,0.08)'}],{duration:800,iterations:2});
+      });
+      sizeButtons.forEach(btn => btn.addEventListener('click', ()=> {
+        const size = btn.dataset.size;
+        if (size === 'small') { sampleButton.style.padding = '8px 12px'; sampleButton.style.fontSize = '14px'; }
+        if (size === 'medium') { sampleButton.style.padding = '12px 16px'; sampleButton.style.fontSize = '16px'; }
+        if (size === 'large') { sampleButton.style.padding = '16px 22px'; sampleButton.style.fontSize = '18px'; }
+      }));
+
+      loadPreviewBtn.addEventListener('click', ()=> {
+        const url = previewUrlInput.value.trim();
+        if (!url) { alert('Please paste a preview URL'); return; }
+        openPreview(url, 'Custom preview');
+      });
+
+      renderSamples();
+      renderMicro();
+      renderCases();
+
+      document.addEventListener('keydown', (e)=>{
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          window.scrollTo({ top: samplesGrid.offsetTop - 60, behavior:'smooth' });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
