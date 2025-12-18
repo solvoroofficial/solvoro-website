@@ -50,21 +50,20 @@
       background: linear-gradient(90deg,#25D366,#128C7E);
       color:#fff;
       border:0;
-      padding:12px;               /* consistent padding */
-      border-radius:999px;       /* pill shape */
+      padding:12px;
+      border-radius:999px;
       font-weight:900;
-      font-size:14px;            /* consistent font-size */
+      font-size:14px;
       cursor:pointer;
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:10px;
       box-shadow: 0 10px 30px rgba(18,140,126,0.18);
-      /* no transition -- no animation */
       transition: none;
     }
 
-    /* main space (accounts for sidebar width) */
+    /* main space (accounts for sidebar width on desktop) */
     .main{margin-left:calc(var(--sidebar-w) + 20px);padding:22px;transition:margin-left 320ms var(--ease)}
 
     /* ---------- ISLAND (dynamic) ---------- */
@@ -79,13 +78,6 @@
     .island .content{display:flex;flex-direction:column}
     .island .title{font-weight:900}
     .island .sub{font-size:13px;color:var(--muted)}
-
-    /* Shift island when sidebar drawer is open on mobile (matches products/services behavior) */
-    @media (max-width:760px) {
-      body.sidebar-open .main .island { transform: translateX(calc(var(--sidebar-w))); transition: transform 320ms var(--ease); }
-      /* hide island logo on mobile */
-      .island .circle { display: none; }
-    }
 
     /* ---------- HERO (First Screen) ---------- */
     .hero{
@@ -132,20 +124,9 @@
       opacity:0.95;
       transform:translateY(6px);
       transition: transform 520ms var(--ease), opacity 420ms var(--ease), width 320ms var(--ease), height 320ms var(--ease);
-      pointer-events: none;       /* does not block clicks or text selection */
-      z-index: 1140;              /* behind island (island uses 1150) */
-      filter: blur(0.6px);        /* subtle softening */
-    }
-
-    /* Make the shape slightly smaller and circular on narrow screens */
-    @media (max-width:760px){
-      .float-shape{
-        width:56px;
-        height:56px;
-        border-radius:50%;
-        right:12px;
-        top:-8px;
-      }
+      pointer-events: none;
+      z-index: 1140;
+      filter: blur(0.6px);
     }
 
     /* ---------- WHAT WE OFFER (split) ---------- */
@@ -193,14 +174,26 @@
     .follow a { display:inline-flex; align-items:center; gap:8px; background:var(--card); padding:8px 12px; border-radius:10px; box-shadow:0 8px 24px rgba(2,6,23,0.04); font-weight:700; color:var(--accent); text-decoration:none; }
     .follow svg { width:18px; height:18px; display:block }
 
-    /* responsive */
-    @media(max-width:980px){ .hero{grid-template-columns:1fr 320px} .offer{grid-template-columns:1fr} .highlights{flex-direction:column} .process-row{display:none} .process-vertical{display:flex} }
+    /* responsive behavior: center content on mobile, hide island logo, shift island on drawer open */
     @media(max-width:760px){
-      .sidebar{ transform: translateX(calc(-1 * var(--sidebar-w))); } /* start hidden on small */
-      .sidebar.open{ transform: translateX(0); }
-      .main{ margin-left:20px; padding:14px; transition:none }
+      /* center main content by removing left margin and using symmetric padding */
+      .main{
+        margin-left:0;
+        padding:14px;
+        padding-top:calc(12px + var(--safe-top));
+        padding-bottom:calc(12px + var(--safe-bottom));
+      }
+      /* island logo hidden on mobile */
+      .island .circle { display:none; }
+      /* default: ensure hero and panels stack nicely */
       .hero{ grid-template-columns:1fr; }
-      .hero .float-shape{ display:none; }
+      .offer{ grid-template-columns:1fr; }
+      .highlights{ flex-direction: column; }
+      .process-row{ display:none; }
+      .process-vertical{ display:flex; }
+
+      /* When drawer opens, shift only the island (not whole page) to align visually */
+      body.sidebar-open .main .island { transform: translateX(calc(var(--sidebar-w))); transition: transform 320ms var(--ease); }
     }
 
     /* reduced motion */
@@ -217,7 +210,7 @@
 </head>
 <body>
 
-  <!-- SIDEBAR (no minimize/collapse control) -->
+  <!-- SIDEBAR -->
   <aside id="sidebar" class="sidebar" aria-label="Main sidebar" aria-hidden="false">
     <div class="brand" role="banner">
       <img id="sidebarLogo" src="logo.png" alt="Solvoro logo" loading="lazy">
@@ -245,7 +238,7 @@
 
   <!-- MAIN -->
   <main id="main" class="main container" tabindex="-1">
-    <div style="display:flex;align-items:center;gap:14px;justify-content:space-between;max-width:1100px">
+    <div style="display:flex;align-items:center;gap:14px;justify-content:space-between;max-width:1100px;margin:0 auto">
       <div style="display:flex;gap:12px;align-items:center">
         <div class="island" id="island" role="region" aria-label="Dynamic island">
           <div class="circle"><img id="islandLogo" src="logo.png" alt="logo" loading="lazy"></div>
@@ -268,7 +261,7 @@
     <section class="hero" aria-labelledby="home-hero">
       <div class="hero-bg" aria-hidden="true"></div>
 
-      <div class="hero-card" role="region" aria-labelledby="home-hero">
+      <div class="hero-card" role="region" aria-labelledby="home-hero" style="margin:0 auto">
         <h1 id="heroHeading" class="reveal">We build elegant products and dependable services</h1>
         <p id="heroSub" class="reveal" style="transition-delay:120ms">Design systems, ready kits and tailored services — so you can move faster without trading quality for speed.</p>
 
@@ -291,8 +284,10 @@
       </div>
     </section>
 
-    <!-- WHAT WE OFFER (split) -->
-    <section class="offer" aria-labelledby="offer">
+    <!-- rest of page (unchanged) -->
+    <!-- WHAT WE OFFER, HIGHLIGHTS, PROCESS, FOLLOW, FINAL CTA, FOOTER ... -->
+
+    <section class="offer" aria-labelledby="offer" style="margin-top:22px">
       <h2 id="offer" style="grid-column:1/-1;margin:0 0 8px 0">What we offer</h2>
 
       <div class="panel-card" aria-hidden="false">
@@ -316,7 +311,6 @@
       </div>
     </section>
 
-    <!-- FEATURED HIGHLIGHTS -->
     <section aria-labelledby="high" style="margin-top:18px">
       <h3 id="high" style="margin:0 0 12px 0">Highlights</h3>
       <div class="highlights" role="list">
@@ -346,8 +340,7 @@
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <section aria-labelledby="how" class="panel">
+    <section aria-labelledby="how" class="panel" style="margin-top:22px">
       <h3 id="how" style="margin:0 0 12px 0">How it works</h3>
 
       <div class="process-row" aria-hidden="false">
@@ -367,8 +360,7 @@
         </div>
       </div>
 
-      <!-- vertical timeline for small screens -->
-      <div class="process-vertical" aria-hidden="true">
+      <div class="process-vertical" aria-hidden="true" style="margin-top:12px">
         <div class="step-card">
           <div style="font-weight:900">Choose</div>
           <div class="muted small">Pick a product or request a service.</div>
@@ -384,28 +376,15 @@
       </div>
     </section>
 
-    <!-- FOLLOW US (new section) -->
-    <section aria-labelledby="follow" class="panel">
+    <section aria-labelledby="follow" class="panel" style="margin-top:22px">
       <h3 id="follow" style="margin:0 0 12px 0">Follow us</h3>
       <div class="follow" role="list">
-        <a role="listitem" target="_blank" rel="noopener noreferrer" aria-label="Instagram - solvoro.official" href="https://www.instagram.com/solvoro.official">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
-          Instagram
-        </a>
-
-        <a role="listitem" target="_blank" rel="noopener noreferrer" aria-label="Facebook - Solvoro O" href="https://www.facebook.com/people/Solvoro-O/pfbid0sqGLVtCnu81efxMq4q4hCnRDWABn1dNCXjyjfkWWS9SjtPihQXLVzm2E1Vnc7pbhl/">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 12.07C22 6.55 17.52 2 12 2S2 6.55 2 12.07c0 5 3.66 9.13 8.44 9.95v-7.05H7.9v-2.9h2.54V9.67c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.62.76-1.62 1.54v1.84h2.77l-.44 2.9h-2.33V22C18.34 21.2 22 17.07 22 12.07z" stroke="currentColor" stroke-width="0.6" stroke-linejoin="round"/></svg>
-          Facebook
-        </a>
-
-        <a role="listitem" target="_blank" rel="noopener noreferrer" aria-label="YouTube - Solvoro Freelancing" href="https://www.youtube.com/@solvoro.freelancing">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22.54 6.42a2.8 2.8 0 0 0-1.97-1.99C18.64 4 12 4 12 4s-6.63 0-8.57.43A2.8 2.8 0 0 0 1.46 6.42 29.36 29.36 0 0 0 1 12a29.36 29.36 0 0 0 .46 5.58 2.8 2.8 0 0 0 1.97 1.99C5.37 20 12 20 12 20s6.64 0 8.57-.43a2.8 2.8 0 0 0 1.97-1.99A29.36 29.36 0 0 0 23 12a29.36 29.36 0 0 0-.46-5.58zM10 15.5v-7l6 3.5-6 3.5z" stroke="currentColor" stroke-width="0.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          YouTube
-        </a>
+        <a role="listitem" target="_blank" rel="noopener noreferrer" aria-label="Instagram - solvoro.official" href="https://www.instagram.com/solvoro.official">Instagram</a>
+        <a role="listitem" target="_blank" rel="noopener noreferrer" aria-label="Facebook - Solvoro O" href="https://www.facebook.com/people/Solvoro-O/pfbid0sqGLVtCnu81efxMq4q4hCnRDWABn1dNCXjyjfkWWS9SjtPihQXLVzm2E1Vnc7pbhl/">Facebook</a>
+        <a role="listitem" target="_blank" rel="noopener noreferrer" aria-label="YouTube - Solvoro Freelancing" href="https://www.youtube.com/@solvoro.freelancing">YouTube</a>
       </div>
     </section>
 
-    <!-- FINAL CTA (single button) -->
     <section aria-labelledby="final-cta" style="margin-top:26px">
       <div class="final-cta" role="region" aria-labelledby="final-cta">
         <h3 id="final-cta" style="margin:0">Start something clear and useful today.</h3>
@@ -498,7 +477,6 @@
       sidebar.setAttribute('aria-hidden', 'false');
       hamburger && hamburger.setAttribute('aria-expanded', 'true');
 
-      // add body class to shift island on mobile
       if (isMobile()) document.body.classList.add('sidebar-open');
     }
     function closeDrawer(){
@@ -511,7 +489,6 @@
       sidebar.setAttribute('aria-hidden', 'true');
       hamburger && hamburger.setAttribute('aria-expanded', 'false');
 
-      // remove body class that shifts island
       document.body.classList.remove('sidebar-open');
     }
 
