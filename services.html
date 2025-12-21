@@ -125,45 +125,111 @@
       .island .circle{display:none}
       body.sidebar-open .main .island{ transform: translateX(260px); }
     }
+
+    /* ---------- HEADER OVERRIDES (shared header styles) ---------- */
+    /* use the header's island, brand and demo button styles to match the other pages */
+    .brand img{width:52px;height:52px;border-radius:12px;object-fit:contain;transition:transform 320ms var(--ease)}
+    .brand .muted-small{font-weight:400}
+    nav{flex:1;margin-top:6px;display:flex;flex-direction:column;gap:6px}
+    nav a{padding:10px 12px;border-radius:10px;font-weight:700;color:var(--accent);display:block;transition:background 220ms var(--ease), transform 220ms var(--ease)}
+    nav a:hover{background:var(--glass);transform:translateX(6px)}
+    nav a.active{background:var(--accent);color:var(--card)}
+    .footer-row{margin-top:auto;display:flex;gap:8px;align-items:center;justify-content:center}
+
+    /* Ensure demo button matches other pages but without animation */
+    .demobtn{
+      background: linear-gradient(90deg,#25D366,#128C7E);
+      color:#fff;
+      border:0;
+      padding:12px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:14px;
+      cursor:pointer;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      box-shadow: 0 10px 30px rgba(18,140,126,0.18), 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .island{ /* reinforce island visuals from header */
+      background:linear-gradient(90deg, rgba(255,255,255,0.06), transparent);
+      box-shadow:0 10px 35px rgba(2,6,23,0.06);
+    }
+    .island .circle{border:2px solid rgba(0,0,0,0.06);background:var(--card)}
+    .island .title{font-weight:900}
+    .island .sub{font-size:13px;color:var(--muted)}
+
+    .float-shape{
+      position:absolute;
+      right:8px;
+      top:-12px;
+      width:72px;
+      height:72px;
+      border-radius:20px;
+      background: linear-gradient(180deg, rgba(37,211,102,0.08), rgba(18,140,126,0.04));
+      box-shadow: 0 12px 36px rgba(18,140,126,0.06);
+      mix-blend-mode: screen;
+      opacity:0.95;
+      transform:translateY(6px);
+      transition: transform 520ms var(--ease), opacity 420ms var(--ease), width 320ms var(--ease), height 320ms var(--ease);
+      pointer-events: none;
+      z-index: 1140;
+      filter: blur(0.6px);
+    }
+
+    /* mobile behavior: when sidebar open, shift only island for visual alignment */
+    @media(max-width:760px){ body.sidebar-open .main .island { transform: translateX(260px); transition: transform 320ms var(--ease); } }
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .small{font-size:13px}
+    button:focus, a:focus { outline: 3px solid rgba(15,23,36,0.08); outline-offset:3px; border-radius:6px; }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar" aria-label="Main sidebar">
-    <div class="brand" style="position:relative">
-      <img id="sidebarLogo" src="logo.png" alt="logo">
+  <!-- SIDEBAR (replaced with shared header sidebar) -->
+  <aside id="sidebar" class="sidebar" aria-label="Main sidebar" aria-hidden="false">
+    <div class="brand" role="banner">
+      <img id="sidebarLogo" src="logo.png" alt="Solvoro logo" loading="lazy">
       <div>
         <div class="title">Solvoro</div>
-        <div class="muted small">Digital services</div>
+        <div class="muted-small">Human-first studio</div>
       </div>
     </div>
-    <nav aria-label="Main nav">
+
+    <nav aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="services.html" class="active">Services</a>
       <a href="products.html">Products</a>
       <a href="support.html">Support</a>
       <a href="about.html">About</a>
     </nav>
-    <div class="demo-wrap" aria-hidden="false">
-      <button onclick="window.location.href='https://www.solvoro.online/demo-arena'" class="demo-btn" aria-label="Live demo">Demo Arena</button>
+
+    <div class="footer-row" aria-hidden="false">
+      <!-- include both class names so existing styles/scripts work -->
+      <button id="demoBtn" class="demo-btn demobtn" onclick="window.location.href='https://www.solvoro.online/demo-arena'">Demo Arena</button>
     </div>
   </aside>
 
+  <!-- mobile overlay (single element used by page script) -->
   <div id="mobileOverlay" class="mobile-overlay" tabindex="-1" aria-hidden="true"></div>
 
   <main class="main container" id="main">
-    <div style="display:flex;align-items:center;gap:14px;justify-content:space-between;max-width:1100px">
+    <div style="display:flex;align-items:center;gap:14px;justify-content:space-between;max-width:1100px;margin:0 auto">
       <div style="display:flex;gap:12px;align-items:center">
-        <div class="island" id="island">
-          <div class="circle"><img id="islandLogo" src="logo.png" alt="logo"></div>
+        <div class="island" id="island" role="region" aria-label="Dynamic island">
+          <div class="circle"><img id="islandLogo" src="logo.png" alt="logo" loading="lazy"></div>
           <div class="content">
-            <div class="title" id="bannerText">Solvoro — Digital Services</div>
-            <div class="sub" id="bannerSub">High-quality services — fast & secure</div>
+            <div id="bannerText" class="title">Solvoro — Digital Services</div>
+            <div id="bannerSub" class="sub">High-quality services — fast & secure</div>
           </div>
+          <div class="float-shape" id="floatShape" aria-hidden="true"></div>
         </div>
       </div>
+
       <div style="display:flex;align-items:center;gap:10px">
-        <button id="hamburger" aria-label="Open menu" style="display:none;background:transparent;border:0;padding:10px;border-radius:8px;cursor:pointer">
+        <button id="hamburger" aria-label="Open menu" aria-expanded="false" style="display:none;background:transparent;border:0;padding:10px;border-radius:8px;cursor:pointer">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
         </button>
       </div>
@@ -223,7 +289,7 @@
     const $ = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
     const el = (tag, attrs={}, html='') => { const n=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); n.innerHTML=html; return n; };
-    function escapeHtml(s=''){ return String(s||'').replace(/[&<>"]|'/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function escapeHtml(s=''){ return String(s||'').replace(/[&<>"]|'./g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     function showToast(msg='Saved'){ const t=$('#toast'); t.textContent = msg; t.classList.add('show'); t.style.display='block'; setTimeout(()=>{ t.classList.remove('show'); }, 2300); }
     function isMobileAgent(){ return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || ''); }
     function genOrderSku(){ return 'ORD-' + Date.now().toString(36).toUpperCase().slice(-10); }
