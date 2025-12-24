@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Products — Solvoro</title>
+  <link id="favIcon" rel="icon" href="favicon.png">
+  <meta name="description" content="Buy Solvoro digital products">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    :root{
+      --bg:#f7f7fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#0f1724;
+      --glass: rgba(12,17,23,0.06);
+      --shadow: 0 18px 50px rgba(2,6,23,0.12);
+      --radius:14px;
+      --gap:16px;
+      --ease:cubic-bezier(.2,.9,.3,1);
+      --success:#16a34a;
+      --danger:#dc2626;
+      --whatsapp-green-1:#25D366;
+      --whatsapp-green-2:#128C7E;
+
+      /* header */
+      --header-h:76px;
+      --safe-top: env(safe-area-inset-top);
+
+      /* unified sidebar width used across CSS and JS (kept for some spacing calculations but sidebar removed) */
+      --sidebar-w:260px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,var(--bg),#fbfcfe);color:var(--accent);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:18px 22px}
+
+    /* ---------- HEADER (top, animated) ---------- */
+    .header{
+      position:fixed; left:0; right:0; top:0; height:calc(var(--header-h) + var(--safe-top)); padding:12px 18px; padding-top: calc(8px + var(--safe-top));
+      display:flex;align-items:center;justify-content:space-between;gap:16px;z-index:1300;
+      background: linear-gradient(90deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55));
+      border-bottom: 1px solid rgba(0,0,0,0.04); box-shadow: 0 8px 30px rgba(2,6,23,0.06); backdrop-filter: blur(8px);
+      transition: transform 700ms var(--ease), box-shadow 400ms var(--ease), background 600ms var(--ease);
+      animation: header-entrance 700ms var(--ease) both;
+      will-change: transform, box-shadow;
+    }
+    @keyframes header-entrance{ 0%{ transform: translateY(-18px); opacity:0; } 100%{ transform:none; opacity:1; } }
+
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:56px;height:56px;border-radius:12px;object-fit:contain;transform-origin:center;transition:transform 420ms var(--ease), filter 320ms var(--ease)}
+    .brand img:hover{transform:rotate(-8deg) scale(1.02)}
+    .brand .title{font-weight:900;line-height:1}
+    .brand .muted-small{font-weight:400;font-size:13px;color:var(--muted)}
+
+    /* funky animated bar behind header content */
+    .header::before{
+      content:''; position:absolute; inset:0; left:-20%; width:140%; height:100%; z-index:1000; pointer-events:none;
+      background: linear-gradient(120deg, rgba(16,99,83,0.03), rgba(6,55,120,0.02) 30%, rgba(37,211,102,0.03));
+      transform: translateY(6px);
+      animation: header-wave 7s linear infinite;
+      mix-blend-mode:overlay; opacity:0.95; border-bottom-left-radius:14px; border-bottom-right-radius:14px;
+    }
+    @keyframes header-wave{ 0%{ transform: translateX(-6%) translateY(6px);} 50%{ transform: translateX(6%) translateY(2px);} 100%{ transform: translateX(-6%) translateY(6px);} }
+
+    nav#mainNav{ display:flex; gap:8px; align-items:center }
+    nav#mainNav a{ padding:8px 12px; border-radius:10px; font-weight:800; color:var(--accent); display:inline-flex; align-items:center; gap:8px; position:relative; transition: transform 280ms var(--ease), color 220ms var(--ease) }
+    nav#mainNav a::after{ content:''; position:absolute; left:10%; right:10%; bottom:-6px; height:3px; background:linear-gradient(90deg,#25D366,#128C7E); border-radius:999px; opacity:0; transform:scaleX(0); transform-origin:left; transition:transform 320ms var(--ease), opacity 220ms var(--ease) }
+    nav#mainNav a:hover{ transform:translateY(-4px); color:var(--whatsapp-green-2) }
+    nav#mainNav a:hover::after{ opacity:1; transform:scaleX(1) }
+    nav#mainNav a.active{ background:linear-gradient(90deg, rgba(7,18,34,0.96), rgba(7,18,34,0.96)); color:#fff }
+
+    .header-right{ display:flex; gap:10px; align-items:center }
+
+    .demobtn{
+      background: linear-gradient(90deg,var(--whatsapp-green-1),var(--whatsapp-green-2));
+      color:#fff; border:0; padding:10px 14px; border-radius:999px; font-weight:900; font-size:14px; cursor:pointer;
+      align-items:center; justify-content:center; gap:10px; box-shadow: 0 10px 30px rgba(18,140,126,0.18), 0 4px 10px rgba(0,0,0,0.06);
+      transform-origin:center; transition: transform 420ms var(--ease), box-shadow 420ms var(--ease);
+    }
+    .demobtn:hover{ transform: translateY(-4px) scale(1.02); }
+
+    /* hamburger for small screens */
+    #hamburger{ display:none; background:transparent;border:0;padding:8px;border-radius:8px;cursor:pointer }
+
+    /* main space takes header into account */
+    .main{ padding:22px; padding-top: calc(var(--header-h) + 34px); transition: padding-top 320ms var(--ease) }
+
+    /* ---------- PRODUCTS PAGE STYLES (kept) ---------- */
+    .categories-box{
+      margin-top:16px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      overflow-x:auto;
+      padding-bottom:6px;
+      -webkit-overflow-scrolling:touch;
+    }
+    .categories-box::-webkit-scrollbar{ height:6px }
+    .chip{
+      background:var(--card);
+      border:1px solid rgba(0,0,0,0.04);
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:800;
+      white-space:nowrap;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+      transition:transform 180ms var(--ease), background 180ms var(--ease);
+      font-size:14px;
+    }
+    .chip:hover{ transform:translateY(-3px) }
+    .chip.active{ background:linear-gradient(90deg,var(--whatsapp-green-1),var(--whatsapp-green-2)); color:#fff; border-color:transparent }
+
+    .catalog{margin-top:18px}
+    .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+    .card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 12px 36px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:10px;transition:transform 320ms var(--ease)}
+    .card:hover{transform:translateY(-6px)}
+    .thumb{position:relative;width:100%;height:180px;border-radius:10px;background:#efefef;object-fit:cover;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .title{font-weight:800;line-height:1.15}
+    .short{color:var(--muted);font-size:13px;line-height:1.35}
+    .card-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{background:var(--accent);color:var(--card);border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:900;min-width:44px;font-size:13px}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(0,0,0,0.06)}
+
+    /* modal & other existing styles kept mostly as before */
+    .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(4,6,9,0.55);z-index:1400;padding:18px}
+    .modal-backdrop.show{display:flex}
+    .modal-box{width:980px;max-width:98%;max-height:92vh;overflow:auto;background:var(--card);border-radius:12px;padding:18px;box-shadow:0 30px 70px rgba(2,6,23,0.5);transform:translateY(12px);opacity:0;transition:transform 320ms var(--ease),opacity 320ms var(--ease)}
+    .modal-backdrop.show .modal-box{transform:none;opacity:1}
+    .detail-top{display:flex;gap:16px;flex-wrap:wrap}
+    .detail-image{flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06)}
+    .detail-image-gallery{flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:8px;}
+    .gallery-thumbs{display:flex;gap:4px;overflow-x:auto;padding:4px;background:#f8f9fa;border-radius:8px 8px 0 0;white-space:nowrap;}
+    .gallery-thumbs::-webkit-scrollbar { height: 4px; }
+    .gallery-thumbs::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 2px; }
+    .gallery-thumbs::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.3); border-radius: 2px; }
+    .detail-image img{width:100%;height:100%;object-fit:cover}
+    .detail-right{flex:1;min-width:220px;display:flex;flex-direction:column;gap:10px}
+    .detail-title{font-size:20px;font-weight:900}
+    .detail-cat{font-size:13px;color:var(--muted)}
+    .detail-desc{color:var(--muted);line-height:1.45}
+    .detail-table{width:100%;border-collapse:collapse;margin-top:10px}
+    .detail-table th, .detail-table td{padding:10px;border-bottom:1px dashed rgba(0,0,0,0.06);text-align:left;vertical-align:top}
+    .detail-table th{width:36%;color:var(--muted);font-weight:800;font-size:14px}
+
+    /* order form layout */
+    .order-grid{display:grid;grid-template-columns:1fr 340px;gap:18px;margin-top:12px}
+    .form{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(2,6,23,0.05);display:flex;flex-direction:column;gap:10px}
+    .form label{font-size:13px;font-weight:700}
+    .form input, .form textarea{padding:10px;border-radius:8px;border:1px solid #efeff2;background:transparent;color:var(--accent);font-size:14px}
+    .price-box{background:var(--glass);padding:10px;border-radius:8px;display:flex;flex-direction:column;gap:6px}
+
+    /* payment area */
+    .payment-manual{background:var(--card);padding:12px;border-radius:10px;border:1px dashed rgba(0,0,0,0.04);display:flex;flex-direction:column;gap:8px}
+    .copy-row{display:flex;gap:8px;align-items:center}
+    .copy-row input{flex:1;padding:8px;border-radius:8px;border:1px solid #efeff2}
+    .qr-area{display:flex;flex-direction:column;gap:8px;align-items:center;padding:8px}
+    .qr-area img{width:260px;height:260px;border-radius:8px;object-fit:contain}
+    .small{font-size:13px}
+    .muted{color:var(--muted)}
+    .toast{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:10px;box-shadow:0 12px 40px rgba(2,6,23,0.12);display:none;z-index:1600}
+    .toast.show{display:block;animation:pop .42s var(--ease)}
+    @keyframes pop{0%{transform:translateY(8px);opacity:0}100%{transform:translateY(0);opacity:1}}
+
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:1700;padding:18px}
+    .lightbox img { transition: opacity 0.3s ease; max-width:90%;max-height:90%;object-fit:contain;display:block;margin:0 auto;}
+    .lightbox button:hover { opacity: 0.7; }
+
+    /* mobile adjustments */
+    @media(max-width:920px){
+      .service-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+      .main{padding:14px}
+      .order-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:760px){
+      .main{padding:12px;padding-top:calc(12px + var(--safe-top) + var(--header-h));}
+      .modal-box{width:100%;max-width:100%;max-height:100vh;height:100vh;border-radius:0;padding:calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));margin-bottom:0;box-shadow:none}
+      .actions{flex-direction:column;align-items:stretch}
+      .btn{width:100%}
+      .gallery-thumbs{flex-direction:row;max-height:none;overflow-x:auto;}
+      .thumb-preview{width:100%;max-width:200px;}
+      .service-grid{grid-template-columns:1fr;gap:12px;}
+      .card{padding:12px;}
+      .thumb{height:160px;}
+      .categories-box{padding-bottom:8px}
+      .chip{padding:8px 10px;font-size:13px}
+      .main-preview img{max-width:100%;height:auto;object-fit:contain}
+      .detail-image-gallery .main-preview{height:auto}
+    }
+
+
+
+    @media (prefers-reduced-motion: reduce){
+      :root{ --ease: linear; }
+      *{ transition:none !important; animation:none !important; }
+    }
+
+    /* ---------- MOBILE HEADER & NAV & TOAST POLISH (non-JS, purely visual) ---------- */
+    @media (max-width:760px){
+      .header{
+        padding: 10px 14px;
+        height: auto;
+        border-bottom-left-radius: 14px;
+        border-bottom-right-radius: 14px;
+      }
+
+      .brand img{
+        width:44px; height:44px;
+      }
+
+      .brand .title{
+        font-size:16px;
+        font-weight:900;
+      }
+
+      .brand .muted-small{ font-size:11px }
+
+      .header-right{ gap:6px }
+
+      .demobtn{ padding:9px 14px; font-size:13px }
+
+      #hamburger{ padding:10px; border-radius:12px; background: rgba(0,0,0,0.04); }
+
+      /* mobile nav appears as a rounded sheet — JS still controls display:block/none */
+      nav#mainNav{
+        display:none;
+        position:fixed;
+        left:12px;
+        right:12px;
+        top:calc(var(--header-h) + var(--safe-top) + 8px);
+        background:linear-gradient(180deg,#fff,#f9fafb);
+        padding:16px;
+        flex-direction:column;
+        gap:10px;
+        border-radius:16px;
+        box-shadow:0 20px 50px rgba(2,6,23,0.15);
+        z-index:1295;
+      }
+
+      nav#mainNav a{ padding:14px 14px; border-radius:12px; font-size:15px; justify-content:center }
+      nav#mainNav a::after{ display:none }
+
+      /* center toast on small screens and respect safe area */
+      .toast{
+        left:50%; right:auto; transform:translateX(-50%) translateY(20px);
+        bottom: calc(16px + var(--safe-bottom));
+        max-width: calc(100vw - 32px);
+        text-align:center;
+      }
+      .toast.show{ display:block; opacity:1; transform: translateX(-50%) translateY(0); }
+
+      /* ensure modals are above the mobile nav overlay */
+      .modal-backdrop{ z-index:1405 }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- HEADER (used across site) -->
+  <header id="header" class="header" role="banner" aria-label="Main header">
+    <div class="brand" role="presentation">
+      <img id="headerLogo" src="logo.png" alt="Solvoro logo" loading="lazy">
+      <div>
+        <div class="title">Solvoro</div>
+        <div class="muted-small">Human-first studio</div>
+      </div>
+    </div>
+
+    <nav id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="support.html">Support</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="demobtn" onclick="window.location.href='https://www.solvoro.online/demo-arena'">Demo Arena</button>
+      <button id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile overlay (used for menu & modal shading) -->
+  <div id="mobileOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.4);opacity:0;pointer-events:none;transition:opacity 260ms var(--ease);z-index:1190" aria-hidden="true"></div>
+
+  <!-- MAIN -->
+  <main id="main" class="main container" tabindex="-1">
+    <div style="max-width:1100px;margin:0 auto">
+      <header style="margin-top:18px;display:flex;align-items:center;gap:12px">
+        <div>
+          <h1 style="margin:0">Products</h1>
+          <div class="muted">Products listed below — tap a category to filter</div>
+        </div>
+        <div style="margin-left:auto">
+          <div id="loadingIndicator" class="muted small" style="opacity:0">Loading…</div>
+        </div>
+      </header>
+
+      <!-- Small categories box (chips) -->
+      <div id="categoriesBox" class="categories-box" aria-label="Categories" role="tablist" style="margin-top:12px"></div>
+
+      <!-- Product grid -->
+      <section id="catalog" class="catalog" style="margin-top:8px" aria-live="polite">
+        <div id="productsGrid" class="service-grid"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Detail modal -->
+  <div id="detailModal" class="modal-backdrop" role="dialog" aria-hidden="true">
+    <div class="modal-box" role="document" id="modalBox" aria-modal="true" tabindex="-1">
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Order modal -->
+  <div id="orderModal" class="modal-backdrop" role="dialog" aria-hidden="true">
+    <div class="modal-box" role="document" id="orderBox" aria-modal="true" tabindex="-1">
+      <div id="orderContent"></div>
+    </div>
+  </div>
+
+  <hr>
+  <footer style="text-align:center;padding:10px 0;color:var(--muted)"><small>© Solvoro — Build For Who Builds</small></footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import {
+      getFirestore, collection, getDocs, doc, getDoc, addDoc, updateDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAPdXACIbpkug9CZkCun08paAz7un9-xjI",
+      authDomain: "usss-96c7f.firebaseapp.com",
+      projectId: "usss-96c7f",
+      storageBucket: "usss-96c7f.firebasestorage.app",
+      messagingSenderId: "120676939304",
+      appId: "1:120676939304:web:069e4d64eccfeab58e671d"
+    };
+    let db = null;
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+    } catch(e){
+      console.warn('Firebase init failed — products page will still work locally.', e);
+    }
+
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const el = (tag, attrs={}, html='') => { const n=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); n.innerHTML=html; return n; };
+    function escapeHtml(s=''){ return String(s||'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function showToast(msg='Saved'){ const t=$('#toast'); t.textContent = msg; t.classList.add('show'); t.style.display='block'; setTimeout(()=>{ t.classList.remove('show'); }, 2300); }
+    function isMobileWidth(){ return window.innerWidth <= 760; }
+    function isMobileAgent(){ return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || ''); }
+    function genOrderSku(){ return 'ORD-' + Date.now().toString(36).toUpperCase().slice(-10); }
+    function displayPrice(n){ return '₹' + Number(n||0).toLocaleString('en-IN'); }
+
+    function shortTextByWords(s='', maxWords=30){
+      if (!s) return '';
+      const words = s.trim().split(/\s+/);
+      if (words.length <= maxWords) return escapeHtml(words.join(' '));
+      return escapeHtml(words.slice(0, maxWords).join(' ')) + '…';
+    }
+
+    const catalog = $('#catalog');
+    const productsGrid = $('#productsGrid');
+    const loadingIndicator = $('#loadingIndicator');
+    const detailModal = $('#detailModal'), modalContent = $('#modalContent');
+    const orderModal = $('#orderModal'), orderContent = $('#orderContent');
+    const categoriesBox = $('#categoriesBox');
+
+    /* Header & mobile menu elements */
+    const nav = document.getElementById('mainNav');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const hamburger = document.getElementById('hamburger');
+
+    function disableBodyScroll(){ document.body.style.overflow = 'hidden'; }
+    function enableBodyScroll(){ document.body.style.overflow = ''; }
+
+    // Mobile menu interactions (header-based)
+    function isMobile(){ return window.innerWidth <= 760; }
+
+    function initMenu(){
+      if (!nav || !hamburger) return;
+      if (isMobile()){
+        nav.style.display = 'none';
+        hamburger.style.display = 'block';
+      } else {
+        nav.style.display = 'flex';
+        hamburger.style.display = 'none';
+        closeMenu();
+      }
+    }
+    function openMenu(){
+      if (!nav || !mobileOverlay) return;
+      nav.style.display = 'flex';
+      nav.style.transform = 'translateY(0)';
+      mobileOverlay.style.opacity = '1';
+      mobileOverlay.style.pointerEvents = 'auto';
+      mobileOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      hamburger && hamburger.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu(){
+      if (!nav || !mobileOverlay) return;
+      if (isMobile()) nav.style.display = 'none';
+      mobileOverlay.style.opacity = '0';
+      mobileOverlay.style.pointerEvents = 'none';
+      mobileOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      hamburger && hamburger.setAttribute('aria-expanded', 'false');
+    }
+
+    window.addEventListener('resize', initMenu);
+    document.addEventListener('DOMContentLoaded', initMenu);
+
+    if (hamburger) {
+      hamburger.addEventListener('click', ()=> {
+        if (nav.style.display === 'flex') closeMenu(); else openMenu();
+      });
+    }
+    if (mobileOverlay) mobileOverlay.addEventListener('click', () => { closeMenu(); /* also close modals if visible */ if (detailModal.classList.contains('show')) { detailModal.classList.remove('show'); detailModal.setAttribute('aria-hidden','true'); enableBodyScroll(); } if (orderModal.classList.contains('show')) { orderModal.classList.remove('show'); orderModal.setAttribute('aria-hidden','true'); enableBodyScroll(); } });
+
+    // close menus/modals on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape'){
+        closeMenu();
+        if (detailModal.classList.contains('show')) { detailModal.classList.remove('show'); detailModal.setAttribute('aria-hidden','true'); enableBodyScroll(); }
+        if (orderModal.classList.contains('show')) { orderModal.classList.remove('show'); orderModal.setAttribute('aria-hidden','true'); enableBodyScroll(); }
+      }
+    });
+
+    /* FIREBASE FETCHERS (used by renderCatalog and other flows) */
+    async function fetchCategories(){
+      if (!db) return [];
+      const snap = await getDocs(collection(db,'categories'));
+      return snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    }
+    async function fetchProducts(){
+      if (!db) return [];
+      const snap = await getDocs(collection(db,'products'));
+      return snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    }
+    async function fetchMeta(){
+      if (!db) return {};
+      try { const s = await getDoc(doc(db,'meta','site')); return s.exists() ? s.data() : {}; } catch(e){ console.warn('fetchMeta error', e); return {}; }
+    }
+
+    function showLoading(txt='Loading…'){ loadingIndicator.textContent = txt; loadingIndicator.style.opacity = 1; }
+    function hideLoading(){ loadingIndicator.style.opacity = 0; }
+
+    /* RENDERING: categories as chips + product grid showing only image, name, short desc, buttons */
+    async function renderCatalog(){
+      showLoading('Loading products…');
+      try {
+        const [cats, prods, meta] = await Promise.all([fetchCategories(), fetchProducts(), fetchMeta()]);
+
+        // meta → update header logo & favicon (dynamic island removed)
+        if (meta && meta.adminLogo) {
+          const headerLogo = $('#headerLogo');
+          const fav = document.getElementById('favIcon');
+          if (headerLogo) headerLogo.src = meta.adminLogo;
+          if (fav) fav.href = meta.adminLogo;
+        }
+
+        // Build a lookup for categories and product-only categories
+        const catLookup = {};
+        cats.forEach(c => { catLookup[c.id] = c; });
+        const productCategories = cats.filter(c => c.type === 'product');
+        const productCategoryIds = productCategories.map(c => c.id);
+
+        // Filter products: include only those that are uncategorized OR whose category is of type 'product'
+        const prodsFiltered = prods.filter(p => {
+          if (!p.categoryId) return true; // keep uncategorized products
+          return productCategoryIds.includes(p.categoryId);
+        });
+
+        // Build categories chip UI (small box) — only product categories appear
+        categoriesBox.innerHTML = '';
+        const allChip = el('button', { class: 'chip active', role: 'tab', 'aria-pressed':'true', 'data-cat':'all' }, 'All');
+        categoriesBox.appendChild(allChip);
+        productCategories.forEach(c => {
+          const chip = el('button', { class: 'chip', role: 'tab', 'aria-pressed':'false', 'data-cat': c.id }, escapeHtml(c.name || 'Untitled'));
+          categoriesBox.appendChild(chip);
+        });
+
+        // click handler for chips → filter displayed products from the already filtered list
+        categoriesBox.querySelectorAll('.chip').forEach(ch => {
+          ch.addEventListener('click', (e) => {
+            const catId = e.currentTarget.getAttribute('data-cat');
+            categoriesBox.querySelectorAll('.chip').forEach(c => { c.classList.remove('active'); c.setAttribute('aria-pressed','false'); });
+            e.currentTarget.classList.add('active'); e.currentTarget.setAttribute('aria-pressed','true');
+            renderProductsGrid(prodsFiltered, catId === 'all' ? null : catId);
+            productsGrid.scrollIntoView({behavior:'smooth', block:'start'});
+          });
+        });
+
+        // initial render — only product-category items (and uncategorized) are shown
+        renderProductsGrid(prodsFiltered, null);
+      } catch (err) {
+        console.error('renderCatalog error', err);
+        productsGrid.innerHTML = '<div class="muted">Failed to load products.</div>';
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderProductsGrid(products, categoryFilter = null){
+      productsGrid.innerHTML = '';
+      const visible = categoryFilter ? products.filter(p => p.categoryId === categoryFilter) : products.slice();
+      if (!visible.length){
+        productsGrid.innerHTML = '<div class="muted">No products to display.</div>';
+        return;
+      }
+      visible.forEach(p => {
+        const images = [];
+        if (p.images && Array.isArray(p.images)) images.push(...p.images.filter(Boolean));
+        else if (p.images && typeof p.images === 'string') images.push(p.images);
+        else if (p.thumbnailUrl) images.push(p.thumbnailUrl);
+        else if (p.thumbnail) images.push(p.thumbnail);
+
+        const thumbSrc = images.length ? escapeHtml(images[0]) : '';
+        const desc = p.shortDescription || p.longDescription || '';
+        const short = shortTextByWords(desc || '', 20);
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.setAttribute('data-id', p.id);
+        card.innerHTML = `
+          <div class="thumb" role="button" aria-label="Open ${escapeHtml(p.title || 'product')}">
+            ${ thumbSrc ? `<img src="${thumbSrc}" alt="${escapeHtml(p.title || '')}">` : `<div style="padding:12px;color:var(--muted);font-size:14px">No image</div>` }
+          </div>
+          <div>
+            <div class="title" style="margin-bottom:6px">${escapeHtml(p.title || 'Untitled')}</div>
+            <div class="short">${short}</div>
+          </div>
+          <div class="card-footer">
+            <div class="muted small" style="font-weight:700"></div>
+            <div class="actions">
+              <button class="btn view-btn" data-id="${escapeHtml(p.id)}">View</button>
+              <button class="btn secondary order-inline" data-id="${escapeHtml(p.id)}">Order</button>
+            </div>
+          </div>
+        `;
+        const thumbEl = card.querySelector('.thumb');
+        thumbEl.addEventListener('click', ()=> openDetail(p.id));
+
+        productsGrid.appendChild(card);
+      });
+
+      // attach handlers
+      $$('.view-btn').forEach(b => { b.removeEventListener('click', handleViewClick); b.addEventListener('click', handleViewClick); });
+      $$('.order-inline').forEach(b => { b.removeEventListener('click', handleOrderClick); b.addEventListener('click', handleOrderClick); });
+    }
+
+    function handleViewClick(e){ openDetail(e.currentTarget.dataset.id); }
+    function handleOrderClick(e){ openOrder(e.currentTarget.dataset.id); }
+
+    /* modal focus trap helper */
+    function trapFocus(modalEl){
+      const focusable = modalEl.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return ()=>{};
+      const first = focusable[0], last = focusable[focusable.length -1];
+      function keyHandler(e){
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+      modalEl.addEventListener('keydown', keyHandler);
+      return ()=> modalEl.removeEventListener('keydown', keyHandler);
+    }
+
+    /* DETAIL modal */
+    let untrapDetail = null;
+    window.openDetail = async function(prodId){
+      try {
+        if (!db) { alert('Offline — cannot fetch details'); return; }
+        const snap = await getDoc(doc(db,'products', prodId));
+        if (!snap.exists()){ alert('Product not found'); return; }
+        const pRaw = snap.data();
+        const p = { id: prodId, ...pRaw }; // include id for SKU helper
+        let catName = '-';
+        if (p.categoryId){
+          const c = await getDoc(doc(db,'categories', p.categoryId));
+          if (c.exists()) catName = c.data().name || '-';
+        }
+        const images = [];
+        if (p.images && Array.isArray(p.images)) {
+          images.push(...p.images.filter(img => img && img.trim()));
+        } else if (typeof p.images === 'string' && p.images.trim()) {
+          images.push(p.images);
+        } else if (p.thumbnailUrl) {
+          images.push(p.thumbnailUrl);
+        } else if (p.thumbnail) {
+          images.push(p.thumbnail);
+        }
+        // Build image gallery HTML
+        let imageHtml = `<div class="detail-image-gallery" style="flex:0 0 360px;max-width:48%;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:8px;">`;
+        if (images.length) {
+          imageHtml += `<div class="gallery-thumbs" style="display:flex;gap:4px;overflow-x:auto;padding:4px;background:#f8f9fa;border-radius:8px 8px 0 0;white-space:nowrap;">`;
+          images.forEach((imgSrc, idx) => {
+            const isActive = idx === 0 ? 'active' : '';
+            imageHtml += `<img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(p.title || '')} ${idx + 1}" class="thumb-preview ${isActive}" data-full-src="${escapeHtml(imgSrc)}" data-idx="${idx}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid ${isActive ? 'var(--accent)' : 'transparent'};flex-shrink:0;">`;
+          });
+          imageHtml += `</div>`;
+          imageHtml += `<div class="main-preview" style="height:260px;background:#efefef;border-radius:0 0 8px 8px;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="${escapeHtml(images[0])}" alt="${escapeHtml(p.title || '')}" style="max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;"></div>`;
+        } else {
+          imageHtml += `<div style="height:100%;background:#efefef;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);">No images</div>`;
+        }
+        imageHtml += `</div>`;
+        const price = Number(p.price || 0);
+        const oldPrice = p.oldPrice ? Number(p.oldPrice) : null;
+        const tableHtml = (function renderDetailTable(){
+          const rows = [];
+          if (p.deliveryTime) rows.push(['Delivery Time', escapeHtml(p.deliveryTime)]);
+          if (p.whatIncluded) rows.push(['What’s Included', escapeHtml(p.whatIncluded)]);
+          if (p.requirements) rows.push(['Requirements', escapeHtml(p.requirements)]);
+          if (p.features && Array.isArray(p.features) && p.features.length) rows.push(['Features', '<ul style="margin:0;padding-left:18px">'+p.features.map(f=>`<li>${escapeHtml(f)}</li>`).join('')+'</ul>']);
+          if (p.tags && Array.isArray(p.tags) && p.tags.length) rows.push(['Tags', p.tags.map(t=>`<span style="display:inline-block;margin-right:6px;padding:6px;border-radius:6px;background:var(--glass);font-weight:700;">${escapeHtml(t)}</span>`).join(' ')]); 
+          if (p.seoTitle) rows.push(['SEO Title', escapeHtml(p.seoTitle)]);
+          if (p.seoDescription) rows.push(['SEO Description', escapeHtml(p.seoDescription)]);
+          if (!rows.length) return '';
+          return `<table class="detail-table">${rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join('')}</table>`;
+        })();
+        const content = `
+          <div class="detail-top" role="region" aria-label="Product details">
+            ${imageHtml}
+            <div class="detail-right">
+              <div class="detail-title">${escapeHtml(p.title || 'Untitled')}</div>
+              <div class="detail-cat">Category: ${escapeHtml(catName)}</div>
+              <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+                ${oldPrice ? `<div class="old">₹${oldPrice.toLocaleString('en-IN')}</div>` : ''}
+                <div class="price">₹${price.toLocaleString('en-IN')}</div>
+                ${p.offerPercent ? `<div class="offer-badge">${escapeHtml(String(p.offerPercent))}% OFF</div>` : ''}
+                <div style="margin-left:auto;color:var(--muted)">SKU: ${escapeHtml(displaySku(p, prodId))}</div>
+              </div>
+              <div class="detail-desc" style="margin-top:10px">${escapeHtml(p.longDescription || p.shortDescription || '')}</div>
+            </div>
+          </div>
+          ${tableHtml || `<div style="margin-top:12px" class="muted">No additional details provided.</div>`}
+          <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+            <button id="orderFromDetail" class="btn" data-id="${escapeHtml(prodId)}">Order</button>
+            <button id="closeDetailInline" class="btn secondary">Close</button>
+          </div>
+        `;
+        const lightboxHtml = `
+          <div id="lightbox" class="lightbox" style="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:1700;">
+            <button id="lightboxClose" style="position:absolute;top:20px;right:20px;color:#fff;background:none;border:0;font-size:30px;cursor:pointer;">&times;</button>
+            <button id="lightboxPrev" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);color:#fff;background:none;border:0;font-size:40px;cursor:pointer;">&#8249;</button>
+            <button id="lightboxNext" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#fff;background:none;border:0;font-size:40px;cursor:pointer;">&#8250;</button>
+            <img id="lightboxImg" src="" alt="" style="max-width:90%;max-height:90%;object-fit:contain;">
+            <div id="lightboxCounter" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:#fff;font-size:18px;"></div>
+          </div>
+        `;
+        modalContent.innerHTML = lightboxHtml + content;
+
+        // Lightbox logic
+        const lightbox = $('#lightbox'), lightboxImg = $('#lightboxImg'), lightboxCounter = $('#lightboxCounter');
+        const lightboxClose = $('#lightboxClose'), lightboxPrev = $('#lightboxPrev'), lightboxNext = $('#lightboxNext');
+        let currentImgIdx = 0;
+        function openLightbox(idx) {
+          if (!images.length) return;
+          currentImgIdx = Math.max(0, Math.min(idx, images.length - 1));
+          lightboxImg.src = images[currentImgIdx];
+          lightboxCounter.textContent = `${currentImgIdx + 1} / ${images.length}`;
+          lightbox.style.display = 'flex';
+          disableBodyScroll();
+        }
+        function closeLightbox() {
+          lightbox.style.display = 'none';
+          enableBodyScroll();
+        }
+        if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+        if (lightboxPrev) lightboxPrev.addEventListener('click', () => { currentImgIdx = (currentImgIdx - 1 + images.length) % images.length; openLightbox(currentImgIdx); });
+        if (lightboxNext) lightboxNext.addEventListener('click', () => { currentImgIdx = (currentImgIdx + 1) % images.length; openLightbox(currentImgIdx); });
+        if (lightbox) lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+        document.addEventListener('keydown', (e) => {
+          if (lightbox.style.display === 'flex') {
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowLeft') lightboxPrev && lightboxPrev.click();
+            else if (e.key === 'ArrowRight') lightboxNext && lightboxNext.click();
+          }
+        });
+
+        // Gallery thumb clicks (update main preview + open lightbox)
+        $$('.thumb-preview').forEach(thumb => {
+          thumb.addEventListener('click', (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx);
+            $$('.thumb-preview').forEach(t => t.style.borderColor = 'transparent');
+            e.currentTarget.style.borderColor = 'var(--accent)';
+            const mainImg = $('.main-preview img');
+            if (mainImg) mainImg.src = e.currentTarget.dataset.fullSrc;
+            openLightbox(idx);
+          });
+        });
+
+        const mainPreviewImg = $('.main-preview img');
+        if (mainPreviewImg){
+          mainPreviewImg.style.cursor = 'zoom-in';
+          mainPreviewImg.addEventListener('click', () => {
+            const idx = images.indexOf(mainPreviewImg.src) >= 0 ? images.indexOf(mainPreviewImg.src) : 0;
+            openLightbox(idx);
+          });
+        }
+
+        // ensure detail modal shows centered (or full-screen on mobile)
+        detailModal.classList.add('show'); detailModal.setAttribute('aria-hidden','false');
+        disableBodyScroll();
+        const box = detailModal.querySelector('.modal-box') || detailModal;
+        untrapDetail = trapFocus(box);
+        $('#orderFromDetail').addEventListener('click', (e)=> {
+          detailModal.classList.remove('show'); detailModal.setAttribute('aria-hidden','true');
+          enableBodyScroll();
+          if (untrapDetail) { untrapDetail(); untrapDetail = null; }
+          openOrder(e.currentTarget.dataset.id);
+        });
+        $('#closeDetailInline').addEventListener('click', ()=> {
+          detailModal.classList.remove('show'); detailModal.setAttribute('aria-hidden','true');
+          enableBodyScroll();
+          if (untrapDetail) { untrapDetail(); untrapDetail = null; }
+        });
+      } catch (err) {
+        console.error('openDetail', err);
+        alert('Could not open product details.');
+      }
+    };
+    detailModal.addEventListener('click', (e)=> { if (e.target === detailModal) { detailModal.classList.remove('show'); detailModal.setAttribute('aria-hidden','true'); enableBodyScroll(); if (untrapDetail) { untrapDetail(); untrapDetail = null; } }});
+    document.addEventListener('keydown', (e)=> { if (e.key === 'Escape') { if (detailModal.classList.contains('show')) { detailModal.classList.remove('show'); detailModal.setAttribute('aria-hidden','true'); enableBodyScroll(); if (untrapDetail) { untrapDetail(); untrapDetail = null; } } }});
+
+    /* ORDER logic */
+
+    let currentProductId = null;       // productId passed to openOrder
+    let currentOrderDocRef = null;     // Firestore doc ref for the order created in proceed
+    let currentOrderDocId = null;
+
+    async function openOrder(productId){
+      currentProductId = productId;
+      try {
+        if (!db){ alert('Offline — cannot create order'); return; }
+        const pSnap = await getDoc(doc(db,'products', productId));
+        if (!pSnap.exists()){ alert('Product not found'); return; }
+        const pRaw = pSnap.data();
+        const p = { id: productId, ...pRaw };
+        const priceBase = Number(p.price || 0);
+        const html = `
+          <h3 style="margin-top:0">Order — ${escapeHtml(p.title || 'Product')}</h3>
+          <div class="order-grid">
+            <div class="form" id="orderFormColumn">
+              <label>Full name</label><input id="custName" type="text" placeholder="Your full name" />
+              <label style="margin-top:6px">Email</label><input id="custEmail" type="email" placeholder="you@example.com" />
+              <label style="margin-top:6px">Phone</label><input id="custPhone" type="tel" placeholder="Mobile number" />
+              <label style="margin-top:6px">Requirements (optional)</label><textarea id="custReq" rows="3" placeholder="What do you need?"></textarea>
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <button id="proceedPay" class="btn">Proceed to payment</button>
+                <button id="cancelOrder" class="btn secondary">Cancel</button>
+              </div>
+              <div id="formMsg" style="margin-top:8px" class="muted small"></div>
+            </div>
+            <aside class="price-box">
+              <div style="font-weight:900">Order summary</div>
+              <div style="margin-top:8px" id="sumTitle">${escapeHtml(p.title || '')}</div>
+              <div style="margin-top:8px" id="sumBase">Base: ${displayPrice(priceBase)}</div>
+              <div style="margin-top:8px" id="sumFinal"><strong>Final: ${displayPrice(priceBase)}</strong></div>
+              <div class="muted small" style="margin-top:8px">Product SKU: ${escapeHtml(p.sku || (p.id ? 'SRV-' + p.id.slice(0,6).toUpperCase() : '—'))}</div>
+            </aside>
+          </div>
+          <div id="paymentStep" style="display:none;margin-top:12px">
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <div style="flex:1;min-width:320px;">
+                <div style="font-weight:900">Choose payment option</div>
+                <div style="margin-top:10px">
+                  <button id="upiOption" class="btn" style="margin-right:8px">Pay using UPI (open app)</button>
+                  <button id="qrOption" class="btn secondary">Pay using QR</button>
+                </div>
+                <div id="upiArea" style="margin-top:12px;display:none">
+                  <div class="muted small">Tap to open your UPI app and complete payment. After paying, wait the timer and then press "I have paid".</div>
+                  <div style="margin-top:8px">
+                    <button id="openUpiBtn" class="btn">Open UPI app</button>
+                  </div>
+                  <div id="upiTimerWrap" style="margin-top:8px">
+                    <div id="upiTimer" class="muted small">Waiting…</div>
+                    <div style="margin-top:8px"><button id="paidBtnUpi" class="btn" style="display:none">I have paid</button></div>
+                    <div id="upiMsg" style="margin-top:8px"></div>
+                  </div>
+                </div>
+                <div id="qrArea" style="margin-top:12px;display:none">
+                  <div class="muted small">Pay by scanning the QR shown below. If QR is not available, use the UPI ID and amount shown instead.</div>
+                  <div style="margin-top:8px" id="qrContent"></div>
+                  <div style="margin-top:8px" id="qrTimerWrap">
+                    <div id="qrTimer" class="muted small">Waiting…</div>
+                    <div style="margin-top:8px"><button id="paidBtnQr" class="btn" style="display:none">I have paid</button></div>
+                    <div id="qrMsg" style="margin-top:8px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="doneStep" style="display:none;margin-top:12px">
+            <div style="font-weight:900">Downloads</div>
+            <div id="downloadsWrap" style="margin-top:10px"></div>
+            <div style="margin-top:12px" class="muted small">Thanks — your order is recorded.</div>
+          </div>
+        `;
+        orderContent.innerHTML = html;
+        orderModal.classList.add('show'); orderModal.setAttribute('aria-hidden','false');
+        disableBodyScroll();
+
+        const proceedPay = $('#proceedPay'), cancelOrder = $('#cancelOrder'), formMsg = $('#formMsg');
+        const upiOption = $('#upiOption'), qrOption = $('#qrOption');
+        const upiArea = $('#upiArea'), qrArea = $('#qrArea');
+        const openUpiBtn = $('#openUpiBtn'), upiTimer = $('#upiTimer'), paidBtnUpi = $('#paidBtnUpi'), upiMsg = $('#upiMsg');
+        const qrContent = $('#qrContent'), qrTimer = $('#qrTimer'), paidBtnQr = $('#paidBtnQr'), qrMsg = $('#qrMsg');
+        let orderDocRef = null, orderDocId = null, orderSku = null;
+
+        proceedPay.addEventListener('click', async ()=>{ 
+          formMsg.textContent = ''; formMsg.style.color = '';
+          const name = $('#custName').value.trim(), email = $('#custEmail').value.trim(), phone = $('#custPhone').value.trim();
+          const requirements = $('#custReq').value.trim();
+          if (!name){ formMsg.style.color = 'var(--danger)'; formMsg.textContent = 'Name required'; return; }
+          if (!email){ formMsg.style.color = 'var(--danger)'; formMsg.textContent = 'Email required'; return; }
+          if (!phone){ formMsg.style.color = 'var(--danger)'; formMsg.textContent = 'Phone required'; return; }
+          try {
+            proceedPay.disabled = true;
+            formMsg.style.color=''; formMsg.textContent = 'Creating order…';
+            orderSku = genOrderSku();
+            const newOrder = await addDoc(collection(db,'orders'), {
+              productId: productId,
+              productTitle: p.title || '',
+              productSku: p.sku || '',
+              orderSku,
+              priceBase,
+              priceFinal: priceBase,
+              discountApplied: 0,
+              under24: false,
+              customerName: name,
+              customerEmail: email,
+              customerPhone: phone,
+              requirements,
+              status: 'pending_payment',
+              createdAt: serverTimestamp()
+            });
+            orderDocId = newOrder.id;
+            orderDocRef = doc(db,'orders', orderDocId);
+            currentOrderDocRef = orderDocRef;
+            currentOrderDocId = orderDocId;
+
+            formMsg.style.color='var(--success)'; formMsg.textContent = 'Order created. Choose a payment option below.';
+            $('#paymentStep').style.display = 'block';
+            const meta = await fetchMeta();
+            const upiId = (meta && meta.upiId) ? meta.upiId : '';
+            const business = meta && meta.businessName ? meta.businessName : 'Solvoro';
+            const amountStr = priceBase.toFixed(2);
+            const qrUrl = p.qrUrl || '';
+            if (qrUrl){
+              qrContent.innerHTML = `<div class="qr-area"><img src="${escapeHtml(qrUrl)}" alt="Payment QR"><div class="muted small">Scan this QR with your UPI app and pay ₹${amountStr}</div></div>`;
+            } else {
+              qrContent.innerHTML = `
+                <div class="payment-manual">
+                  <div class="muted small">QR not available for this product — use the UPI ID and amount below to pay.</div>
+                  <div class="copy-row" style="margin-top:8px"><input id="qrUpiId" readonly value="${escapeHtml(upiId)}" /><button id="copyQrUpi" class="btn secondary">Copy</button></div>
+                  <div class="copy-row" style="margin-top:8px"><input id="qrAmount" readonly value="${escapeHtml(amountStr)}" /><button id="copyQrAmt" class="btn secondary">Copy</button></div>
+                </div>`;
+              setTimeout(()=> {
+                const copyQrUpi = $('#copyQrUpi'), copyQrAmt = $('#copyQrAmt');
+                copyQrUpi && copyQrUpi.addEventListener('click', ()=> { try { navigator.clipboard.writeText($('#qrUpiId').value); showToast('UPI ID copied'); } catch(e){ showToast('Copied'); }}); 
+                copyQrAmt && copyQrAmt.addEventListener('click', ()=> { try { navigator.clipboard.writeText($('#qrAmount').value); showToast('Amount copied'); } catch(e){ showToast('Copied'); }}); 
+              }, 40);
+            }
+            const upiIdVal = upiId;
+            const note = `${p.title || 'Product'} — ${orderSku}`;
+            const upiUrl = `upi://pay?pa=${encodeURIComponent(upiIdVal)}&pn=${encodeURIComponent(business)}&am=${encodeURIComponent(amountStr)}&cu=INR&tn=${encodeURIComponent(note)}`;
+            openUpiBtn.onclick = ()=> {
+              if (!upiIdVal){ upiMsg.style.color='var(--danger)'; upiMsg.textContent = 'UPI ID not available.'; return; }
+              window.location.href = upiUrl;
+            };
+            upiOption.onclick = ()=> {
+              upiArea.style.display = 'block'; qrArea.style.display = 'none';
+              startPaymentTimerCustom(70, paidBtnUpi, upiTimer, () => { upiMsg.textContent = ''; });
+            };
+            qrOption.onclick = ()=> {
+              qrArea.style.display = 'block'; upiArea.style.display = 'none';
+              startPaymentTimerCustom(180, paidBtnQr, qrTimer, () => { qrMsg.textContent = ''; });
+            };
+            if (isMobileAgent()){
+              upiOption.click();
+            } else {
+              qrOption.click();
+            }
+          } catch (err) {
+            console.error('create order', err);
+            formMsg.style.color='var(--danger)'; formMsg.textContent = 'Could not create order. Try again.';
+            proceedPay.disabled = false;
+          }
+        });
+
+        paidBtnUpi.addEventListener('click', async ()=>{ await markOrderPaid(orderDocRef, paidBtnUpi, upiMsg, $('#upiTimer')); });
+        paidBtnQr.addEventListener('click', async ()=>{ await markOrderPaid(orderDocRef, paidBtnQr, qrMsg, $('#qrTimer')); });
+        cancelOrder.addEventListener('click', ()=> { orderModal.classList.remove('show'); orderModal.setAttribute('aria-hidden','true'); enableBodyScroll(); showToast('Order cancelled'); });
+        orderModal.addEventListener('click', (e)=> { if (e.target === orderModal) { orderModal.classList.remove('show'); orderModal.setAttribute('aria-hidden','true'); enableBodyScroll(); } });
+        document.addEventListener('keydown', (e)=> { if (e.key === 'Escape') { if (orderModal.classList.contains('show')) { orderModal.classList.remove('show'); orderModal.setAttribute('aria-hidden','true'); enableBodyScroll(); } } });
+      } catch (err) {
+        console.error('openOrder', err);
+        alert('Could not open order form.');
+      }
+    }
+
+    // Modified timer: when it expires we now unlock the downloads automatically (no DB status change)
+    function startPaymentTimerCustom(seconds, paidBtnEl, timerEl, onReady){
+      clearInterval(paidBtnEl._timerInterval);
+      paidBtnEl.style.display = 'none';
+      let sec = seconds;
+      timerEl.textContent = `Waiting ${sec}s…`;
+      paidBtnEl._timerInterval = setInterval(()=> {
+        sec--;
+        if (sec >= 0) timerEl.textContent = `Waiting ${sec}s…`;
+        if (sec < 0){
+          clearInterval(paidBtnEl._timerInterval);
+          timerEl.textContent = 'If you completed payment, press "I have paid".';
+          paidBtnEl.style.display = 'inline-block';
+          if (typeof onReady === 'function') onReady();
+
+          (async function autoUnlock(){
+            try {
+              const pid = currentProductId;
+              if (!pid){
+                if (currentOrderDocRef){
+                  const od = await getDoc(currentOrderDocRef);
+                  if (od.exists()) currentProductId = od.data().productId || currentProductId;
+                }
+              }
+              if (!currentProductId) return;
+              const prodSnap = await getDoc(doc(db,'products', currentProductId));
+              const p = prodSnap.exists() ? prodSnap.data() : null;
+              $('#paymentStep').style.display = 'none';
+              $('#doneStep').style.display = 'block';
+              const downloadsWrap = $('#downloadsWrap');
+              const downloads = [];
+              if (p){
+                if (p.downloadLinks && Array.isArray(p.downloadLinks) && p.downloadLinks.length) downloads.push(...p.downloadLinks);
+                else if (p.deliverableUrl) downloads.push({ label: 'Download', url: p.deliverableUrl });
+                else if (p.images && p.images.length) downloads.push({ label: 'File', url: p.images[0] });
+              }
+              if (!downloads.length){
+                downloadsWrap.innerHTML = '<div class="muted">No download links configured for this product. Contact support.</div>';
+              } else {
+                downloadsWrap.innerHTML = '';
+                downloads.forEach(dl => {
+                  const btn = document.createElement('button');
+                  btn.className = 'btn';
+                  btn.style.display = 'block';
+                  btn.style.width = '100%';
+                  btn.style.marginBottom = '8px';
+                  btn.textContent = dl.label || 'Download';
+                  btn.onclick = ()=> window.open(dl.url, '_blank');
+                  downloadsWrap.appendChild(btn);
+                });
+              }
+              showToast('Downloads unlocked');
+            } catch (e) {
+              console.error('autoUnlock error', e);
+            }
+          })();
+        }
+      }, 1000);
+    }
+
+    async function markOrderPaid(orderDocRef, buttonEl, msgEl, timerElEl){
+      if (!orderDocRef){ msgEl.style.color='var(--danger)'; msgEl.textContent = 'Order not found'; return; }
+      try {
+        buttonEl.disabled = true;
+        msgEl.style.color=''; msgEl.textContent = 'Confirming payment…';
+        await updateDoc(orderDocRef, { status:'paid', paymentMarkedAt: serverTimestamp(), paymentMarkedBy: 'buyer', updatedAt: serverTimestamp() });
+        const orderSnap = await getDoc(orderDocRef);
+        if (!orderSnap.exists()){ msgEl.style.color='var(--danger)'; msgEl.textContent = 'Order missing'; return; }
+        const orderData = orderSnap.data();
+        const prodSnap = await getDoc(doc(db,'products', orderData.productId));
+        const p = prodSnap.exists() ? prodSnap.data() : null;
+        const downloads = [];
+        if (p){
+          if (p.downloadLinks && Array.isArray(p.downloadLinks) && p.downloadLinks.length) downloads.push(...p.downloadLinks);
+          else if (p.deliverableUrl) downloads.push({ label: 'Download', url: p.deliverableUrl });
+          else if (p.images && p.images.length) downloads.push({ label: 'File', url: p.images[0] });
+        }
+        $('#paymentStep').style.display = 'none';
+        $('#doneStep').style.display = 'block';
+        const downloadsWrap = $('#downloadsWrap');
+        if (!downloads.length){
+          downloadsWrap.innerHTML = '<div class="muted">No download links configured for this product. Contact support.</div>';
+        } else {
+          downloadsWrap.innerHTML = '';
+          downloads.forEach(dl => {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.style.display = 'block';
+            btn.style.width = '100%';
+            btn.style.marginBottom = '8px';
+            btn.textContent = dl.label || 'Download';
+            btn.onclick = ()=> window.open(dl.url, '_blank');
+            downloadsWrap.appendChild(btn);
+          });
+        }
+        msgEl.style.color='var(--success)'; msgEl.textContent = 'Payment recorded. Downloads unlocked.';
+        showToast('Payment recorded — downloads unlocked');
+      } catch (err) {
+        console.error('mark paid', err);
+        msgEl.style.color='var(--danger)'; msgEl.textContent = 'Could not mark payment. Try again.';
+        buttonEl.disabled = false;
+      } finally {
+        if (buttonEl._timerInterval) { clearInterval(buttonEl._timerInterval); }
+        if (timerElEl) timerElEl.textContent = '';
+      }
+    }
+
+    // utility to display SKU safely (used in detail)
+    function displaySku(product, productId){
+      if (product && product.sku) return product.sku;
+      const id = (product && product.id) ? product.id : (productId ? productId : '');
+      return 'SKU-' + String(id).slice(0,6).toUpperCase();
+    }
+
+    (async function init(){ await renderCatalog(); })();
+  </script>
+</body>
+</html>

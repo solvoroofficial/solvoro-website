@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Support — Solvoro</title>
+  <link id="favIcon" rel="icon" href="logo.png">
+  <meta name="description" content="Solvoro support — WhatsApp & Email help">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    :root{
+      --bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      --card: #ffffff;
+      --muted: #64748b;
+      --accent: #0f172a;
+      --primary: #0f6b5a;
+      --primary-light: #0d9488;
+      --secondary: #8b5cf6;
+      --glass: rgba(255, 255, 255, 0.7);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.05);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --header-h: 76px;
+      --max-width: 1200px;
+      --container-pad: clamp(20px, 5vw, 40px);
+    }
+
+    /* ---------- BASE ---------- */
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+    }
+    
+    html, body { 
+      height: 100%; 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      background: var(--bg); 
+      color: var(--accent); 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+    
+    body { 
+      font-size: 16px; 
+      line-height: 1.6; 
+      overflow-x: hidden;
+    }
+    
+    a { 
+      color: inherit; 
+      text-decoration: none; 
+      transition: all 0.3s var(--ease);
+    }
+    
+    .container { 
+      max-width: var(--max-width); 
+      margin: 0 auto; 
+      padding: 0 var(--container-pad);
+    }
+
+    /* ---------- HEADER (SAME AS HOMEPAGE) ---------- */
+    .header{
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: var(--header-h);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 1300;
+      background: linear-gradient(90deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55));
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.06);
+      backdrop-filter: blur(8px);
+      transition: transform 700ms var(--ease), box-shadow 400ms var(--ease), background 600ms var(--ease);
+      animation: header-entrance 700ms var(--ease) both;
+      will-change: transform, box-shadow;
+    }
+    @keyframes header-entrance{ 
+      0%{ transform: translateY(-18px); opacity:0; } 
+      100%{ transform:none; opacity:1; } 
+    }
+    
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .brand img{
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: contain;
+      transform-origin: center;
+      transition: transform 420ms var(--ease), filter 320ms var(--ease);
+    }
+    
+    .brand img:hover{
+      transform: rotate(-8deg) scale(1.02);
+    }
+    
+    .brand .title{
+      font-weight: 900;
+      line-height: 1;
+      font-size: 20px;
+    }
+    
+    .brand .muted-small{
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    
+    .header::before{
+      content: ''; 
+      position: absolute; 
+      inset: 0; 
+      left: -20%; 
+      width: 140%; 
+      height: 100%; 
+      z-index: 1000; 
+      pointer-events: none;
+      background: linear-gradient(120deg, rgba(16,99,83,0.03), rgba(6,55,120,0.02) 30%, rgba(37,211,102,0.03));
+      transform: translateY(6px);
+      animation: header-wave 7s linear infinite;
+      mix-blend-mode: overlay; 
+      opacity: 0.95; 
+      border-bottom-left-radius: 14px; 
+      border-bottom-right-radius: 14px;
+    }
+    
+    @keyframes header-wave{ 
+      0%{ transform: translateX(-6%) translateY(6px);} 
+      50%{ transform: translateX(6%) translateY(2px);} 
+      100%{ transform: translateX(-6%) translateY(6px);} 
+    }
+    
+    nav#mainNav{ 
+      display: flex; 
+      gap: 8px; 
+      align-items: center;
+    }
+    
+    nav#mainNav a{ 
+      padding: 8px 12px; 
+      border-radius: 10px; 
+      font-weight: 700; 
+      color: var(--accent); 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px; 
+      position: relative; 
+      transition: transform 280ms var(--ease), color 220ms var(--ease);
+    }
+    
+    nav#mainNav a::after{ 
+      content: ''; 
+      position: absolute; 
+      left: 10%; 
+      right: 10%; 
+      bottom: -6px; 
+      height: 3px; 
+      background: linear-gradient(90deg, var(--primary), var(--primary-light)); 
+      border-radius: 999px; 
+      opacity: 0; 
+      transform: scaleX(0); 
+      transform-origin: left; 
+      transition: transform 320ms var(--ease), opacity 220ms var(--ease);
+    }
+    
+    nav#mainNav a:hover{ 
+      transform: translateY(-4px); 
+      color: var(--primary);
+    }
+    
+    nav#mainNav a:hover::after{ 
+      opacity: 1; 
+      transform: scaleX(1);
+    }
+    
+    nav#mainNav a.active{ 
+      background: linear-gradient(90deg, var(--primary), var(--primary-light)); 
+      color: #fff;
+    }
+    
+    .header-right{ 
+      display: flex; 
+      gap: 10px; 
+      align-items: center;
+    }
+    
+    .demobtn{
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: #fff; 
+      border: 0; 
+      padding: 10px 16px; 
+      border-radius: 100px; 
+      font-weight: 700; 
+      font-size: 14px; 
+      cursor: pointer;
+      align-items: center; 
+      justify-content: center; 
+      gap: 10px; 
+      box-shadow: 0 10px 30px rgba(15, 107, 90, 0.18), 0 4px 10px rgba(0,0,0,0.06);
+      transform-origin: center; 
+      transition: transform 420ms var(--ease), box-shadow 420ms var(--ease);
+    }
+    
+    .demobtn:hover{ 
+      transform: translateY(-4px) scale(1.02); 
+    }
+    
+    #hamburger{ 
+      display: none; 
+      background: transparent;
+      border: 0;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Mobile overlay */
+    #mobileOverlay{ 
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms var(--ease);
+      z-index: 1190;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    .main {
+      padding-top: calc(var(--header-h) + 60px);
+      padding-bottom: 80px;
+    }
+
+    /* Support Hero */
+    .support-hero {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 60px;
+    }
+
+    .support-hero h1 {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .support-hero p {
+      font-size: clamp(18px, 3vw, 22px);
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    /* Support Grid */
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+
+    .support-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s var(--ease);
+      border: 1px solid transparent;
+      height: 100%;
+    }
+
+    .support-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+      border-color: rgba(15, 107, 90, 0.1);
+    }
+
+    .support-card h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+
+    .support-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .support-card p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Support Actions */
+    .support-actions {
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 16px 32px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s var(--ease);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(15, 107, 90, 0.2);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--accent);
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* Form Styling */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 15px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border: 2px solid #e2e8f0;
+      font-size: 16px;
+      font-family: inherit;
+      transition: all 0.3s var(--ease);
+      background: white;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15, 107, 90, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 140px;
+      line-height: 1.5;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* Tips List */
+    .tips-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0 0;
+    }
+
+    .tips-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      color: var(--muted);
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .tips-list li:last-child {
+      border-bottom: none;
+    }
+
+    .tips-list li::before {
+      content: "✓";
+      color: var(--primary);
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* Contact Methods */
+    .contact-methods {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* ---------- ENHANCED FOOTER (FROM HOMEPAGE) ---------- */
+    .footer {
+      margin-top: 80px;
+      padding-top: 64px;
+      border-top: 1px solid #e2e8f0;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .footer-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--container-pad) 48px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-section h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .footer-logo img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+    }
+
+    .footer-logo span {
+      font-weight: 800;
+      font-size: 24px;
+      color: var(--accent);
+    }
+
+    .footer-tagline {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      transition: all 0.3s var(--ease);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    .footer-links a svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.7;
+    }
+
+    .footer-contact {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .footer-contact p {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-contact svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #e2e8f0;
+      padding: 32px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(241, 245, 249, 0.5);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s var(--ease);
+    }
+
+    .social-link:hover {
+      transform: translateY(-4px);
+      background: var(--primary);
+      color: white;
+    }
+
+    /* ---------- RESPONSIVE DESIGN ---------- */
+    @media (max-width: 1024px) {
+      .support-grid {
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .main {
+        padding-top: calc(var(--header-h) + 40px);
+        padding-bottom: 40px;
+      }
+      
+      .support-hero {
+        margin-bottom: 40px;
+      }
+      
+      .support-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .support-card {
+        padding: 24px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+      
+      .contact-methods {
+        flex-direction: column;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      /* Mobile header menu */
+      nav#mainNav { 
+        display: none; 
+        position: fixed; 
+        left: 16px; 
+        right: 16px; 
+        top: calc(var(--header-h) + 16px); 
+        background: var(--card); 
+        padding: 20px; 
+        flex-direction: column; 
+        gap: 12px; 
+        box-shadow: var(--shadow); 
+        z-index: 1295; 
+        border-radius: var(--radius-sm);
+        animation: slideDown 0.3s var(--ease);
+      }
+      @keyframes slideDown {
+        from {
+          transform: translateY(-10px);
+          opacity: 0;
+        }
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+      
+      #hamburger { 
+        display: block;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(15, 107, 90, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s var(--ease);
+      }
+      #hamburger:hover {
+        background: rgba(15, 107, 90, 0.2);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .support-hero h1 {
+        font-size: 36px;
+      }
+      
+      .support-hero p {
+        font-size: 18px;
+      }
+      
+      .support-card h2 {
+        font-size: 22px;
+      }
+      
+      .support-card h3 {
+        font-size: 18px;
+      }
+      
+      .footer-section h4 {
+        font-size: 16px;
+      }
+    }
+
+    /* Animation Classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s var(--ease) forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (SAME AS HOMEPAGE) -->
+  <header id="header" class="header" role="banner" aria-label="Main header">
+    <div class="brand" role="presentation">
+      <img id="headerLogo" src="logo.png" alt="Solvoro logo" loading="lazy">
+      <div>
+        <div class="title">Solvoro</div>
+        <div class="muted-small">Human-first studio</div>
+      </div>
+    </div>
+
+    <nav id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="products.html">Products</a>
+      <a href="support.html" class="active">Support</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="demobtn" onclick="window.location.href='https://www.solvoro.online/demo-arena'">Demo Arena</button>
+      <button id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile overlay -->
+  <div id="mobileOverlay" aria-hidden="true"></div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main container">
+    
+    <!-- HERO SECTION -->
+    <section class="support-hero fade-in">
+      <h1>Need help? We're here.</h1>
+      <p>Fast responses for orders, downloads and payments. Choose the option that works best for you.</p>
+    </section>
+
+    <!-- SUPPORT OPTIONS GRID -->
+    <div class="support-grid">
+      
+      <!-- Chat Support Card -->
+      <article class="support-card fade-in">
+        <h2>Chat with Support</h2>
+        <p>Quickest replies via WhatsApp during business hours. Perfect for urgent queries and quick questions.</p>
+        
+        <div class="support-actions">
+          <a href="https://wa.me/917268889908" target="_blank" rel="noopener" class="btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+            </svg>
+            <span>Chat on WhatsApp</span>
+          </a>
+        </div>
+        
+        <div class="contact-methods">
+          <a href="mailto:contact.solvoro@gmail.com" class="btn btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span>Email Support</span>
+          </a>
+          
+          <a href="mailto:billing@solvoro.com" class="btn btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1v22M5 6h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+            </svg>
+            <span>Billing Help</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Contact Form Card -->
+      <article class="support-card fade-in delay-1">
+        <h3>Send us a Message</h3>
+        <p>Include your Order SKU if you have one — it helps us resolve faster.</p>
+        
+        <form id="supportForm" onsubmit="submitSupport(event)">
+          <div class="form-group">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" id="name" name="name" class="form-input" placeholder="Your full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="sku" class="form-label">Order SKU (Optional)</label>
+            <input type="text" id="sku" name="sku" class="form-input" placeholder="e.g., ORD-ABC123">
+          </div>
+          
+          <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Describe your issue in detail..." required></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              <span>Send Message</span>
+            </button>
+            
+            <button type="button" class="btn btn-secondary" onclick="attachScreenshot()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Attach Screenshot</span>
+            </button>
+          </div>
+        </form>
+      </article>
+
+      <!-- Quick Tips Card -->
+      <article class="support-card fade-in delay-2">
+        <h3>Quick Tips for Faster Support</h3>
+        <p>Follow these guidelines to get the fastest resolution to your issue:</p>
+        
+        <ul class="tips-list">
+          <li>Provide Order SKU and payment screenshot (if any).</li>
+          <li>Check your spam folder for our replies.</li>
+          <li>For downloads, confirm your account email matches the order.</li>
+          <li>Describe your issue clearly with relevant details.</li>
+          <li>Attach screenshots for visual issues or error messages.</li>
+          <li>For billing issues, include payment transaction ID.</li>
+        </ul>
+        
+        <div style="margin-top: 24px;">
+          <p class="small" style="color: var(--muted); font-size: 14px;">
+            <strong>Response Time:</strong> We typically respond within 1-2 business hours during weekdays.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- ENHANCED FOOTER (FROM HOMEPAGE) -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <img src="logo.png" alt="Solvoro Logo">
+          <span>Solvoro</span>
+        </div>
+        <p class="footer-tagline">
+          Building digital experiences that put people first, technology second.
+        </p>
+        <div class="social-links">
+          <a href="x.com/solvoro.official" class="social-link" aria-label="Twitter">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+            </svg>
+          </a>
+          <a href="linkedin.com/solvoro.official" class="social-link" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/solvoro.official" class="social-link" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <div class="footer-links">
+          <a href="index.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Home
+          </a>
+          <a href="services.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+            Services
+          </a>
+          <a href="products.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            Products
+          </a>
+          <a href="support.html" class="active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="4"/>
+              <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
+              <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
+              <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
+              <line x1="14.83" y1="9.17" x2="18.36" y2="5.64"/>
+              <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
+            </svg>
+            Support
+          </a>
+          <a href="about.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            About
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <div class="footer-contact">
+          <p>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            +91 7268889908
+          </p>
+          <p>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            contact.solvoro@gmail.com
+          </p>
+          <p>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Lucknow, India
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2024 Solvoro — Build For Who Builds. All rights reserved.</p>
+        <p style="margin-top: 8px; font-size: 13px; opacity: 0.8;">
+          <a href="privacy.html" style="color: inherit; text-decoration: underline;">Privacy Policy</a> • 
+          <a href="terms.html" style="color: inherit; text-decoration: underline;">Terms of Service</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality (same as other pages)
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.getElementById('hamburger');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const nav = document.getElementById('mainNav');
+      
+      function isMobile() { 
+        return window.innerWidth <= 760; 
+      }
+      
+      function initMenu() {
+        if (isMobile()) {
+          nav.style.display = 'none';
+          hamburger.style.display = 'flex';
+        } else {
+          nav.style.display = 'flex';
+          hamburger.style.display = 'none';
+          closeMenu();
+        }
+      }
+      
+      initMenu();
+      window.addEventListener('resize', initMenu);
+      
+      function openMenu() {
+        if (!nav) return;
+        nav.style.display = 'flex';
+        mobileOverlay.style.opacity = '1';
+        mobileOverlay.style.pointerEvents = 'auto';
+        mobileOverlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        hamburger.setAttribute('aria-expanded', 'true');
+      }
+      
+      function closeMenu() {
+        if (!nav) return;
+        if (isMobile()) nav.style.display = 'none';
+        mobileOverlay.style.opacity = '0';
+        mobileOverlay.style.pointerEvents = 'none';
+        mobileOverlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+      
+      hamburger.addEventListener('click', () => {
+        if (nav.style.display === 'flex') closeMenu();
+        else openMenu();
+      });
+      
+      mobileOverlay.addEventListener('click', closeMenu);
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+      
+      // Support form function (same as original)
+      window.submitSupport = function(e){
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const sku = document.getElementById('sku').value.trim();
+        const message = document.getElementById('message').value.trim();
+        
+        if (!name || !email || !message){ 
+          alert('Please complete name, email and message fields'); 
+          return; 
+        }
+        
+        const subject = encodeURIComponent(`Support request from ${name}${sku ? ' — SKU: ' + sku : ''}`);
+        const body = encodeURIComponent(`${message}\n\nName: ${name}\nEmail: ${email}${sku ? '\nOrder SKU: ' + sku : ''}`);
+        window.location.href = `mailto:contact.solvoro@gmail.com?subject=${subject}&body=${body}`;
+      };
+      
+      window.attachScreenshot = function(){
+        alert('Attachment UI is not implemented in this demo. Please attach screenshots in your email or send via WhatsApp.');
+      };
+      
+      // Add scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all support cards
+      document.querySelectorAll('.support-card').forEach(card => {
+        observer.observe(card);
+      });
+    });
+  </script>
+</body>
+</html>
