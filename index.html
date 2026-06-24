@@ -3,167 +3,948 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Solvoro</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Solvoro - Custom Websites, Social Media Content & AI Consultant</title>
+  <meta name="description" content="Grow your business with custom websites, engaging social media content, and a 24/7 AI consultant. Solvoro helps businesses build a stronger online presence, attract more customers, and scale with confidence." />
+  <meta name="keywords" content="Solvoro, custom websites, website development, social media content, AI consultant, business growth, digital presence, website design, marketing content, business automation" />
+  <link rel="canonical" href="https://www.solvoro.online/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.solvoro.online/" />
+  <meta property="og:title" content="Solvoro - Custom Websites, Social Media Content & AI Consultant" />
+  <meta property="og:description" content="Build your digital growth engine with custom websites, professional social media content, and an AI consultant that helps your business grow around the clock." />
+  <meta property="og:image" content="logo.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://www.solvoro.online/" />
+  <meta property="twitter:title" content="Solvoro - Custom Websites, Social Media Content & AI Consultant" />
+  <meta property="twitter:description" content="Helping businesses grow through custom websites, social media content, and AI-powered business assistance." />
+  <meta property="twitter:image" content="logo.png" />
+
+  <!-- Organization Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Solvoro",
+      "description": "Solvoro helps businesses grow through custom websites, social media content, and AI-powered consulting solutions designed for modern businesses.",
+      "url": "https://www.solvoro.online/",
+      "logo": "logo.png"
+    }
+  </script>
+
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    /* ----- reset & base ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --card: #1e1e1e;
+      --border: #2a2a2a;
+      --text: #f0f0f0;
+      --muted: #a0a0a0;
+      --accent: #2dd4bf;
+      --accent-dark: #14b8a6;
+      --gradient: linear-gradient(135deg, #2dd4bf, #0d9488);
+      --shadow: 0 20px 60px rgba(0,0,0,0.6);
+      --radius: 16px;
+      --header-h: 72px;
+      --max-width: 1200px;
+      --pad: clamp(20px, 5vw, 48px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: #0f172a;
-      color: #e2e8f0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    /* ----- buttons ----- */
+    .btn-primary {
+      display: inline-flex;
       align-items: center;
-      padding: 16px;
-    }
-    .app {
-      width: 100%;
-      max-width: 900px;
-      height: 92vh;
-      background: #111827;
-      border-radius: 18px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid #243041;
-    }
-    .topbar {
-      padding: 16px 18px;
-      background: #0b1220;
-      border-bottom: 1px solid #243041;
-    }
-    .title {
-      font-size: 20px;
+      gap: 10px;
+      background: var(--gradient);
+      color: #0a0a0a;
       font-weight: 700;
-      color: #ffffff;
+      padding: 14px 32px;
+      border-radius: 100px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 8px 30px rgba(45, 212, 191, 0.25);
     }
-    .subtitle {
-      font-size: 13px;
-      color: #94a3b8;
-      margin-top: 4px;
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(45, 212, 191, 0.4);
     }
-    .chat {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px;
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      font-size: 16px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(45, 212, 191, 0.06);
+    }
+
+    /* ----- header ----- */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-h);
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--pad);
+      z-index: 1000;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
       gap: 12px;
     }
-    .msg {
-      max-width: 82%;
-      padding: 12px 14px;
-      border-radius: 14px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      word-wrap: break-word;
+    .brand img {
+      height: 40px;
+      width: auto;
+      border-radius: 8px;
     }
-    .user {
-      align-self: flex-end;
-      background: #2563eb;
-      color: white;
-      border-bottom-right-radius: 4px;
+    .brand .name {
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .bot {
-      align-self: flex-start;
-      background: #1f2937;
-      color: #e5e7eb;
-      border-bottom-left-radius: 4px;
-    }
-    .input-area {
+
+    nav {
       display: flex;
-      gap: 10px;
-      padding: 14px;
-      border-top: 1px solid #243041;
-      background: #0b1220;
+      align-items: center;
+      gap: 8px;
     }
-    input {
-      flex: 1;
-      border: 1px solid #334155;
-      outline: none;
-      background: #111827;
-      color: white;
-      border-radius: 12px;
-      padding: 14px 14px;
+    nav a {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
       font-size: 15px;
+      color: var(--muted);
+      transition: background 0.2s, color 0.2s;
     }
-    button {
-      border: none;
-      border-radius: 12px;
-      padding: 14px 18px;
-      background: #2563eb;
-      color: white;
-      font-size: 15px;
+    nav a:hover,
+    nav a.active {
+      background: rgba(45, 212, 191, 0.08);
+      color: var(--text);
+    }
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .blog-link {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
       cursor: pointer;
+    }
+    .blog-link:hover {
+      border-color: var(--accent);
+      background: rgba(45, 212, 191, 0.06);
+      color: var(--accent);
+    }
+
+    #hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 28px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    /* mobile nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px var(--pad);
+      flex-direction: column;
+      gap: 12px;
+      z-index: 999;
+      animation: slideDown 0.25s ease;
+    }
+    .mobile-nav a {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .mobile-nav a.active {
+      color: var(--accent);
+      background: rgba(45, 212, 191, 0.06);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ----- main content ----- */
+    .main {
+      padding-top: calc(var(--header-h) + 40px);
+      padding-bottom: 60px;
+    }
+
+    /* hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: 80px;
+    }
+    .hero-content h1 {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero-content h1 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s ease-in-out infinite;
+      background-size: 200% 200%;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-content p {
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 32px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 48px;
+    }
+    .hero-stats .stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-stats .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .hero-stats .stat-label {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, box-shadow 0.3s;
+      cursor: default;
+      animation: float 5s ease-in-out infinite;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .feature-card:nth-child(2) { animation-delay: 0.5s; }
+    .feature-card:nth-child(3) { animation-delay: 1s; }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .feature-card:hover {
+      background: #2a2a2a;
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 40px rgba(45, 212, 191, 0.1);
+      border-color: var(--accent-dark);
+    }
+    .feature-card .title {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .feature-card .desc {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* sections */
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 48px;
+      letter-spacing: -0.02em;
+    }
+    .section-title span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 5s ease-in-out infinite;
+      background-size: 200% 200%;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+    .service-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      transition: border-color 0.3s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: 0;
+      border-radius: var(--radius);
+    }
+    .service-card:hover::after {
+      opacity: 0.05;
+    }
+    .service-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+    .service-card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .service-card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+    .service-card .price {
+      display: inline-block;
+      margin-top: 16px;
+      background: rgba(45, 212, 191, 0.12);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--accent);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* process */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+    .step {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .step:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+    .step .num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: #0a0a0a;
+      font-weight: 900;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .step:hover .num {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(45, 212, 191, 0.3);
+    }
+    .step h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .step p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+    .testimonial {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .testimonial:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+    .testimonial .quote {
+      font-size: 18px;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .testimonial .author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .testimonial .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #0a0a0a;
+    }
+    .testimonial .author-info h4 {
       font-weight: 700;
     }
-    button:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
+    .testimonial .author-info p {
+      color: var(--muted);
+      font-size: 14px;
     }
+
+    /* cta */
+    .cta-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 64px 40px;
+      text-align: center;
+      border: 1px solid var(--border);
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(45, 212, 191, 0.03), transparent 60%),
+                  radial-gradient(circle at 70% 60%, rgba(13, 148, 136, 0.03), transparent 60%);
+      animation: rotateGlow 20s linear infinite;
+      z-index: 0;
+    }
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .cta-section h2, .cta-section p, .cta-section .btn-primary {
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+
+    /* ----- footer ----- */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0 24px;
+      background: var(--surface);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand img {
+      height: 40px;
+      margin-bottom: 12px;
+    }
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .footer-col a {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      padding: 6px 0;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .footer-bottom a {
+      color: var(--muted);
+      margin-left: 16px;
+      transition: color 0.2s;
+    }
+    .footer-bottom a:hover {
+      color: var(--accent);
+    }
+
+    /* ----- responsive ----- */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .hero-visual {
+        order: 2;
+      }
+      .hero-content {
+        order: 1;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      #hamburger {
+        display: block;
+      }
+      .hero-stats {
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .footer-bottom a {
+        margin: 0 8px;
+      }
+      .cta-section {
+        padding: 40px 20px;
+      }
+      .feature-card {
+        animation: none;
+      }
+      .header-actions .blog-link {
+        padding: 6px 14px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content h1 {
+        font-size: 32px;
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-primary,
+      .btn-secondary {
+        justify-content: center;
+      }
+      .service-card {
+        padding: 24px 20px;
+      }
+    }
+
+    /* utilities */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="topbar">
-      <div class="title">Solvoro</div>
-      <div class="subtitle">Mohit — AI business assistant</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="brand">
+    <img src="logo.png" alt="Solvoro" />
+    <span class="name">Solvoro</span>
+  </div>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="support.html">Support</a>
+  </nav>
+  <div class="header-actions">
+    <a href="blog.html" class="blog-link">Blog</a>
+    <button id="hamburger" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="active">Home</a>
+  <a href="services.html">Services</a>
+  <a href="about.html">About</a>
+  <a href="support.html">Support</a>
+  <a href="blog.html">Blog</a>
+</div>
+
+<!-- MAIN -->
+<main class="main container">
+
+  <!-- HERO - Updated with Creative Messaging -->
+  <section class="hero fade-in">
+    <div class="hero-content">
+      <h1>Progress is intentional.<span>We help you build it. </span></h1>
+      <p>We just dont focus on designs we focus on the envirment which a customer needs online. Filling the gap of imagination and reality.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="window.location.href='services.html'">Explore Solutions</button>
+        <button class="btn-secondary" onclick="window.location.href='about.html'">Our Story</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">90%</span>
+          <span class="stat-label">Client Referral</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">24/7</span>
+          <span class="stat-label">Support</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Satisfaction</span>
+        </div>
+      </div>
     </div>
 
-    <div class="chat" id="chat">
-      <div class="msg bot">Hello! I’m Mohit from Solvoro. How can I help you today?</div>
+    <!-- Why Solvoro is a great company -->
+    <div class="hero-visual">
+      <div class="feature-card">
+        <div class="title">Transparent &amp; Flexible</div>
+        <div class="desc">No hidden costs or locked-in packages. You pay only for what you need, nothing more. Our pricing is honest and built around your actual requirements.</div>
+      </div>
+      <div class="feature-card">
+        <div class="title">Human-First Support</div>
+        <div class="desc">Real people, real help. Our support team works alongside our AI to ensure you're never stuck. We prioritize your success at every step.</div>
+      </div>
+      <div class="feature-card">
+        <div class="title">Built for Scale</div>
+        <div class="desc">From startups to enterprises, our solutions grow with you. Future-proof your digital presence with tools designed to evolve alongside your business.</div>
+      </div>
     </div>
+  </section>
 
-    <div class="input-area">
-      <input id="messageInput" type="text" placeholder="Type a message..." />
-      <button id="sendBtn" onclick="sendMessage()">Send</button>
+  <!-- SERVICES OVERVIEW -->
+  <section>
+    <h2 class="section-title fade-in">What <span>we offer</span></h2>
+    <div class="services-grid">
+      <div class="service-card fade-in delay-1">
+        <h3>Tailored Websites</h3>
+        <p>Fully custom designs built around your business goals. No bloated packages — you choose the features.</p>
+        <span class="price">Flexible pricing</span>
+      </div>
+      <div class="service-card fade-in delay-2">
+        <h3>Social Media Growth</h3>
+        <p>Consistent, high‑quality posts that build your brand. Choose 4 or 6 posts per week, starting at ₹329.</p>
+        <span class="price">From ₹329/week</span>
+      </div>
+      <div class="service-card fade-in delay-3">
+        <h3>AI Consultant</h3>
+        <p>Your business‑savvy AI assistant. Handles customer questions, gives insights, and automates routine work.</p>
+        <span class="price">₹2,299/month</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <h2 class="section-title fade-in">How it <span>works</span></h2>
+    <div class="process-steps">
+      <div class="step fade-in delay-1">
+        <div class="num">1</div>
+        <h4>Choose</h4>
+        <p>Pick website, social plan, AI consultant — or combine them.</p>
+      </div>
+      <div class="step fade-in delay-2">
+        <div class="num">2</div>
+        <h4>Define</h4>
+        <p>Tell us your features, content frequency, or business goals.</p>
+      </div>
+      <div class="step fade-in delay-3">
+        <div class="num">3</div>
+        <h4>Build</h4>
+        <p>We design, configure, and set everything up for you.</p>
+      </div>
+      <div class="step fade-in delay-4">
+        <div class="num">4</div>
+        <h4>Grow</h4>
+        <p>Launch, attract customers, and scale with AI‑powered advice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <h2 class="section-title fade-in">What clients <span>say</span></h2>
+    <div class="testimonials">
+      <div class="testimonial fade-in delay-1">
+        <div class="quote">“The AI consultant alone is a game changer — it handles queries and gives business advice 24/7. Website pricing was fair, and social posts doubled our engagement.”</div>
+        <div class="author">
+          <div class="avatar">RK</div>
+          <div class="author-info">
+            <h4>Rohit K.</h4>
+            <p>Delhi, India</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial fade-in delay-2">
+        <div class="quote">“Flexible website pricing saved us money. The 6‑post weekly plan at ₹499 brought 40% more leads. The all‑in‑one AI chat is incredible.”</div>
+        <div class="author">
+          <div class="avatar">SM</div>
+          <div class="author-info">
+            <h4>Sneha M.</h4>
+            <p>Mumbai, India</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section fade-in">
+    <h2>Ready to grow with us?</h2>
+    <p>Custom websites, social content, and AI — all in one place. Start today with no hidden costs.</p>
+    <button class="btn-primary" onclick="window.location.href='services.html'">Get Started</button>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Solvoro" />
+        <p>Helping businesses scale with custom websites, AI chat, and social media content. Human‑first, tech‑second.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About</a>
+        <a href="support.html">Support</a>
+        <a href="blog.html">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Platforms</h4>
+        <a href="https://manddle.solvoro.online" target="_blank">Manddle</a>
+        <a href="https://flowcrm.solvoro.online" target="_blank">FlowCRM</a>
+        <a href="#">Solvoro AI Hub</a>
+        <a href="#">Solvoro Connect</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+918795437841">+91 8795437841</a>
+        <a href="mailto:contact.solvoro@gmail.com">contact.solvoro@gmail.com</a>
+        <a href="#">Lucknow, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Solvoro — All rights reserved.</span>
+      <span>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </span>
     </div>
   </div>
+</footer>
 
-  <script>
-    const chat = document.getElementById("chat");
-    const input = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
+<script>
+  // Mobile menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.style.display === 'flex';
+    mobileNav.style.display = isOpen ? 'none' : 'flex';
+  });
 
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendMessage();
+  // Close mobile menu on link click
+  mobileNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.style.display = 'none';
     });
+  });
 
-    function addMessage(text, cls) {
-      const div = document.createElement("div");
-      div.className = `msg ${cls}`;
-      div.textContent = text;
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-      return div;
-    }
-
-    async function sendMessage() {
-      const message = input.value.trim();
-      if (!message) return;
-
-      addMessage(message, "user");
-      input.value = "";
-      sendBtn.disabled = true;
-      const typing = addMessage("Typing...", "bot");
-
-      try {
-        const res = await fetch("http://127.0.0.1:8000/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message })
-        });
-
-        const data = await res.json();
-        typing.remove();
-        addMessage(data.reply || "No reply received.", "bot");
-      } catch (err) {
-        typing.remove();
-        addMessage("Backend not connected. Start server.py first.", "bot");
-      } finally {
-        sendBtn.disabled = false;
-        input.focus();
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in');
       }
-    }
-  </script>
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
