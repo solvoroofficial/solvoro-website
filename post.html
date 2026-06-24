@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solvoro Blog</title>
+  <link rel="canonical" href="" />
+  <meta property="og:title" content="" />
+  <meta property="og:description" content="" />
+  <meta property="og:image" content="" />
+  <meta name="twitter:title" content="" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <style>
+    /* -------- Reset & Base -------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0f0f0f;
+      color: #e5e7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* -------- Header (same as blog) -------- */
+    .site-header {
+      padding: 16px 24px;
+      background: rgba(15, 15, 15, 0.6);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    }
+
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.4);
+      display: block;
+      transition: transform 0.2s ease;
+    }
+    .logo img:hover {
+      transform: scale(1.05);
+    }
+
+    .search-wrapper {
+      max-width: 300px;
+      width: 100%;
+      position: relative;
+      flex-shrink: 1;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      padding: 10px 18px 10px 42px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 40px;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      outline: none;
+      backdrop-filter: blur(4px);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .search-wrapper input::placeholder {
+      color: #6b7280;
+    }
+    .search-wrapper input:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(96, 165, 250, 0.3);
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.05), inset 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .search-wrapper .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    .search-wrapper .search-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .back-link {
+      color: #9ca3af;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      padding: 8px 14px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      white-space: nowrap;
+    }
+    .back-link:hover {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* -------- Reading Progress -------- */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .reading-progress .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa);
+      transition: width 0.1s ease;
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+    }
+
+    /* -------- Article Content -------- */
+    .article-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+    }
+    .article-header {
+      margin-bottom: 32px;
+    }
+    .article-header .meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 16px;
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+    .article-header .meta .category-tag {
+      color: #60a5fa;
+      background: rgba(96, 165, 250, 0.08);
+      padding: 2px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      border: 1px solid rgba(96, 165, 250, 0.10);
+    }
+    .article-header .meta .draft-badge {
+      color: #eab308;
+      background: rgba(234, 179, 8, 0.10);
+      padding: 2px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      border: 1px solid rgba(234, 179, 8, 0.15);
+    }
+    .article-header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+    .article-header .description {
+      font-size: 1.2rem;
+      color: #9ca3af;
+      line-height: 1.7;
+      max-width: 640px;
+    }
+    .article-image {
+      margin: 32px 0 40px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+    .article-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .blog-content {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: #d1d5db;
+    }
+    .blog-content h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .blog-content h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 2.2rem 0 1rem;
+      color: #ffffff;
+      letter-spacing: -0.015em;
+    }
+    .blog-content h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 1.8rem 0 0.8rem;
+      color: #ffffff;
+    }
+    .blog-content p {
+      margin-bottom: 1.6rem;
+    }
+    .blog-content ul, .blog-content ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1.6rem;
+    }
+    .blog-content blockquote {
+      border-left: 4px solid #60a5fa;
+      padding-left: 1.5rem;
+      margin: 1.8rem 0;
+      font-style: italic;
+      color: #9ca3af;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1rem 1.5rem;
+      border-radius: 0 12px 12px 0;
+    }
+    .blog-content img {
+      max-width: 100%;
+      border-radius: 16px;
+      margin: 2rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .blog-content a {
+      color: #60a5fa;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.2s;
+    }
+    .blog-content a:hover {
+      color: #93bbfc;
+    }
+    .blog-content hr {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 2.5rem 0;
+    }
+
+    /* -------- Like & Share -------- */
+    .article-actions {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .like-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      color: #d1d5db;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 0.95rem;
+      backdrop-filter: blur(4px);
+    }
+    .like-btn:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .like-btn.liked {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .like-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    .like-btn.liked svg {
+      fill: currentColor;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      color: #9ca3af;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 0.95rem;
+      backdrop-filter: blur(4px);
+    }
+    .share-btn:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #e5e7eb;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .share-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* -------- Next in Category -------- */
+    .next-section {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .next-section h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #9ca3af;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    .next-card {
+      background: #161616;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      display: flex;
+      align-items: stretch;
+      max-width: 600px;
+    }
+    .next-card:hover {
+      transform: translateX(6px);
+      border-color: rgba(255, 255, 255, 0.10);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+    .next-card .image {
+      width: 120px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #111;
+    }
+    .next-card .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .next-card:hover .image img {
+      transform: scale(1.04);
+    }
+    .next-card .body {
+      padding: 18px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .next-card .body .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+    .next-card .body .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.3;
+      transition: color 0.2s;
+    }
+    .next-card:hover .body .title {
+      color: #60a5fa;
+    }
+    .next-card .body .meta {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 6px;
+    }
+    .next-card .body .arrow {
+      color: #60a5fa;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+    .next-card .body .arrow svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      transition: transform 0.2s;
+    }
+    .next-card:hover .body .arrow svg {
+      transform: translateX(4px);
+    }
+    .no-next {
+      color: #6b7280;
+      font-size: 0.95rem;
+      padding: 8px 0;
+    }
+    .no-next a {
+      color: #60a5fa;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .no-next a:hover {
+      color: #93bbfc;
+    }
+
+    /* -------- Back to Top -------- */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 150;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+    .back-to-top svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* -------- Footer (same as blog) -------- */
+    .site-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 32px 24px;
+      background: #0a0a0a;
+      margin-top: 16px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .footer-brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+    .footer-brand span {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #f0f0f0;
+      white-space: nowrap;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 18px 28px;
+      flex-shrink: 0;
+    }
+    .footer-links a {
+      color: #9ca3af;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+    .footer-copy {
+      color: #6b7280;
+      font-size: 0.8rem;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* -------- Responsive -------- */
+    @media (max-width: 768px) {
+      .site-header {
+        padding: 12px 16px;
+      }
+      .site-header .container {
+        gap: 10px;
+      }
+      .logo img {
+        width: 36px;
+        height: 36px;
+      }
+      .search-wrapper {
+        max-width: 200px;
+      }
+      .search-wrapper input {
+        font-size: 0.85rem;
+        padding: 8px 14px 8px 36px;
+      }
+      .search-wrapper .search-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+      .back-link {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+      .back-link span {
+        display: none;
+      }
+      .article-container {
+        padding: 20px 16px 40px;
+      }
+      .article-header h1 {
+        font-size: 2rem;
+      }
+      .article-header .description {
+        font-size: 1rem;
+      }
+      .blog-content {
+        font-size: 1rem;
+      }
+      .blog-content h1 {
+        font-size: 1.8rem;
+      }
+      .blog-content h2 {
+        font-size: 1.5rem;
+      }
+      .blog-content h3 {
+        font-size: 1.2rem;
+      }
+      .next-card {
+        flex-direction: column;
+        max-width: 100%;
+      }
+      .next-card .image {
+        width: 100%;
+        aspect-ratio: 16/9;
+      }
+      .next-card:hover {
+        transform: translateY(-4px);
+      }
+      .next-card .body .title {
+        font-size: 1rem;
+      }
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+      }
+      .footer-inner {
+        flex-wrap: nowrap;
+        gap: 12px;
+      }
+      .footer-brand span {
+        font-size: 0.85rem;
+      }
+      .footer-links {
+        gap: 10px 16px;
+      }
+      .footer-links a {
+        font-size: 0.75rem;
+      }
+      .footer-copy {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .footer-links {
+        gap: 6px 12px;
+      }
+      .footer-links a {
+        font-size: 0.7rem;
+      }
+      .footer-copy {
+        font-size: 0.65rem;
+      }
+      .footer-brand img {
+        width: 22px;
+        height: 22px;
+      }
+      .footer-brand span {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .search-wrapper {
+        max-width: 140px;
+      }
+      .search-wrapper input {
+        font-size: 0.75rem;
+        padding: 6px 10px 6px 30px;
+      }
+      .search-wrapper .search-icon {
+        left: 8px;
+      }
+      .search-wrapper .search-icon svg {
+        width: 14px;
+        height: 14px;
+      }
+      .article-header h1 {
+        font-size: 1.6rem;
+      }
+      .article-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .like-btn, .share-btn {
+        justify-content: center;
+      }
+      .footer-links a:nth-child(3),
+      .footer-links a:nth-child(4) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="readingProgress">
+    <div class="bar" id="progressBar"></div>
+  </div>
+
+  <!-- ===== HEADER (same as blog) ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo" aria-label="Homepage">
+        <img src="logo.png" alt="Solvoro" onerror="this.style.display='none'" />
+        <span class="logo-text" style="display:none;">Solvoro<span>.</span></span>
+      </a>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <a href="blog.html" class="back-link">
+          <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+          <span>Back</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <div id="postContent" class="article-container">
+      <!-- Dynamically populated -->
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Solvoro" onerror="this.style.display='none'" />
+        <span>Solvoro</span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 Solvoro
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <!-- ===== FIREBASE & APP SCRIPT ===== -->
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "firebase/app";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs,
+      doc,
+      updateDoc,
+      increment,
+      limit,
+      orderBy
+    } from "firebase/firestore";
+
+    // ---------- Firebase Config ----------
+    const firebaseConfig = {
+      apiKey: "AIzaSyDH_8Htk4dhn_Hwq3YLNE_pkqOzfGagwKU",
+      authDomain: "solvoro-blog.firebaseapp.com",
+      projectId: "solvoro-blog",
+      storageBucket: "solvoro-blog.firebasestorage.app",
+      messagingSenderId: "580783342095",
+      appId: "1:580783342095:web:64602b1f1125ae4e42d97a",
+      measurementId: "G-EEF5H8F45S"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // ---------- Helpers ----------
+    function formatDate(timestamp) {
+      if (!timestamp) return '—';
+      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function readingTime(html) {
+      if (!html) return 1;
+      const text = html.replace(/<[^>]*>/g, '').trim();
+      const words = text.split(/\s+/).length;
+      return Math.max(1, Math.ceil(words / 200));
+    }
+
+    function updateMetaTags(blog) {
+      const title = blog.metaTitle || blog.title;
+      const desc = blog.metaDescription || blog.description || '';
+      document.title = `${title} | Just Blogs`;
+      document.querySelector('meta[name="description"]')?.setAttribute('content', desc);
+      document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
+      document.querySelector('meta[property="og:description"]')?.setAttribute('content', desc);
+      document.querySelector('meta[property="og:url"]')?.setAttribute('content', `https://solvoro.com/blog/${blog.slug}`);
+      if (blog.image) {
+        document.querySelector('meta[property="og:image"]')?.setAttribute('content', blog.image);
+        document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', blog.image);
+      }
+      document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', title);
+      document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', desc);
+      document.querySelector('link[rel="canonical"]')?.setAttribute('href', `https://solvoro.com/blog/${blog.slug}`);
+
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": blog.title,
+        "description": blog.description,
+        "image": blog.image,
+        "datePublished": blog.createdAt?.toDate?.()?.toISOString?.() || new Date().toISOString(),
+        "dateModified": blog.updatedAt?.toDate?.()?.toISOString?.() || new Date().toISOString(),
+        "author": { "@type": "Organization", "name": "Solvoro" },
+        "publisher": { "@type": "Organization", "name": "Solvoro" }
+      };
+      let script = document.querySelector('script[type="application/ld+json"]');
+      if (!script) {
+        script = document.createElement('script');
+        script.type = 'application/ld+json';
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(schema);
+    }
+
+    // ---------- Load Next Post in Same Category ----------
+    async function loadNextPostInCategory(currentId, category) {
+      try {
+        if (!category) {
+          const fallbackQ = query(
+            collection(db, 'blogs'),
+            where('published', '==', true),
+            orderBy('createdAt', 'desc'),
+            limit(3)
+          );
+          const fallbackSnap = await getDocs(fallbackQ);
+          const posts = [];
+          fallbackSnap.forEach(doc => {
+            if (doc.id !== currentId) {
+              posts.push({ id: doc.id, ...doc.data() });
+            }
+          });
+          return posts.length > 0 ? posts[0] : null;
+        }
+
+        const q = query(
+          collection(db, 'blogs'),
+          where('published', '==', true),
+          where('category', '==', category)
+        );
+        const snap = await getDocs(q);
+        const posts = [];
+        snap.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
+        posts.sort((a, b) => {
+          const dateA = a.createdAt?.toDate?.() || new Date(0);
+          const dateB = b.createdAt?.toDate?.() || new Date(0);
+          return dateB - dateA;
+        });
+        const currentIndex = posts.findIndex(p => p.id === currentId);
+        if (currentIndex === -1 || currentIndex === posts.length - 1) {
+          const firstPost = posts[0];
+          if (firstPost && firstPost.id !== currentId) return firstPost;
+          const fallbackQ = query(
+            collection(db, 'blogs'),
+            where('published', '==', true),
+            orderBy('createdAt', 'desc'),
+            limit(3)
+          );
+          const fallbackSnap = await getDocs(fallbackQ);
+          const fallbackPosts = [];
+          fallbackSnap.forEach(doc => {
+            if (doc.id !== currentId) fallbackPosts.push({ id: doc.id, ...doc.data() });
+          });
+          return fallbackPosts.length > 0 ? fallbackPosts[0] : null;
+        }
+        return posts[currentIndex + 1];
+      } catch (err) {
+        console.warn('Error loading next post:', err);
+        return null;
+      }
+    }
+
+    // ---------- Get Slug ----------
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    if (!slug) {
+      document.getElementById('postContent').innerHTML = `
+        <div style="text-align:center; padding:60px 0;">
+          <p style="color:#6b7280;">No slug provided.</p>
+          <a href="blog.html" style="color:#60a5fa; display:inline-block; margin-top:12px;">← Back to blog</a>
+        </div>
+      `;
+    } else {
+      loadPost(slug);
+    }
+
+    async function loadPost(slug) {
+      try {
+        const q = query(collection(db, 'blogs'), where('slug', '==', slug), limit(1));
+        const snap = await getDocs(q);
+        if (snap.empty) {
+          document.getElementById('postContent').innerHTML = `
+            <div style="text-align:center; padding:60px 0;">
+              <p style="color:#6b7280;">Article not found.</p>
+              <a href="blog.html" style="color:#60a5fa; display:inline-block; margin-top:12px;">← Back to blog</a>
+            </div>
+          `;
+          return;
+        }
+        const docSnap = snap.docs[0];
+        const blog = { id: docSnap.id, ...docSnap.data() };
+
+        updateMetaTags(blog);
+
+        const container = document.getElementById('postContent');
+        const dateStr = formatDate(blog.createdAt);
+        const readTime = readingTime(blog.content);
+        const isDraft = !blog.published;
+
+        container.innerHTML = `
+          <article>
+            <div class="article-header">
+              <div class="meta">
+                <span>${dateStr}</span>
+                <span>·</span>
+                <span>${readTime} min read</span>
+                ${blog.category ? `<span class="category-tag">${blog.category}</span>` : ''}
+                ${isDraft ? `<span class="draft-badge">Draft</span>` : ''}
+              </div>
+              <h1>${blog.title}</h1>
+              ${blog.description ? `<p class="description">${blog.description}</p>` : ''}
+            </div>
+            ${blog.image ? `
+              <div class="article-image">
+                <img src="${blog.image}" alt="${blog.title}" loading="lazy" />
+              </div>
+            ` : ''}
+            <div class="blog-content">${blog.content}</div>
+            <div class="article-actions">
+              <button class="like-btn" id="likeBtn">
+                <svg viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                <span id="likeCount">${blog.likes || 0}</span>
+              </button>
+              <button class="share-btn" id="shareBtn">
+                <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                Share
+              </button>
+            </div>
+            <div id="nextSection" class="next-section">
+              <h2 id="nextHeading">Continue Reading</h2>
+              <div id="nextContainer"></div>
+            </div>
+          </article>
+        `;
+
+        // Like
+        const likeBtn = document.getElementById('likeBtn');
+        const likeCount = document.getElementById('likeCount');
+        let liked = false, cooldown = false;
+        likeBtn.addEventListener('click', async () => {
+          if (cooldown) return;
+          cooldown = true;
+          try {
+            await updateDoc(doc(db, 'blogs', blog.id), { likes: increment(1) });
+            liked = true;
+            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+            likeBtn.classList.add('liked');
+          } catch (e) { console.error(e); }
+          setTimeout(() => { cooldown = false; }, 3000);
+        });
+
+        // Share
+        document.getElementById('shareBtn').addEventListener('click', () => {
+          if (navigator.share) {
+            navigator.share({
+              title: blog.title,
+              text: blog.description || '',
+              url: window.location.href
+            }).catch(() => {});
+          } else {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+              alert('Link copied to clipboard!');
+            }).catch(() => {
+              prompt('Copy this link:', window.location.href);
+            });
+          }
+        });
+
+        // Next post
+        const nextPost = await loadNextPostInCategory(blog.id, blog.category);
+        const nextContainer = document.getElementById('nextContainer');
+        const nextHeading = document.getElementById('nextHeading');
+        if (nextPost) {
+          const categoryName = blog.category || 'Recent';
+          nextHeading.textContent = `📖 Next in ${categoryName}`;
+          nextContainer.innerHTML = `
+            <a href="post.html?slug=${nextPost.slug}" class="next-card">
+              ${nextPost.image ? `
+                <div class="image">
+                  <img src="${nextPost.image}" alt="${nextPost.title}" loading="lazy" />
+                </div>
+              ` : ''}
+              <div class="body">
+                <div class="label">Next article</div>
+                <div class="title">${nextPost.title}</div>
+                <div class="meta">${formatDate(nextPost.createdAt)} · ${readingTime(nextPost.content)} min read</div>
+                <div class="arrow">
+                  Continue reading
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </a>
+          `;
+        } else {
+          nextHeading.textContent = '📚 Explore More';
+          nextContainer.innerHTML = `
+            <div class="no-next">
+              <p>You've reached the end of this category. <a href="blog.html">Browse all articles →</a></p>
+            </div>
+          `;
+        }
+
+        // Reading progress
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          progressBar.style.width = progress + '%';
+        });
+
+        // Back to top
+        const backBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 400) backBtn.classList.add('visible');
+          else backBtn.classList.remove('visible');
+        });
+        backBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+      } catch (error) {
+        console.error('Error loading post:', error);
+        document.getElementById('postContent').innerHTML = `
+          <div style="text-align:center; padding:60px 0; color:#ef4444;">
+            <p>Error loading post: ${error.message}</p>
+            <a href="blog.html" style="color:#60a5fa; display:inline-block; margin-top:12px;">← Back to blog</a>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
