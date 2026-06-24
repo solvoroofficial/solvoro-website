@@ -1,1023 +1,737 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>About — Solvoro</title>
-  <link rel="canonical" href="https://www.solvoro.online/">
-  <link id="favIcon" rel="icon" type="image/png" href="logo.png">
-  <link rel="apple-touch-icon" href="favicon.png">
-  <meta name="description" content="About Solvoro — Affordable AI tools and digital products">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Primary Meta Tags -->
+  <title>About Solvoro – Human-First Digital Studio & AI Solutions</title>
+  <meta name="description" content="Learn about Solvoro – a digital studio focused on custom websites, social media content, and AI consulting. We believe in transparent pricing, human-first support, and practical solutions for business growth." />
+  <meta name="keywords" content="about Solvoro, digital studio, website development company, AI consulting, human-first support, business growth solutions, custom web design, social media marketing" />
+  <link rel="canonical" href="https://www.solvoro.online/about" />
 
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.solvoro.online/about" />
+  <meta property="og:title" content="Solvoro – About Our Human-First Digital Studio" />
+  <meta property="og:description" content="Solvoro helps businesses grow with custom websites, social media content, and AI consulting. We're a team dedicated to transparent, practical solutions that deliver real results." />
+  <meta property="og:image" content="logo.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://www.solvoro.online/about" />
+  <meta property="twitter:title" content="Solvoro – About Our Digital Studio" />
+  <meta property="twitter:description" content="Learn about Solvoro's mission, values, and the team behind the solutions. We build digital experiences that put people first." />
+  <meta property="twitter:image" content="logo.png" />
+
+  <!-- Organization Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Solvoro",
+      "description": "Solvoro helps businesses grow through custom websites, social media content, and AI-powered consulting solutions designed for modern businesses.",
+      "url": "https://www.solvoro.online/",
+      "logo": "logo.png",
+      "founder": {
+        "@type": "Person",
+        "name": "Ayam Mani Shukla"
+      }
+    }
+  </script>
+
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  
   <style>
-    :root{
-      --bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      --card: #ffffff;
-      --muted: #64748b;
-      --accent: #0f172a;
-      --primary: #0f6b5a;
-      --primary-light: #0d9488;
-      --secondary: #8b5cf6;
-      --glass: rgba(255, 255, 255, 0.7);
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-      --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.05);
-      --radius: 20px;
-      --radius-sm: 12px;
-      --ease: cubic-bezier(0.4, 0, 0.2, 1);
-      --header-h: 76px;
-      --max-width: 1200px;
-      --container-pad: clamp(20px, 5vw, 40px);
+    /* ----- reset & base (identical to other pages) ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /* ---------- BASE ---------- */
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --card: #1e1e1e;
+      --border: #2a2a2a;
+      --text: #f0f0f0;
+      --muted: #a0a0a0;
+      --accent: #2dd4bf;
+      --accent-dark: #14b8a6;
+      --gradient: linear-gradient(135deg, #2dd4bf, #0d9488);
+      --shadow: 0 20px 60px rgba(0,0,0,0.6);
+      --radius: 16px;
+      --header-h: 72px;
+      --max-width: 1200px;
+      --pad: clamp(20px, 5vw, 48px);
     }
-    
-    html, body { 
-      height: 100%; 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-      background: var(--bg); 
-      color: var(--accent); 
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+
+    html {
       scroll-behavior: smooth;
     }
-    
-    body { 
-      font-size: 16px; 
-      line-height: 1.6; 
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
-    
-    a { 
-      color: inherit; 
-      text-decoration: none; 
-      transition: all 0.3s var(--ease);
-    }
-    
-    .container { 
-      max-width: var(--max-width); 
-      margin: 0 auto; 
-      padding: 0 var(--container-pad);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
     }
 
-    /* ---------- HEADER (SAME AS HOMEPAGE) ---------- */
-    .header{
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gradient);
+      color: #0a0a0a;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 100px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 8px 30px rgba(45, 212, 191, 0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(45, 212, 191, 0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      font-size: 16px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(45, 212, 191, 0.06);
+    }
+
+    /* ----- header (identical) ----- */
+    .header {
       position: fixed;
+      top: 0;
       left: 0;
       right: 0;
-      top: 0;
       height: var(--header-h);
-      padding: 12px 18px;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      z-index: 1300;
-      background: linear-gradient(90deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55));
-      border-bottom: 1px solid rgba(0,0,0,0.04);
-      box-shadow: 0 8px 30px rgba(2,6,23,0.06);
-      backdrop-filter: blur(8px);
-      transition: transform 700ms var(--ease), box-shadow 400ms var(--ease), background 600ms var(--ease);
-      animation: header-entrance 700ms var(--ease) both;
-      will-change: transform, box-shadow;
+      padding: 0 var(--pad);
+      z-index: 1000;
     }
-    @keyframes header-entrance{ 
-      0%{ transform: translateY(-18px); opacity:0; } 
-      100%{ transform:none; opacity:1; } 
-    }
-    
-    .brand{
+
+    .brand {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    
-    .brand img{
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      object-fit: contain;
-      transform-origin: center;
-      transition: transform 420ms var(--ease), filter 320ms var(--ease);
-    }
-    
-    .brand img:hover{
-      transform: rotate(-8deg) scale(1.02);
-    }
-    
-    .brand .title{
-      font-weight: 900;
-      line-height: 1;
-      font-size: 20px;
-    }
-    
-    .brand .muted-small{
-      font-weight: 400;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    
-    .header::before{
-      content: ''; 
-      position: absolute; 
-      inset: 0; 
-      left: -20%; 
-      width: 140%; 
-      height: 100%; 
-      z-index: 1000; 
-      pointer-events: none;
-      background: linear-gradient(120deg, rgba(16,99,83,0.03), rgba(6,55,120,0.02) 30%, rgba(37,211,102,0.03));
-      transform: translateY(6px);
-      animation: header-wave 7s linear infinite;
-      mix-blend-mode: overlay; 
-      opacity: 0.95; 
-      border-bottom-left-radius: 14px; 
-      border-bottom-right-radius: 14px;
-    }
-    
-    @keyframes header-wave{ 
-      0%{ transform: translateX(-6%) translateY(6px);} 
-      50%{ transform: translateX(6%) translateY(2px);} 
-      100%{ transform: translateX(-6%) translateY(6px);} 
-    }
-    
-    nav#mainNav{ 
-      display: flex; 
-      gap: 8px; 
-      align-items: center;
-    }
-    
-    nav#mainNav a{ 
-      padding: 8px 12px; 
-      border-radius: 10px; 
-      font-weight: 700; 
-      color: var(--accent); 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 8px; 
-      position: relative; 
-      transition: transform 280ms var(--ease), color 220ms var(--ease);
-    }
-    
-    nav#mainNav a::after{ 
-      content: ''; 
-      position: absolute; 
-      left: 10%; 
-      right: 10%; 
-      bottom: -6px; 
-      height: 3px; 
-      background: linear-gradient(90deg, var(--primary), var(--primary-light)); 
-      border-radius: 999px; 
-      opacity: 0; 
-      transform: scaleX(0); 
-      transform-origin: left; 
-      transition: transform 320ms var(--ease), opacity 220ms var(--ease);
-    }
-    
-    nav#mainNav a:hover{ 
-      transform: translateY(-4px); 
-      color: var(--primary);
-    }
-    
-    nav#mainNav a:hover::after{ 
-      opacity: 1; 
-      transform: scaleX(1);
-    }
-    
-    nav#mainNav a.active{ 
-      background: linear-gradient(90deg, var(--primary), var(--primary-light)); 
-      color: #fff;
-    }
-    
-    .header-right{ 
-      display: flex; 
-      gap: 10px; 
-      align-items: center;
-    }
-    
-    .demobtn{
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      color: #fff; 
-      border: 0; 
-      padding: 10px 16px; 
-      border-radius: 100px; 
-      font-weight: 700; 
-      font-size: 14px; 
-      cursor: pointer;
-      align-items: center; 
-      justify-content: center; 
-      gap: 10px; 
-      box-shadow: 0 10px 30px rgba(15, 107, 90, 0.18), 0 4px 10px rgba(0,0,0,0.06);
-      transform-origin: center; 
-      transition: transform 420ms var(--ease), box-shadow 420ms var(--ease);
-    }
-    
-    .demobtn:hover{ 
-      transform: translateY(-4px) scale(1.02); 
-    }
-    
-    #hamburger{ 
-      display: none; 
-      background: transparent;
-      border: 0;
-      padding: 8px;
+    .brand img {
+      height: 40px;
+      width: auto;
       border-radius: 8px;
-      cursor: pointer;
     }
-
-    /* Mobile overlay */
-    #mobileOverlay{ 
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 260ms var(--ease);
-      z-index: 1190;
-    }
-
-    /* ---------- MAIN CONTENT ---------- */
-    .main {
-      padding-top: calc(var(--header-h) + 60px);
-      padding-bottom: 80px;
-    }
-
-    /* Hero Section for About Page */
-    .about-hero {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 60px;
-    }
-
-    .about-hero h1 {
-      font-size: clamp(40px, 5vw, 64px);
+    .brand .name {
       font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 24px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .about-hero p {
-      font-size: clamp(18px, 3vw, 22px);
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav a {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
       color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 40px;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a:hover,
+    nav a.active {
+      background: rgba(45, 212, 191, 0.08);
+      color: var(--text);
+    }
+    nav a.active {
+      color: var(--accent);
     }
 
-    /* Content Cards */
-    .content-card {
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .blog-link {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .blog-link:hover {
+      border-color: var(--accent);
+      background: rgba(45, 212, 191, 0.06);
+      color: var(--accent);
+    }
+
+    #hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 28px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px var(--pad);
+      flex-direction: column;
+      gap: 12px;
+      z-index: 999;
+      animation: slideDown 0.25s ease;
+    }
+    .mobile-nav a {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .mobile-nav a.active {
+      color: var(--accent);
+      background: rgba(45, 212, 191, 0.06);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ----- main content (about page) ----- */
+    .main {
+      padding-top: calc(var(--header-h) + 40px);
+      padding-bottom: 60px;
+    }
+
+    /* Page hero */
+    .page-hero {
+      text-align: left;
+      margin-bottom: 60px;
+    }
+    .page-hero h1 {
+      font-size: clamp(40px, 5vw, 56px);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .page-hero h1 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-hero p {
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0;
+    }
+
+    /* Content sections */
+    .about-section {
       background: var(--card);
       border-radius: var(--radius);
-      padding: 40px;
-      box-shadow: var(--shadow-sm);
+      padding: 48px 40px;
       margin-bottom: 40px;
-      transition: all 0.3s var(--ease);
-      border: 1px solid transparent;
+      border: 1px solid var(--border);
+      transition: border-color 0.3s;
     }
-
-    .content-card:hover {
-      box-shadow: var(--shadow);
-      border-color: rgba(15, 107, 90, 0.1);
+    .about-section:hover {
+      border-color: rgba(45, 212, 191, 0.2);
     }
-
-    .content-card h2 {
+    .about-section h2 {
       font-size: 32px;
       font-weight: 800;
       margin-bottom: 20px;
-      color: var(--accent);
+      letter-spacing: -0.02em;
     }
-
-    .content-card p {
+    .about-section h2 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .about-section p {
       color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 20px;
       font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .about-section p:last-child {
+      margin-bottom: 0;
     }
 
-    /* Features Grid */
-    .features-grid {
+    /* Values grid */
+    .values-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 24px;
-      margin-top: 30px;
+      margin-top: 24px;
     }
-
-    .feature-item {
-      background: #f8fafc;
+    .value-item {
+      background: var(--surface);
       border-radius: var(--radius-sm);
-      padding: 24px;
-      border-left: 4px solid var(--primary);
-      transition: all 0.3s var(--ease);
+      padding: 28px 20px;
+      border: 1px solid var(--border);
+      transition: border-color 0.3s, transform 0.3s;
+      text-align: center;
     }
-
-    .feature-item:hover {
+    .value-item:hover {
+      border-color: var(--accent);
       transform: translateY(-4px);
-      background: white;
-      box-shadow: var(--shadow-sm);
     }
-
-    .feature-item strong {
+    .value-item .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .value-item h3 {
       font-size: 18px;
       font-weight: 700;
-      color: var(--accent);
-      display: block;
       margin-bottom: 8px;
+      color: var(--text);
     }
-
-    .feature-item p {
-      font-size: 15px;
-      margin: 0;
+    .value-item p {
+      font-size: 14px;
       color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
     }
 
-    /* Founder Section */
-    .founder-section {
+    /* Founder section */
+    .founder-grid {
       display: grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 220px 1fr;
       gap: 40px;
+      align-items: start;
+      margin-top: 16px;
+    }
+    .founder-avatar {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
       align-items: center;
-      margin-top: 40px;
+      justify-content: center;
+      font-size: 64px;
+      font-weight: 900;
+      color: #0a0a0a;
+      box-shadow: 0 20px 60px rgba(45, 212, 191, 0.15);
+      border: 3px solid var(--accent);
     }
-
-    .founder-image {
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      height: 300px;
-    }
-
-    .founder-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s var(--ease);
-    }
-
-    .founder-image:hover img {
-      transform: scale(1.05);
-    }
-
     .founder-info h3 {
       font-size: 28px;
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
+    }
+    .founder-info .title {
       color: var(--accent);
-    }
-
-    .founder-title {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    .founder-actions {
-      display: flex;
-      gap: 16px;
-      margin-top: 24px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      padding: 16px 32px;
-      border-radius: var(--radius-sm);
       font-weight: 600;
       font-size: 16px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s var(--ease);
+      margin-bottom: 16px;
+      display: block;
     }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 40px rgba(15, 107, 90, 0.2);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--accent);
-      border: 2px solid #e2e8f0;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--primary);
-    }
-
-    /* ---------- ENHANCED FOOTER (FROM HOMEPAGE) ---------- */
-    .footer {
-      margin-top: 80px;
-      padding-top: 64px;
-      border-top: 1px solid #e2e8f0;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-    }
-
-    .footer-content {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 var(--container-pad) 48px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-    }
-
-    .footer-section h4 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: var(--accent);
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .footer-logo img {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-    }
-
-    .footer-logo span {
-      font-weight: 800;
-      font-size: 24px;
-      color: var(--accent);
-    }
-
-    .footer-tagline {
+    .founder-info p {
       color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 24px;
-      font-size: 16px;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .footer-links a {
-      color: var(--muted);
-      transition: all 0.3s var(--ease);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .footer-links a:hover {
-      color: var(--primary);
-      transform: translateX(4px);
-    }
-
-    .footer-links a svg {
-      width: 16px;
-      height: 16px;
-      opacity: 0.7;
-    }
-
-    .footer-contact {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .footer-contact p {
+      font-size: 17px;
+      line-height: 1.8;
       margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
-
-    .footer-contact svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid #e2e8f0;
-      padding: 32px 0;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      background: rgba(241, 245, 249, 0.5);
-    }
-
-    .social-links {
+    .founder-info .founder-actions {
       display: flex;
       gap: 16px;
       margin-top: 20px;
-      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    .social-link {
-      width: 40px;
+    /* ----- footer (identical) ----- */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0 24px;
+      background: var(--surface);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand img {
       height: 40px;
-      border-radius: 50%;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .footer-col a {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      padding: 6px 0;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .footer-col a:hover {
       color: var(--accent);
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s var(--ease);
+      transform: translateX(4px);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .footer-bottom a {
+      color: var(--muted);
+      margin-left: 16px;
+      transition: color 0.2s;
+    }
+    .footer-bottom a:hover {
+      color: var(--accent);
     }
 
-    .social-link:hover {
-      transform: translateY(-4px);
-      background: var(--primary);
-      color: white;
-    }
-
-    /* ---------- RESPONSIVE DESIGN ---------- */
+    /* ----- responsive ----- */
     @media (max-width: 1024px) {
-      .founder-section {
+      .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .founder-grid {
         grid-template-columns: 1fr;
-        gap: 32px;
-      }
-      
-      .founder-image {
-        width: 250px;
-        height: 250px;
-        margin: 0 auto;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .main {
-        padding-top: calc(var(--header-h) + 40px);
-        padding-bottom: 40px;
-      }
-      
-      .about-hero {
-        margin-bottom: 40px;
-      }
-      
-      .content-card {
-        padding: 24px;
-      }
-      
-      .content-card h2 {
-        font-size: 28px;
-      }
-      
-      .features-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      
-      .founder-section {
         text-align: center;
       }
-      
-      .founder-actions {
+      .founder-avatar {
+        margin: 0 auto;
+      }
+      .founder-info .founder-actions {
         justify-content: center;
       }
-      
-      .footer-content {
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      #hamburger {
+        display: block;
+      }
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-grid {
         grid-template-columns: 1fr;
         gap: 32px;
       }
-
-      /* Mobile header menu */
-      nav#mainNav { 
-        display: none; 
-        position: fixed; 
-        left: 16px; 
-        right: 16px; 
-        top: calc(var(--header-h) + 16px); 
-        background: var(--card); 
-        padding: 20px; 
-        flex-direction: column; 
-        gap: 12px; 
-        box-shadow: var(--shadow); 
-        z-index: 1295; 
-        border-radius: var(--radius-sm);
-        animation: slideDown 0.3s var(--ease);
-      }
-      @keyframes slideDown {
-        from {
-          transform: translateY(-10px);
-          opacity: 0;
-        }
-        to {
-          transform: none;
-          opacity: 1;
-        }
-      }
-      
-      #hamburger { 
-        display: block;
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: rgba(15, 107, 90, 0.1);
-        display: flex;
+      .footer-bottom {
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        transition: all 0.3s var(--ease);
+        text-align: center;
       }
-      #hamburger:hover {
-        background: rgba(15, 107, 90, 0.2);
+      .footer-bottom a {
+        margin: 0 8px;
+      }
+      .header-actions .blog-link {
+        padding: 6px 14px;
+        font-size: 13px;
+      }
+      .page-hero {
+        text-align: center;
+      }
+      .page-hero p {
+        margin: 0 auto;
+      }
+      .about-section {
+        padding: 32px 24px;
+      }
+      .about-section h2 {
+        font-size: 28px;
       }
     }
 
     @media (max-width: 480px) {
-      .about-hero h1 {
-        font-size: 36px;
+      .page-hero h1 {
+        font-size: 32px;
       }
-      
-      .about-hero p {
-        font-size: 18px;
+      .values-grid {
+        grid-template-columns: 1fr;
       }
-      
-      .content-card {
-        padding: 20px;
+      .about-section {
+        padding: 24px 20px;
       }
-      
-      .btn {
-        padding: 14px 24px;
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .founder-actions {
-        flex-direction: column;
-      }
-      
-      .footer-section h4 {
-        font-size: 16px;
+      .founder-avatar {
+        width: 160px;
+        height: 160px;
+        font-size: 48px;
       }
     }
 
-    /* Animation Classes */
+    /* ----- animations ----- */
     .fade-in {
       opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 0.6s var(--ease) forwards;
+      transform: translateY(24px);
+      animation: fadeUp 0.7s ease forwards;
     }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Reduced Motion */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER (SAME AS HOMEPAGE) -->
-  <header id="header" class="header" role="banner" aria-label="Main header">
-    <div class="brand" role="presentation">
-      <img id="headerLogo" src="logo.png" alt="Solvoro logo" loading="lazy">
+<!-- HEADER (identical to homepage & services) -->
+<header class="header">
+  <div class="brand">
+    <img src="logo.png" alt="Solvoro" />
+    <span class="name">Solvoro</span>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="about.html" class="active">About</a>
+    <a href="support.html">Support</a>
+  </nav>
+  <div class="header-actions">
+    <a href="blog.html" class="blog-link">Blog</a>
+    <button id="hamburger" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="services.html">Services</a>
+  <a href="about.html" class="active">About</a>
+  <a href="support.html">Support</a>
+  <a href="blog.html">Blog</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main container">
+
+  <!-- Page Hero -->
+  <section class="page-hero fade-in">
+    <h1>About <span>Solvoro</span></h1>
+    <p>We're a digital studio built on the belief that powerful tools should be accessible, transparent, and human-first. Our mission is to help businesses grow — without the complexity or hidden costs.</p>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="about-section fade-in delay-1">
+    <h2>Our <span>Mission</span></h2>
+    <p>Solvoro exists to remove the cost and complexity barriers around digital growth. We believe that every business — regardless of size or budget — deserves access to professional websites, engaging content, and smart AI tools that actually work.</p>
+    <p>We focus on practical, usable solutions that solve real problems. No hype. No unnecessary features. Just honest, effective tools designed to help you attract customers, streamline operations, and scale with confidence.</p>
+  </section>
+
+  <!-- Values Section -->
+  <section class="about-section fade-in delay-2">
+    <h2>What We <span>Stand For</span></h2>
+    <div class="values-grid">
+      <div class="value-item">
+        <span class="icon">🔓</span>
+        <h3>Transparency</h3>
+        <p>No hidden fees, no lock‑in contracts. You pay only for what you need, and we're upfront about everything.</p>
+      </div>
+      <div class="value-item">
+        <span class="icon">🤝</span>
+        <h3>Human‑First</h3>
+        <p>Technology serves people, not the other way around. Our support is real, responsive, and built around your success.</p>
+      </div>
+      <div class="value-item">
+        <span class="icon">⚡</span>
+        <h3>Practical Impact</h3>
+        <p>We build solutions that deliver measurable results — not features that look good on a spec sheet but never get used.</p>
+      </div>
+      <div class="value-item">
+        <span class="icon">📈</span>
+        <h3>Growth‑Focused</h3>
+        <p>Every product and service is designed with one goal: to help your business grow, attract more customers, and thrive.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder Section -->
+  <section class="about-section fade-in delay-3">
+    <h2>Meet the <span>Founder</span></h2>
+    <div class="founder-grid">
+      <div class="founder-avatar">AS</div>
+      <div class="founder-info">
+        <h3>Ayam Mani Shukla</h3>
+        <span class="title">Founder & CEO — Solvoro</span>
+        <p>Ayam founded Solvoro with a vision to make AI and professional digital tools accessible to everyone — not just large corporations. With a background in technology and design, he believes that great tools should empower people, not overwhelm them.</p>
+        <p>His approach is simple: build practical, affordable solutions that deliver real value. Under his leadership, Solvoro has grown into a trusted partner for businesses looking to build a stronger online presence, automate routine tasks, and scale with confidence.</p>
+        <div class="founder-actions">
+          <a href="https://wa.me/918795437841?text=Hi%2C%20I%27d%20like%20to%20connect%20with%20Ayam." target="_blank" class="btn-primary" style="padding: 12px 28px; font-size: 15px;">Connect on WhatsApp</a>
+          <button class="btn-secondary" onclick="window.location.href='services.html'" style="padding: 12px 28px; font-size: 15px;">Explore Services</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats / Trust Section -->
+  <section class="about-section fade-in delay-4" style="text-align: center; border-color: var(--accent);">
+    <h2 style="font-size: 28px;">Trusted by <span>businesses</span> like yours</h2>
+    <div style="display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; margin-top: 24px;">
       <div>
-        <div class="title">Solvoro</div>
-        <div class="muted-small">Human-first studio</div>
+        <div style="font-size: 40px; font-weight: 900; color: var(--accent);">90%</div>
+        <div style="color: var(--muted); font-size: 16px;">Client Referral Rate</div>
+      </div>
+      <div>
+        <div style="font-size: 40px; font-weight: 900; color: var(--accent);">24/7</div>
+        <div style="color: var(--muted); font-size: 16px;">Support Available</div>
+      </div>
+      <div>
+        <div style="font-size: 40px; font-weight: 900; color: var(--accent);">100%</div>
+        <div style="color: var(--muted); font-size: 16px;">Client Satisfaction</div>
       </div>
     </div>
+    <p style="max-width: 600px; margin: 24px auto 0; color: var(--muted); font-size: 16px;">
+      We measure our success by the success of our clients. Every solution we deliver is built with your growth in mind.
+    </p>
+  </section>
 
-    <nav id="mainNav" aria-label="Main navigation">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="products.html">Products</a>
-      <a href="support.html">Support</a>
-      <a href="about.html" class="active">About</a>
-    </nav>
+</main>
 
-    <div class="header-right">
-      <button class="demobtn" onclick="window.location.href='https://www.solvoro.online/demo-arena'">Demo Arena</button>
-      <button id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 7h16M4 12h16M4 17h16"/>
-        </svg>
-      </button>
-    </div>
-  </header>
-
-  <!-- Mobile overlay -->
-  <div id="mobileOverlay" aria-hidden="true"></div>
-
-  <!-- MAIN CONTENT -->
-  <main class="main container">
-    
-    <!-- HERO SECTION -->
-    <section class="about-hero fade-in">
-      <h1>About Solvoro</h1>
-      <p>We build simple, affordable AI-powered digital products for individuals and small businesses.</p>
-    </section>
-
-    <!-- MISSION -->
-    <section class="content-card fade-in delay-1">
-      <h2>Our Mission</h2>
-      <p>Solvoro exists to remove cost and complexity barriers around AI. We focus on tools that actually help people learn, work, and grow.</p>
-      <p>Our approach is simple: create practical, affordable solutions that deliver real value without the hype. We believe everyone should have access to powerful tools that can help them succeed.</p>
-    </section>
-
-    <!-- WHAT MAKES US DIFFERENT -->
-    <section class="content-card fade-in delay-2">
-      <h2>What Makes Us Different</h2>
-      <p>We're not just another tech company. Here's what sets us apart:</p>
-      
-      <div class="features-grid">
-        <div class="feature-item">
-          <strong>Affordable</strong>
-          <p>Built for students, freelancers, and startups who need quality tools without breaking the bank.</p>
-        </div>
-        
-        <div class="feature-item">
-          <strong>Practical</strong>
-          <p>No hype or buzzwords. Just usable tools that solve real problems you actually face.</p>
-        </div>
-        
-        <div class="feature-item">
-          <strong>Instant Access</strong>
-          <p>Download and start immediately. No complicated setups or long learning curves.</p>
-        </div>
-        
-        <div class="feature-item">
-          <strong>Support-First</strong>
-          <p>Real help when you need it. We're here to ensure you get the most from our products.</p>
-        </div>
+<!-- FOOTER (identical to homepage & services) -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Solvoro" />
+        <p>Helping businesses scale with custom websites, AI chat, and social media content. Human‑first, tech‑second.</p>
       </div>
-    </section>
-
-    <!-- FOUNDER -->
-    <section class="content-card fade-in delay-3">
-      <h2>Founder</h2>
-      
-      <div class="founder-section">
-        <div class="founder-image">
-          <img src="logo.png" alt="Ayam Mani Shukla, Founder of Solvoro" 
-               onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'; this.onerror=null;">
-        </div>
-        
-        <div class="founder-info">
-          <h3>Ayam Mani Shukla</h3>
-          <span class="founder-title">Founder & CEO — Solvoro</span>
-          <p>Founded Solvoro to make AI accessible, affordable, and useful for everyone. With a background in technology and design, Ayam believes that great tools should be available to everyone, not just large corporations.</p>
-          <p>His vision is to create a digital ecosystem where individuals and small businesses can access the same quality tools as large enterprises, but at a fraction of the cost.</p>
-          
-          <div class="founder-actions">
-            <a href="products.html" class="btn">
-              <span>View Products</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="9" cy="21" r="1"/>
-                <circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-            </a>
-            
-            <a href="support.html" class="btn btn-secondary">
-              <span>Contact Support</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <circle cx="12" cy="12" r="4"/>
-                <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
-                <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
-                <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
-                <line x1="14.83" y1="9.17" x2="18.36" y2="5.64"/>
-                <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
-              </svg>
-            </a>
-          </div>
-        </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html" class="active">About</a>
+        <a href="support.html">Support</a>
+        <a href="blog.html">Blog</a>
       </div>
-    </section>
-  </main>
-
-  <!-- ENHANCED FOOTER (FROM HOMEPAGE) -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-logo">
-          <img src="logo.png" alt="Solvoro Logo">
-          <span>Solvoro</span>
-        </div>
-        <p class="footer-tagline">
-          Building digital experiences that put people first, technology second.
-        </p>
-        <div class="social-links">
-          <a href="x.com/solvoro.official" class="social-link" aria-label="Twitter">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
-            </svg>
-          </a>
-          <a href="www.linked.com/solvoro.official" class="social-link" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-              <rect x="2" y="9" width="4" height="12"/>
-              <circle cx="4" cy="4" r="2"/>
-            </svg>
-          </a>
-          <a href="https://www.instagram.com/solvoro.official" class="social-link" aria-label="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-            </svg>
-          </a>
-        </div>
+      <div class="footer-col">
+        <h4>Platforms</h4>
+        <a href="https://manddle.solvoro.online" target="_blank">Manddle</a>
+        <a href="https://flowcrm.solvoro.online" target="_blank">FlowCRM</a>
+        <a href="#">Solvoro AI Hub</a>
+        <a href="#">Solvoro Connect</a>
       </div>
-      
-      <div class="footer-section">
-        <h4>Quick Links</h4>
-        <div class="footer-links">
-          <a href="index.html">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            Home
-          </a>
-          <a href="services.html">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            </svg>
-            Services
-          </a>
-          <a href="products.html">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"/>
-              <circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            Products
-          </a>
-          <a href="support.html">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <circle cx="12" cy="12" r="4"/>
-              <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
-              <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
-              <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
-              <line x1="14.83" y1="9.17" x2="18.36" y2="5.64"/>
-              <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
-            </svg>
-            Support
-          </a>
-          <a href="about.html" class="active">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            About
-          </a>
-        </div>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Contact Info</h4>
-        <div class="footer-contact">
-          <p>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            +91 7268889908
-          </p>
-          <p>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-            contact.solvoro@gmail.com
-          </p>
-          <p>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            Lucknow, India
-          </p>
-        </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+918795437841">+91 8795437841</a>
+        <a href="mailto:contact.solvoro@gmail.com">contact.solvoro@gmail.com</a>
+        <a href="#">Lucknow, India</a>
       </div>
     </div>
-    
     <div class="footer-bottom">
-      <div class="container">
-        <p>© 2024 Solvoro — Build For Who Builds. All rights reserved.</p>
-        <p style="margin-top: 8px; font-size: 13px; opacity: 0.8;">
-          <a href="privacy.html" style="color: inherit; text-decoration: underline;">Privacy Policy</a> • 
-          <a href="terms.html" style="color: inherit; text-decoration: underline;">Terms of Service</a>
-        </p>
-      </div>
+      <span>© 2025 Solvoro — All rights reserved.</span>
+      <span>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </span>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script>
-    // Mobile menu functionality (same as other pages)
-    document.addEventListener('DOMContentLoaded', function() {
-      const hamburger = document.getElementById('hamburger');
-      const mobileOverlay = document.getElementById('mobileOverlay');
-      const nav = document.getElementById('mainNav');
-      
-      function isMobile() { 
-        return window.innerWidth <= 760; 
-      }
-      
-      function initMenu() {
-        if (isMobile()) {
-          nav.style.display = 'none';
-          hamburger.style.display = 'flex';
-        } else {
-          nav.style.display = 'flex';
-          hamburger.style.display = 'none';
-          closeMenu();
-        }
-      }
-      
-      initMenu();
-      window.addEventListener('resize', initMenu);
-      
-      function openMenu() {
-        if (!nav) return;
-        nav.style.display = 'flex';
-        mobileOverlay.style.opacity = '1';
-        mobileOverlay.style.pointerEvents = 'auto';
-        mobileOverlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        hamburger.setAttribute('aria-expanded', 'true');
-      }
-      
-      function closeMenu() {
-        if (!nav) return;
-        if (isMobile()) nav.style.display = 'none';
-        mobileOverlay.style.opacity = '0';
-        mobileOverlay.style.pointerEvents = 'none';
-        mobileOverlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        hamburger.setAttribute('aria-expanded', 'false');
-      }
-      
-      hamburger.addEventListener('click', () => {
-        if (nav.style.display === 'flex') closeMenu();
-        else openMenu();
-      });
-      
-      mobileOverlay.addEventListener('click', closeMenu);
-      
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
-      });
-      
-      // Add scroll animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-      
-      // Observe all content cards
-      document.querySelectorAll('.content-card').forEach(section => {
-        observer.observe(section);
-      });
+<script>
+  // Mobile menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.style.display === 'flex';
+    mobileNav.style.display = isOpen ? 'none' : 'flex';
+  });
+
+  mobileNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.style.display = 'none';
     });
-  </script>
+  });
+
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
