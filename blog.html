@@ -4,27 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ===== SEO META TAGS ===== -->
-  <title>Blogs - Business Growth, Websites, Marketing & Digital Insights</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EEF5H8F45S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EEF5H8F45S');
+  </script>
+
+  <!-- SEO -->
+  <title>Just Blogs - Business Growth, Websites, Marketing & Digital Insights</title>
   <meta name="description" content="Explore expert insights, website strategies, digital marketing guides, business growth tips, branding ideas, and practical resources designed to help businesses grow online. Discover actionable content from Solvoro." />
   <meta name="keywords" content="business growth, website development, digital marketing, branding, SEO, content marketing, startup growth, small business, Solvoro blog" />
   <link rel="canonical" href="https://solvoro.com/blog" />
-
-  <!-- Open Graph -->
   <meta property="og:title" content="Just Blogs" />
   <meta property="og:description" content="Practical insights, digital strategies, and business growth resources for modern businesses." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://solvoro.com/blog" />
   <meta property="og:image" content="https://solvoro.com/og-image.jpg" />
   <meta property="og:site_name" content="Just Blogs" />
-
-  <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Just Blogs" />
   <meta name="twitter:description" content="Expert business, marketing, and website insights from Solvoro." />
   <meta name="twitter:image" content="https://solvoro.com/og-image.jpg" />
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="apple-touch-icon" href="logo.png" />
 
@@ -35,7 +38,6 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       background: #0f0f0f;
       color: #e5e7eb;
@@ -44,19 +46,17 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
     a {
       color: inherit;
       text-decoration: none;
     }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* -------- Header – Apple-style (logo left, search right) -------- */
+    /* -------- Header – larger logo & search -------- */
     .site-header {
       padding: 16px 24px;
       background: rgba(15, 15, 15, 0.6);
@@ -67,84 +67,73 @@
       z-index: 100;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03);
     }
-
     .site-header .container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 20px;
       max-width: 1200px;
       margin: 0 auto;
       padding: 0;
     }
-
-    /* Logo – larger (44px) */
     .logo {
       display: flex;
       align-items: center;
       flex-shrink: 0;
     }
-
     .logo img {
-      width: 44px;
-      height: 44px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       object-fit: cover;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.4);
       display: block;
       transition: transform 0.2s ease;
     }
-
     .logo img:hover {
       transform: scale(1.05);
     }
 
-    /* Search Bar – slightly larger */
     .search-wrapper {
-      max-width: 300px;
+      max-width: 360px;
       width: 100%;
       position: relative;
       flex-shrink: 1;
     }
-
     .search-wrapper input {
       width: 100%;
-      padding: 10px 18px 10px 42px;
+      padding: 12px 20px 12px 48px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 40px;
       color: #e5e7eb;
-      font-size: 0.95rem;
+      font-size: 1rem;
       transition: all 0.3s ease;
       outline: none;
       backdrop-filter: blur(4px);
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
     }
-
     .search-wrapper input::placeholder {
       color: #6b7280;
       font-weight: 400;
     }
-
     .search-wrapper input:focus {
       background: rgba(255, 255, 255, 0.08);
       border-color: rgba(96, 165, 250, 0.3);
       box-shadow: 0 0 20px rgba(96, 165, 250, 0.05), inset 0 1px 2px rgba(0,0,0,0.4);
     }
-
     .search-wrapper .search-icon {
       position: absolute;
-      left: 14px;
+      left: 16px;
       top: 50%;
       transform: translateY(-50%);
       color: #6b7280;
       pointer-events: none;
       opacity: 0.7;
     }
-
     .search-wrapper .search-icon svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -155,20 +144,17 @@
       padding: 28px 24px 12px;
       background: transparent;
     }
-
     .category-bar .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0;
     }
-
     .category-filter {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
     }
-
     .category-chip {
       padding: 8px 22px;
       border-radius: 40px;
@@ -183,14 +169,12 @@
       backdrop-filter: blur(4px);
       white-space: nowrap;
     }
-
     .category-chip:hover {
       border-color: rgba(255, 255, 255, 0.15);
       color: #e5e7eb;
       background: rgba(255, 255, 255, 0.05);
       transform: translateY(-1px);
     }
-
     .category-chip.active {
       background: #2563eb;
       border-color: #2563eb;
@@ -198,14 +182,13 @@
       box-shadow: 0 4px 20px rgba(37, 99, 235, 0.25);
     }
 
-    /* -------- Blog Grid – premium card design -------- */
+    /* -------- Blog Grid -------- */
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 36px;
       margin: 40px 0 60px;
     }
-
     .blog-card {
       background: #161616;
       border: 1px solid rgba(255, 255, 255, 0.04);
@@ -216,39 +199,33 @@
       flex-direction: column;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
-
     .blog-card:hover {
       transform: translateY(-8px);
       border-color: rgba(255, 255, 255, 0.10);
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.02);
       background: #1a1a1a;
     }
-
     .blog-card-image {
       aspect-ratio: 16 / 9;
       overflow: hidden;
       background: #111;
       flex-shrink: 0;
     }
-
     .blog-card-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.6s ease;
     }
-
     .blog-card:hover .blog-card-image img {
       transform: scale(1.04);
     }
-
     .blog-card-body {
       padding: 22px 24px 24px;
       flex: 1;
       display: flex;
       flex-direction: column;
     }
-
     .blog-card-meta {
       display: flex;
       flex-wrap: wrap;
@@ -259,11 +236,6 @@
       letter-spacing: 0.01em;
       margin-bottom: 12px;
     }
-
-    .blog-card-meta .dot {
-      color: #3a3a3a;
-    }
-
     .blog-card-meta .category-tag {
       color: #60a5fa;
       font-weight: 450;
@@ -273,7 +245,6 @@
       font-size: 0.7rem;
       border: 1px solid rgba(96, 165, 250, 0.10);
     }
-
     .blog-card-title {
       font-size: 1.25rem;
       font-weight: 600;
@@ -283,11 +254,9 @@
       letter-spacing: -0.01em;
       transition: color 0.2s;
     }
-
     .blog-card:hover .blog-card-title {
       color: #60a5fa;
     }
-
     .blog-card-excerpt {
       font-size: 0.95rem;
       color: #9ca3af;
@@ -299,7 +268,6 @@
       flex: 1;
       margin-bottom: 16px;
     }
-
     .blog-card-footer {
       display: flex;
       align-items: center;
@@ -309,20 +277,17 @@
       font-size: 0.8rem;
       color: #6b7280;
     }
-
     .blog-card-footer .likes {
       display: flex;
       align-items: center;
       gap: 6px;
     }
-
     .blog-card-footer .likes svg {
       width: 16px;
       height: 16px;
       stroke: #6b7280;
       fill: none;
     }
-
     .blog-card-footer .read-more {
       color: #9ca3af;
       font-weight: 450;
@@ -331,33 +296,27 @@
       align-items: center;
       gap: 6px;
     }
-
     .blog-card-footer .read-more:hover {
       color: #ffffff;
     }
-
     .blog-card-footer .read-more svg {
       width: 14px;
       height: 14px;
       transition: transform 0.2s;
     }
-
     .blog-card-footer .read-more:hover svg {
       transform: translateX(4px);
     }
 
-    /* -------- Empty state -------- */
     .empty-state {
       text-align: center;
       padding: 80px 20px;
       color: #6b7280;
     }
-
     .empty-state svg {
       opacity: 0.3;
       margin-bottom: 16px;
     }
-
     .empty-state p {
       font-size: 1.1rem;
     }
@@ -369,7 +328,6 @@
       background: #0a0a0a;
       margin-top: 16px;
     }
-
     .footer-inner {
       max-width: 1200px;
       margin: 0 auto;
@@ -379,14 +337,12 @@
       align-items: center;
       gap: 20px;
     }
-
     .footer-brand {
       display: flex;
       align-items: center;
       gap: 12px;
       flex-shrink: 0;
     }
-
     .footer-brand img {
       width: 28px;
       height: 28px;
@@ -394,21 +350,18 @@
       object-fit: cover;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
     }
-
     .footer-brand span {
       font-weight: 600;
       font-size: 1rem;
       color: #f0f0f0;
       white-space: nowrap;
     }
-
     .footer-links {
       display: flex;
       flex-wrap: nowrap;
       gap: 18px 28px;
       flex-shrink: 0;
     }
-
     .footer-links a {
       color: #9ca3af;
       font-size: 0.85rem;
@@ -416,11 +369,9 @@
       letter-spacing: 0.02em;
       white-space: nowrap;
     }
-
     .footer-links a:hover {
       color: #ffffff;
     }
-
     .footer-copy {
       color: #6b7280;
       font-size: 0.8rem;
@@ -435,22 +386,22 @@
         padding: 12px 16px;
       }
       .site-header .container {
-        gap: 10px;
+        gap: 12px;
       }
       .logo img {
-        width: 36px;
-        height: 36px;
+        width: 44px;
+        height: 44px;
       }
       .search-wrapper {
-        max-width: 200px;
+        max-width: 240px;
       }
       .search-wrapper input {
-        font-size: 0.85rem;
-        padding: 8px 14px 8px 36px;
+        font-size: 0.9rem;
+        padding: 10px 16px 10px 40px;
       }
       .search-wrapper .search-icon svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
       }
 
       .category-bar {
@@ -486,7 +437,6 @@
         font-size: 1.1rem;
       }
 
-      /* Footer stays horizontal */
       .footer-inner {
         flex-wrap: nowrap;
         gap: 12px;
@@ -504,7 +454,6 @@
         font-size: 0.7rem;
       }
     }
-
     @media (max-width: 580px) {
       .footer-links {
         gap: 6px 12px;
@@ -523,23 +472,21 @@
         font-size: 0.75rem;
       }
     }
-
     @media (max-width: 480px) {
       .search-wrapper {
-        max-width: 140px;
+        max-width: 160px;
       }
       .search-wrapper input {
-        font-size: 0.75rem;
-        padding: 6px 10px 6px 30px;
+        font-size: 0.8rem;
+        padding: 8px 12px 8px 34px;
       }
       .search-wrapper .search-icon {
-        left: 8px;
+        left: 10px;
       }
       .search-wrapper .search-icon svg {
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
       }
-      /* Hide some footer links on very small screens */
       .footer-links a:nth-child(3),
       .footer-links a:nth-child(4) {
         display: none;
@@ -552,13 +499,10 @@
   <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="container">
-      <!-- Left: Clickable Logo (goes to index.html) -->
       <a href="/" class="logo" aria-label="Homepage">
         <img src="logo.png" alt="Solvoro" onerror="this.style.display='none'" />
         <span class="logo-text" style="display:none;">Solvoro<span>.</span></span>
       </a>
-
-      <!-- Right: Search Bar -->
       <div class="search-wrapper">
         <span class="search-icon">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -571,9 +515,7 @@
   <!-- ===== CATEGORY BAR ===== -->
   <nav class="category-bar" aria-label="Categories">
     <div class="container">
-      <div id="categoryFilter" class="category-filter">
-        <!-- Populated by JavaScript -->
-      </div>
+      <div id="categoryFilter" class="category-filter"></div>
     </div>
   </nav>
 
@@ -603,9 +545,7 @@
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
       </div>
-      <div class="footer-copy">
-        &copy; 2026 Solvoro
-      </div>
+      <div class="footer-copy">&copy; 2026 Solvoro</div>
     </div>
   </footer>
 
@@ -623,7 +563,6 @@
     import { initializeApp } from "firebase/app";
     import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
 
-    // ---------- Firebase Config ----------
     const firebaseConfig = {
       apiKey: "AIzaSyDH_8Htk4dhn_Hwq3YLNE_pkqOzfGagwKU",
       authDomain: "solvoro-blog.firebaseapp.com",
@@ -636,13 +575,12 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ---------- Helpers ----------
+    // Helpers
     function formatDate(timestamp) {
       if (!timestamp) return '—';
       const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
       return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     }
-
     function readingTime(html) {
       if (!html) return 1;
       const text = html.replace(/<[^>]*>/g, '').trim();
@@ -650,7 +588,7 @@
       return Math.max(1, Math.ceil(words / 200));
     }
 
-    // ---------- Load Categories ----------
+    // Load categories
     async function loadCategories() {
       const snap = await getDocs(collection(db, 'categories'));
       const cats = [];
@@ -659,17 +597,15 @@
       return cats;
     }
 
-    // ---------- Load Published Blogs ----------
+    // Load published blogs
     async function loadBlogs(categorySlug = null) {
       const q = query(collection(db, 'blogs'), where('published', '==', true));
       const snap = await getDocs(q);
       const blogs = [];
       snap.forEach(doc => blogs.push({ id: doc.id, ...doc.data() }));
-
       if (categorySlug) {
         return blogs.filter(b => b.category === categorySlug);
       }
-
       blogs.sort((a, b) => {
         const dateA = a.createdAt?.toDate?.() || new Date(0);
         const dateB = b.createdAt?.toDate?.() || new Date(0);
@@ -678,19 +614,16 @@
       return blogs;
     }
 
-    // ---------- Render Blogs ----------
     function renderBlogs(blogs) {
       const grid = document.getElementById('blogGrid');
       const empty = document.getElementById('emptyState');
       if (!grid) return;
-
       if (!blogs || blogs.length === 0) {
         grid.innerHTML = '';
         if (empty) empty.style.display = 'block';
         return;
       }
       if (empty) empty.style.display = 'none';
-
       grid.innerHTML = blogs.map(blog => `
         <a href="post.html?slug=${blog.slug}" class="blog-card">
           <div class="blog-card-image">
@@ -699,7 +632,7 @@
           <div class="blog-card-body">
             <div class="blog-card-meta">
               <span>${formatDate(blog.createdAt)}</span>
-              <span class="dot">·</span>
+              <span>·</span>
               <span>${readingTime(blog.content)} min read</span>
               ${blog.category ? `<span class="category-tag">${blog.category}</span>` : ''}
             </div>
@@ -719,24 +652,20 @@
       `).join('');
     }
 
-    // ---------- Render Category Chips ----------
     function renderCategories(categories, currentCategory = null) {
       const container = document.getElementById('categoryFilter');
       if (!container) return;
-
       let html = `<button class="category-chip ${!currentCategory ? 'active' : ''}" data-slug="">All</button>`;
       categories.forEach(cat => {
         const active = currentCategory === cat.slug ? 'active' : '';
         html += `<button class="category-chip ${active}" data-slug="${cat.slug}">${cat.name}</button>`;
       });
       container.innerHTML = html;
-
       container.querySelectorAll('.category-chip').forEach(btn => {
         btn.addEventListener('click', async () => {
           const slug = btn.dataset.slug;
           container.querySelectorAll('.category-chip').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-
           const filtered = await loadBlogs(slug || null);
           renderBlogs(filtered);
           allBlogs = filtered;
@@ -744,10 +673,9 @@
       });
     }
 
-    // ---------- Search ----------
+    // Search
     let allBlogs = [];
     const searchInput = document.getElementById('searchInput');
-
     searchInput.addEventListener('input', (e) => {
       const term = e.target.value.toLowerCase().trim();
       const filtered = allBlogs.filter(b =>
@@ -757,21 +685,12 @@
       renderBlogs(filtered);
     });
 
-    // ---------- Bootstrap ----------
+    // Bootstrap
     const categories = await loadCategories();
     const blogs = await loadBlogs();
     allBlogs = blogs;
     renderBlogs(blogs);
     renderCategories(categories);
-
-    // ---------- Fix fallback logo display ----------
-    document.querySelectorAll('.logo img, .footer-brand img').forEach(img => {
-      img.addEventListener('error', function() {
-        this.style.display = 'none';
-        const fallback = this.parentElement.querySelector('.logo-text');
-        if (fallback) fallback.style.display = 'inline';
-      });
-    });
   </script>
 </body>
 </html>
