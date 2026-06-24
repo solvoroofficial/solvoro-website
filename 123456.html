@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Solvoro Blog</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <style>
+    /* -------- Same base styles as blog.html -------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f0f0f;
+      color: #e5e7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* -------- Header (identical) -------- */
+    .site-header {
+      padding: 16px 24px;
+      background: rgba(15, 15, 15, 0.6);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .logo img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.4);
+      display: block;
+      transition: transform 0.2s ease;
+    }
+    .logo img:hover {
+      transform: scale(1.05);
+    }
+
+    .admin-link {
+      color: #9ca3af;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      padding: 8px 14px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      white-space: nowrap;
+    }
+    .admin-link:hover {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* -------- Admin specific styles -------- */
+    .admin-main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .text-muted {
+      color: #9ca3af;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 16px;
+      background: #161616;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      transition: border 0.2s;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #2563eb;
+    }
+    select option {
+      background: #161616;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: transparent;
+      color: #d1d5db;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .btn-primary {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    .btn-danger {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+    .btn-danger:hover {
+      background: #ef4444;
+      color: white;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .status-published {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .status-draft {
+      background: rgba(234, 179, 8, 0.15);
+      color: #eab308;
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th {
+      text-align: left;
+      padding: 12px 8px;
+      color: #9ca3af;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-weight: 500;
+    }
+    td {
+      padding: 12px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .image-preview {
+      max-width: 150px;
+      max-height: 100px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-top: 8px;
+      object-fit: cover;
+    }
+
+    .category-manager {
+      background: #161616;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 30px 0;
+    }
+    .category-manager h3 {
+      margin-bottom: 16px;
+      font-size: 1.1rem;
+    }
+    .category-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .category-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1a1a1a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 30px;
+      padding: 4px 14px 4px 18px;
+      font-size: 0.9rem;
+    }
+    .category-tag .remove-cat {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0 2px;
+      transition: color 0.2s;
+    }
+    .category-tag .remove-cat:hover {
+      color: #ef4444;
+    }
+    .add-category-form {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .add-category-form input {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    /* -------- Footer (same as blog) -------- */
+    .site-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 32px 24px;
+      background: #0a0a0a;
+      margin-top: 16px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .footer-brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+    .footer-brand span {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #f0f0f0;
+      white-space: nowrap;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 18px 28px;
+      flex-shrink: 0;
+    }
+    .footer-links a {
+      color: #9ca3af;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+    .footer-copy {
+      color: #6b7280;
+      font-size: 0.8rem;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* -------- Responsive (same as blog) -------- */
+    @media (max-width: 768px) {
+      .site-header {
+        padding: 12px 16px;
+      }
+      .site-header .container {
+        gap: 10px;
+      }
+      .logo img {
+        width: 36px;
+        height: 36px;
+      }
+      .admin-link {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+      .admin-main {
+        padding: 20px 16px 40px;
+      }
+      .footer-inner {
+        flex-wrap: nowrap;
+        gap: 12px;
+      }
+      .footer-brand span {
+        font-size: 0.85rem;
+      }
+      .footer-links {
+        gap: 10px 16px;
+      }
+      .footer-links a {
+        font-size: 0.75rem;
+      }
+      .footer-copy {
+        font-size: 0.7rem;
+      }
+    }
+    @media (max-width: 580px) {
+      .footer-links {
+        gap: 6px 12px;
+      }
+      .footer-links a {
+        font-size: 0.7rem;
+      }
+      .footer-copy {
+        font-size: 0.65rem;
+      }
+      .footer-brand img {
+        width: 22px;
+        height: 22px;
+      }
+      .footer-brand span {
+        font-size: 0.75rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .footer-links a:nth-child(3),
+      .footer-links a:nth-child(4) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER (same as blog, but with "View Blog" link) ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo" aria-label="Homepage">
+        <img src="logo.png" alt="Solvoro" onerror="this.style.display='none'" />
+        <span class="logo-text" style="display:none;">Solvoro<span>.</span></span>
+      </a>
+      <a href="blog.html" class="admin-link">View Blog</a>
+    </div>
+  </header>
+
+  <!-- ===== ADMIN CONTENT ===== -->
+  <main class="admin-main">
+    <h1>Blog Admin</h1>
+    <p class="text-muted" style="margin-bottom:30px;">Create or edit blog posts.</p>
+
+    <form id="blogForm">
+      <input type="hidden" id="docId" value="" />
+
+      <div class="form-group">
+        <label for="title">Title *</label>
+        <input type="text" id="title" required placeholder="Article title" />
+      </div>
+
+      <div class="form-group">
+        <label for="slug">Slug *</label>
+        <input type="text" id="slug" required placeholder="url-friendly-slug" />
+        <small class="text-muted">Auto‑generated from title if left empty.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Short Description</label>
+        <textarea id="description" rows="2" placeholder="Brief summary"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="">Uncategorized</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content (HTML allowed) *</label>
+        <textarea id="content" rows="12" required placeholder="Write your article in HTML…"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="imageUrlInput">Image URL (direct link)</label>
+        <input type="url" id="imageUrlInput" placeholder="https://example.com/image.jpg" />
+        <div id="imageUrlPreview"></div>
+        <small class="text-muted">Paste a direct image URL, or upload a file below.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="imageFile">Or upload image file</label>
+        <input type="file" id="imageFile" accept="image/*" />
+        <div id="imageFilePreview"></div>
+      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:20px; margin:20px 0;">
+        <h3 style="font-size:1.1rem; margin-bottom:12px;">SEO Settings</h3>
+        <div class="form-group">
+          <label for="metaTitle">Meta Title</label>
+          <input type="text" id="metaTitle" placeholder="Leave blank to use article title" />
+        </div>
+        <div class="form-group">
+          <label for="metaDescription">Meta Description</label>
+          <textarea id="metaDescription" rows="2" placeholder="SEO description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="keywords">Keywords (comma separated)</label>
+          <input type="text" id="keywords" placeholder="web, development, branding" />
+        </div>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:20px;">
+        <button type="submit" class="btn btn-primary" id="publishBtn">Publish</button>
+        <button type="submit" class="btn" id="draftBtn">Save Draft</button>
+        <button type="button" class="btn" id="previewBtn">Preview</button>
+        <button type="button" class="btn btn-danger" id="deleteBtn" style="display:none;">Delete</button>
+      </div>
+      <div id="formMessage" style="margin-top:16px;"></div>
+    </form>
+
+    <!-- Category Management -->
+    <div class="category-manager">
+      <h3>Manage Categories</h3>
+      <div id="categoryList" class="category-list"></div>
+      <div class="add-category-form">
+        <input type="text" id="newCategoryName" placeholder="New category name" />
+        <button class="btn btn-primary" id="addCategoryBtn">Add</button>
+      </div>
+      <div id="categoryMessage" style="margin-top:8px; font-size:0.9rem;"></div>
+    </div>
+
+    <hr style="border-color:rgba(255,255,255,0.06); margin:40px 0;" />
+    <h2 style="font-size:1.4rem; margin-bottom:16px;">Your Posts</h2>
+    <div id="adminPostList" class="table-wrap"></div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Solvoro" onerror="this.style.display='none'" />
+        <span>Solvoro</span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 Solvoro
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== FIREBASE & ADMIN SCRIPT ===== -->
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js",
+        "firebase/storage": "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "firebase/app";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      getDoc,
+      doc,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      serverTimestamp,
+      query,
+      orderBy
+    } from "firebase/firestore";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDH_8Htk4dhn_Hwq3YLNE_pkqOzfGagwKU",
+      authDomain: "solvoro-blog.firebaseapp.com",
+      projectId: "solvoro-blog",
+      storageBucket: "solvoro-blog.firebasestorage.app",
+      messagingSenderId: "580783342095",
+      appId: "1:580783342095:web:64602b1f1125ae4e42d97a",
+      measurementId: "G-EEF5H8F45S"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // DOM refs
+    const form = document.getElementById('blogForm');
+    const docIdInput = document.getElementById('docId');
+    const titleInput = document.getElementById('title');
+    const slugInput = document.getElementById('slug');
+    const descInput = document.getElementById('description');
+    const contentInput = document.getElementById('content');
+    const categorySelect = document.getElementById('category');
+    const imageFileInput = document.getElementById('imageFile');
+    const imageUrlInput = document.getElementById('imageUrlInput');
+    const imageFilePreview = document.getElementById('imageFilePreview');
+    const imageUrlPreview = document.getElementById('imageUrlPreview');
+    const metaTitleInput = document.getElementById('metaTitle');
+    const metaDescInput = document.getElementById('metaDescription');
+    const keywordsInput = document.getElementById('keywords');
+    const publishBtn = document.getElementById('publishBtn');
+    const draftBtn = document.getElementById('draftBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const messageDiv = document.getElementById('formMessage');
+    const postList = document.getElementById('adminPostList');
+
+    const categoryList = document.getElementById('categoryList');
+    const newCategoryName = document.getElementById('newCategoryName');
+    const addCategoryBtn = document.getElementById('addCategoryBtn');
+    const categoryMessage = document.getElementById('categoryMessage');
+
+    let editingId = null;
+    let currentImageUrl = '';
+    let allCategories = [];
+
+    function formatDate(timestamp) {
+      if (!timestamp) return '—';
+      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+    function generateSlug(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    // -------- Categories --------
+    async function loadCategories() {
+      const q = query(collection(db, 'categories'), orderBy('name'));
+      const snap = await getDocs(q);
+      const cats = [];
+      snap.forEach(doc => cats.push({ id: doc.id, ...doc.data() }));
+      allCategories = cats;
+      return cats;
+    }
+
+    async function addCategory(name) {
+      const slug = generateSlug(name);
+      const docRef = await addDoc(collection(db, 'categories'), {
+        name,
+        slug,
+        createdAt: serverTimestamp()
+      });
+      return { id: docRef.id, name, slug };
+    }
+
+    async function deleteCategory(id) {
+      await deleteDoc(doc(db, 'categories', id));
+    }
+
+    function renderCategories(cats) {
+      if (!categoryList) return;
+      if (cats.length === 0) {
+        categoryList.innerHTML = '<span class="text-muted">No categories yet.</span>';
+        return;
+      }
+      categoryList.innerHTML = cats.map(cat => `
+        <span class="category-tag">
+          ${cat.name}
+          <button class="remove-cat" data-id="${cat.id}">×</button>
+        </span>
+      `).join('');
+      categoryList.querySelectorAll('.remove-cat').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.id;
+          if (confirm(`Delete category "${btn.parentElement.textContent.trim().replace('×', '')}"?`)) {
+            await deleteCategory(id);
+            await refreshCategoriesAndSelect();
+            categoryMessage.innerHTML = '<span style="color:#22c55e;">Category deleted.</span>';
+          }
+        });
+      });
+    }
+
+    async function refreshCategoriesAndSelect() {
+      const cats = await loadCategories();
+      renderCategories(cats);
+      categorySelect.innerHTML = '<option value="">Uncategorized</option>';
+      cats.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat.slug;
+        opt.textContent = cat.name;
+        categorySelect.appendChild(opt);
+      });
+      if (editingId) {
+        // set later
+      }
+      return cats;
+    }
+
+    // -------- Posts --------
+    async function loadPosts() {
+      const q = collection(db, 'blogs');
+      const snap = await getDocs(q);
+      const blogs = [];
+      snap.forEach(doc => blogs.push({ id: doc.id, ...doc.data() }));
+      blogs.sort((a, b) => {
+        const dateA = a.createdAt?.toDate?.() || new Date(0);
+        const dateB = b.createdAt?.toDate?.() || new Date(0);
+        return dateB - dateA;
+      });
+      if (blogs.length === 0) {
+        postList.innerHTML = '<p class="text-muted">No posts yet.</p>';
+        return;
+      }
+      postList.innerHTML = `
+        <table>
+          <thead><tr><th>Title</th><th>Category</th><th>Status</th><th style="text-align:right;">Actions</th></tr></thead>
+          <tbody>
+            ${blogs.map(blog => `
+              <tr>
+                <td><a href="post.html?slug=${blog.slug}" target="_blank">${blog.title}</a></td>
+                <td>${blog.category || '—'}</td>
+                <td><span class="status-badge ${blog.published ? 'status-published' : 'status-draft'}">${blog.published ? 'Published' : 'Draft'}</span></td>
+                <td style="text-align:right;">
+                  <button class="btn" style="padding:4px 12px; font-size:0.8rem;" data-id="${blog.id}">Edit</button>
+                  <button class="btn btn-danger" style="padding:4px 12px; font-size:0.8rem;" data-id="${blog.id}" data-image="${blog.image || ''}">Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      postList.querySelectorAll('button[data-id]').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = btn.dataset.id;
+          if (btn.textContent.trim() === 'Edit') {
+            await editPost(id);
+          } else {
+            const image = btn.dataset.image;
+            if (confirm('Delete this post?')) {
+              await deletePost(id, image);
+              loadPosts();
+            }
+          }
+        });
+      });
+    }
+
+    async function editPost(id) {
+      const blog = await getDoc(doc(db, 'blogs', id));
+      if (!blog.exists()) return;
+      const data = blog.data();
+      editingId = id;
+      docIdInput.value = id;
+      titleInput.value = data.title || '';
+      slugInput.value = data.slug || '';
+      descInput.value = data.description || '';
+      contentInput.value = data.content || '';
+      metaTitleInput.value = data.metaTitle || '';
+      metaDescInput.value = data.metaDescription || '';
+      keywordsInput.value = data.keywords || '';
+      currentImageUrl = data.image || '';
+      imageUrlInput.value = currentImageUrl;
+      if (currentImageUrl) {
+        imageUrlPreview.innerHTML = `<img src="${currentImageUrl}" class="image-preview" />`;
+      } else {
+        imageUrlPreview.innerHTML = '';
+      }
+      imageFileInput.value = '';
+      imageFilePreview.innerHTML = '';
+      if (data.category) {
+        categorySelect.value = data.category;
+      } else {
+        categorySelect.value = '';
+      }
+      deleteBtn.style.display = 'inline-block';
+      publishBtn.textContent = 'Update & Publish';
+      draftBtn.textContent = 'Update Draft';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function deletePost(id, imageUrl) {
+      if (imageUrl) {
+        try {
+          if (imageUrl.includes('firebasestorage')) {
+            const imageRef = ref(storage, imageUrl);
+            await deleteObject(imageRef);
+          }
+        } catch (e) { console.warn('Image delete failed', e); }
+      }
+      await deleteDoc(doc(db, 'blogs', id));
+      if (editingId === id) {
+        form.reset();
+        docIdInput.value = '';
+        editingId = null;
+        deleteBtn.style.display = 'none';
+        publishBtn.textContent = 'Publish';
+        draftBtn.textContent = 'Save Draft';
+        imageUrlPreview.innerHTML = '';
+        imageFilePreview.innerHTML = '';
+        currentImageUrl = '';
+        imageUrlInput.value = '';
+        messageDiv.innerHTML = '<span style="color:#22c55e;">Post deleted.</span>';
+      }
+      loadPosts();
+    }
+
+    // Auto-slug
+    titleInput.addEventListener('input', () => {
+      if (!editingId && !slugInput.value) {
+        slugInput.value = generateSlug(titleInput.value);
+      }
+    });
+
+    // Image URL preview
+    imageUrlInput.addEventListener('input', () => {
+      const url = imageUrlInput.value.trim();
+      if (url) {
+        imageUrlPreview.innerHTML = `<img src="${url}" class="image-preview" onerror="this.style.display='none'" />`;
+      } else {
+        imageUrlPreview.innerHTML = '';
+      }
+    });
+
+    imageFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) {
+        imageFilePreview.innerHTML = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        imageFilePreview.innerHTML = `<img src="${ev.target.result}" class="image-preview" />`;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('previewBtn').addEventListener('click', () => {
+      const title = titleInput.value || 'Untitled';
+      const content = contentInput.value || '';
+      const desc = descInput.value || '';
+      const image = imageUrlInput.value.trim() || currentImageUrl;
+      const win = window.open('', '_blank');
+      if (!win) return;
+      win.document.write(`
+        <html><head><title>Preview: ${title}</title>
+        <style>body{background:#0f0f0f;color:#fff;font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.8;}
+        h1{font-size:2.5rem;margin-bottom:1rem;}
+        p{color:#d1d5db;}
+        img{max-width:100%;border-radius:12px;border:1px solid #2a2a2a;margin:1.5rem 0;}
+        .desc{font-size:1.2rem;color:#9ca3af;}</style>
+        </head><body>
+        ${image ? `<img src="${image}" alt="${title}">` : ''}
+        <h1>${title}</h1>
+        ${desc ? `<p class="desc">${desc}</p>` : ''}
+        <div>${content}</div>
+        </body></html>
+      `);
+      win.document.close();
+    });
+
+    // Form submit
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const isPublish = e.submitter === publishBtn;
+      const isDraft = e.submitter === draftBtn;
+      if (!isPublish && !isDraft) return;
+
+      const title = titleInput.value.trim();
+      const slug = slugInput.value.trim() || generateSlug(title);
+      const description = descInput.value.trim();
+      const content = contentInput.value.trim();
+      const category = categorySelect.value || '';
+      const metaTitle = metaTitleInput.value.trim();
+      const metaDescription = metaDescInput.value.trim();
+      const keywords = keywordsInput.value.trim();
+      const imageUrl = imageUrlInput.value.trim();
+      const imageFile = imageFileInput.files[0];
+
+      if (!title || !content) {
+        messageDiv.innerHTML = '<span style="color:#ef4444;">Title and Content are required.</span>';
+        return;
+      }
+
+      try {
+        let finalImageUrl = currentImageUrl;
+        if (imageFile) {
+          const path = `blog-images/${Date.now()}-${imageFile.name}`;
+          const storageRef = ref(storage, path);
+          await uploadBytes(storageRef, imageFile);
+          finalImageUrl = await getDownloadURL(storageRef);
+        } else if (imageUrl) {
+          finalImageUrl = imageUrl;
+        }
+
+        const data = {
+          title,
+          slug,
+          description,
+          content,
+          image: finalImageUrl,
+          category,
+          metaTitle: metaTitle || title,
+          metaDescription: metaDescription || description,
+          keywords,
+          published: isPublish ? true : false,
+        };
+
+        if (editingId) {
+          await updateDoc(doc(db, 'blogs', editingId), {
+            ...data,
+            updatedAt: serverTimestamp(),
+          });
+          messageDiv.innerHTML = `<span style="color:#22c55e;">Post ${isPublish ? 'published' : 'updated'} successfully.</span>`;
+        } else {
+          const docRef = await addDoc(collection(db, 'blogs'), {
+            ...data,
+            likes: 0,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+          editingId = docRef.id;
+          docIdInput.value = editingId;
+          deleteBtn.style.display = 'inline-block';
+          publishBtn.textContent = 'Update & Publish';
+          draftBtn.textContent = 'Update Draft';
+          messageDiv.innerHTML = `<span style="color:#22c55e;">Post ${isPublish ? 'published' : 'saved as draft'}.</span>`;
+        }
+        loadPosts();
+        if (imageFile) {
+          imageFileInput.value = '';
+          imageFilePreview.innerHTML = '';
+        }
+      } catch (err) {
+        messageDiv.innerHTML = `<span style="color:#ef4444;">Error: ${err.message}</span>`;
+        console.error(err);
+      }
+    });
+
+    addCategoryBtn.addEventListener('click', async () => {
+      const name = newCategoryName.value.trim();
+      if (!name) {
+        categoryMessage.innerHTML = '<span style="color:#ef4444;">Please enter a category name.</span>';
+        return;
+      }
+      try {
+        await addCategory(name);
+        newCategoryName.value = '';
+        categoryMessage.innerHTML = '<span style="color:#22c55e;">Category added.</span>';
+        await refreshCategoriesAndSelect();
+      } catch (err) {
+        categoryMessage.innerHTML = `<span style="color:#ef4444;">Error: ${err.message}</span>`;
+      }
+    });
+
+    // Initial load
+    await refreshCategoriesAndSelect();
+    loadPosts();
+  </script>
+</body>
+</html>
