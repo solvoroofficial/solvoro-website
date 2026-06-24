@@ -3,6 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EEF5H8F45S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EEF5H8F45S');
+  </script>
+
+  <!-- Dynamic SEO (filled by JS) -->
   <title>Solvoro Blog</title>
   <link rel="canonical" href="" />
   <meta property="og:title" content="" />
@@ -21,7 +32,6 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       background: #0f0f0f;
       color: #e5e7eb;
@@ -30,19 +40,17 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
     a {
       color: inherit;
       text-decoration: none;
     }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* -------- Header (same as blog) -------- */
+    /* -------- Header – same as blog (larger) -------- */
     .site-header {
       padding: 16px 24px;
       background: rgba(15, 15, 15, 0.6);
@@ -53,26 +61,23 @@
       z-index: 100;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03);
     }
-
     .site-header .container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 20px;
       max-width: 1200px;
       margin: 0 auto;
       padding: 0;
     }
-
     .logo {
       display: flex;
       align-items: center;
       flex-shrink: 0;
     }
-
     .logo img {
-      width: 44px;
-      height: 44px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       object-fit: cover;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -82,60 +87,14 @@
     .logo img:hover {
       transform: scale(1.05);
     }
-
-    .search-wrapper {
-      max-width: 300px;
-      width: 100%;
-      position: relative;
-      flex-shrink: 1;
-    }
-
-    .search-wrapper input {
-      width: 100%;
-      padding: 10px 18px 10px 42px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 40px;
-      color: #e5e7eb;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      outline: none;
-      backdrop-filter: blur(4px);
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
-    }
-    .search-wrapper input::placeholder {
-      color: #6b7280;
-    }
-    .search-wrapper input:focus {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(96, 165, 250, 0.3);
-      box-shadow: 0 0 20px rgba(96, 165, 250, 0.05), inset 0 1px 2px rgba(0,0,0,0.4);
-    }
-    .search-wrapper .search-icon {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #6b7280;
-      pointer-events: none;
-      opacity: 0.7;
-    }
-    .search-wrapper .search-icon svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-    }
-
     .back-link {
       color: #9ca3af;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
       gap: 6px;
       transition: color 0.2s;
-      padding: 8px 14px;
+      padding: 8px 16px;
       border-radius: 40px;
       border: 1px solid rgba(255, 255, 255, 0.06);
       background: rgba(255, 255, 255, 0.02);
@@ -147,14 +106,14 @@
       background: rgba(255, 255, 255, 0.04);
     }
     .back-link svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
     }
 
-    /* -------- Reading Progress -------- */
+    /* Reading Progress */
     .reading-progress {
       position: fixed;
       top: 0;
@@ -173,7 +132,7 @@
       box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
     }
 
-    /* -------- Article Content -------- */
+    /* Article */
     .article-container {
       max-width: 820px;
       margin: 0 auto;
@@ -297,7 +256,7 @@
       margin: 2.5rem 0;
     }
 
-    /* -------- Like & Share -------- */
+    /* Actions */
     .article-actions {
       margin-top: 48px;
       padding-top: 32px;
@@ -368,7 +327,7 @@
       stroke-width: 2;
     }
 
-    /* -------- Next in Category -------- */
+    /* Next in category */
     .next-section {
       margin-top: 60px;
       padding-top: 40px;
@@ -474,7 +433,7 @@
       color: #93bbfc;
     }
 
-    /* -------- Back to Top -------- */
+    /* Back to Top */
     .back-to-top {
       position: fixed;
       bottom: 30px;
@@ -513,7 +472,7 @@
       stroke-width: 2;
     }
 
-    /* -------- Footer (same as blog) -------- */
+    /* Footer – horizontal */
     .site-footer {
       border-top: 1px solid rgba(255, 255, 255, 0.04);
       padding: 32px 24px;
@@ -572,28 +531,17 @@
       flex-shrink: 0;
     }
 
-    /* -------- Responsive -------- */
+    /* Responsive */
     @media (max-width: 768px) {
       .site-header {
         padding: 12px 16px;
       }
       .site-header .container {
-        gap: 10px;
+        gap: 12px;
       }
       .logo img {
-        width: 36px;
-        height: 36px;
-      }
-      .search-wrapper {
-        max-width: 200px;
-      }
-      .search-wrapper input {
-        font-size: 0.85rem;
-        padding: 8px 14px 8px 36px;
-      }
-      .search-wrapper .search-icon svg {
-        width: 16px;
-        height: 16px;
+        width: 44px;
+        height: 44px;
       }
       .back-link {
         font-size: 0.8rem;
@@ -660,7 +608,6 @@
         font-size: 0.7rem;
       }
     }
-
     @media (max-width: 580px) {
       .footer-links {
         gap: 6px 12px;
@@ -679,22 +626,7 @@
         font-size: 0.75rem;
       }
     }
-
     @media (max-width: 480px) {
-      .search-wrapper {
-        max-width: 140px;
-      }
-      .search-wrapper input {
-        font-size: 0.75rem;
-        padding: 6px 10px 6px 30px;
-      }
-      .search-wrapper .search-icon {
-        left: 8px;
-      }
-      .search-wrapper .search-icon svg {
-        width: 14px;
-        height: 14px;
-      }
       .article-header h1 {
         font-size: 1.6rem;
       }
@@ -714,32 +646,28 @@
 </head>
 <body>
 
-  <!-- Reading Progress Bar -->
+  <!-- Reading Progress -->
   <div class="reading-progress" id="readingProgress">
     <div class="bar" id="progressBar"></div>
   </div>
 
-  <!-- ===== HEADER (same as blog) ===== -->
+  <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="container">
       <a href="/" class="logo" aria-label="Homepage">
         <img src="logo.png" alt="Solvoro" onerror="this.style.display='none'" />
         <span class="logo-text" style="display:none;">Solvoro<span>.</span></span>
       </a>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <a href="blog.html" class="back-link">
-          <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-          <span>Back</span>
-        </a>
-      </div>
+      <a href="blog.html" class="back-link">
+        <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+        <span>Back</span>
+      </a>
     </div>
   </header>
 
-  <!-- ===== MAIN CONTENT ===== -->
+  <!-- ===== MAIN ===== -->
   <main>
-    <div id="postContent" class="article-container">
-      <!-- Dynamically populated -->
-    </div>
+    <div id="postContent" class="article-container"></div>
   </main>
 
   <!-- ===== FOOTER ===== -->
@@ -756,9 +684,7 @@
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
       </div>
-      <div class="footer-copy">
-        &copy; 2026 Solvoro
-      </div>
+      <div class="footer-copy">&copy; 2026 Solvoro</div>
     </div>
   </footer>
 
@@ -792,7 +718,6 @@
       orderBy
     } from "firebase/firestore";
 
-    // ---------- Firebase Config ----------
     const firebaseConfig = {
       apiKey: "AIzaSyDH_8Htk4dhn_Hwq3YLNE_pkqOzfGagwKU",
       authDomain: "solvoro-blog.firebaseapp.com",
@@ -805,20 +730,18 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ---------- Helpers ----------
+    // Helpers
     function formatDate(timestamp) {
       if (!timestamp) return '—';
       const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
       return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     }
-
     function readingTime(html) {
       if (!html) return 1;
       const text = html.replace(/<[^>]*>/g, '').trim();
       const words = text.split(/\s+/).length;
       return Math.max(1, Math.ceil(words / 200));
     }
-
     function updateMetaTags(blog) {
       const title = blog.metaTitle || blog.title;
       const desc = blog.metaDescription || blog.description || '';
@@ -834,7 +757,6 @@
       document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', title);
       document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', desc);
       document.querySelector('link[rel="canonical"]')?.setAttribute('href', `https://solvoro.com/blog/${blog.slug}`);
-
       const schema = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -855,7 +777,7 @@
       script.textContent = JSON.stringify(schema);
     }
 
-    // ---------- Load Next Post in Same Category ----------
+    // Load next post in same category
     async function loadNextPostInCategory(currentId, category) {
       try {
         if (!category) {
@@ -868,13 +790,10 @@
           const fallbackSnap = await getDocs(fallbackQ);
           const posts = [];
           fallbackSnap.forEach(doc => {
-            if (doc.id !== currentId) {
-              posts.push({ id: doc.id, ...doc.data() });
-            }
+            if (doc.id !== currentId) posts.push({ id: doc.id, ...doc.data() });
           });
           return posts.length > 0 ? posts[0] : null;
         }
-
         const q = query(
           collection(db, 'blogs'),
           where('published', '==', true),
@@ -912,7 +831,7 @@
       }
     }
 
-    // ---------- Get Slug ----------
+    // Get slug from URL
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
     if (!slug) {
