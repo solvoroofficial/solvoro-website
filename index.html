@@ -36,6 +36,16 @@
     }
   </script>
 
+  <!-- Google Analytics (GA4) -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EEF5H8F45S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EEF5H8F45S');
+  </script>
+
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="icon" href="logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -92,7 +102,6 @@
       padding: 0 var(--pad);
     }
 
-    /* ----- buttons ----- */
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -224,7 +233,6 @@
       padding: 4px 8px;
     }
 
-    /* mobile nav */
     .mobile-nav {
       display: none;
       position: fixed;
@@ -751,14 +759,14 @@
   <a href="blog.html">Blog</a>
 </div>
 
-<!-- MAIN -->
+<!-- MAIN CONTENT -->
 <main class="main container">
 
-  <!-- HERO - Updated with Creative Messaging -->
+  <!-- HERO -->
   <section class="hero fade-in">
     <div class="hero-content">
-      <h1>Progress is intentional.<span>We help you build it. </span></h1>
-      <p>We just dont focus on designs we focus on the envirment which a customer needs online. Filling the gap of imagination and reality.</p>
+      <h1>Crafting digital experiences that <span>drive real growth</span></h1>
+      <p>We blend design, technology, and strategy to build a powerful online ecosystem for your business. Purpose-built for companies ready to make an impact.</p>
       <div class="hero-actions">
         <button class="btn-primary" onclick="window.location.href='services.html'">Explore Solutions</button>
         <button class="btn-secondary" onclick="window.location.href='about.html'">Our Story</button>
@@ -778,8 +786,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Why Solvoro is a great company -->
     <div class="hero-visual">
       <div class="feature-card">
         <div class="title">Transparent &amp; Flexible</div>
@@ -928,7 +934,6 @@
     mobileNav.style.display = isOpen ? 'none' : 'flex';
   });
 
-  // Close mobile menu on link click
   mobileNav.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       mobileNav.style.display = 'none';
