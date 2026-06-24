@@ -40,6 +40,15 @@
     }
   </script>
 
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EEF5H8F45S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EEF5H8F45S');
+  </script>
+
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="icon" href="logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,7 +56,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
   
   <style>
-    /* ----- reset & base (identical to other pages) ----- */
+    /* ----- reset & base ----- */
     * {
       margin: 0;
       padding: 0;
@@ -135,7 +144,7 @@
       background: rgba(45, 212, 191, 0.06);
     }
 
-    /* ----- header (identical) ----- */
+    /* ----- header ----- */
     .header {
       position: fixed;
       top: 0;
@@ -263,7 +272,6 @@
       padding-bottom: 60px;
     }
 
-    /* Page hero */
     .page-hero {
       text-align: left;
       margin-bottom: 60px;
@@ -288,7 +296,6 @@
       margin: 0;
     }
 
-    /* Content sections */
     .about-section {
       background: var(--card);
       border-radius: var(--radius);
@@ -322,7 +329,6 @@
       margin-bottom: 0;
     }
 
-    /* Values grid */
     .values-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -359,7 +365,6 @@
       margin: 0;
     }
 
-    /* Founder section */
     .founder-grid {
       display: grid;
       grid-template-columns: 220px 1fr;
@@ -406,7 +411,7 @@
       flex-wrap: wrap;
     }
 
-    /* ----- footer (identical) ----- */
+    /* ----- footer ----- */
     .footer {
       border-top: 1px solid var(--border);
       padding: 48px 0 24px;
@@ -540,7 +545,6 @@
       }
     }
 
-    /* ----- animations ----- */
     .fade-in {
       opacity: 0;
       transform: translateY(24px);
@@ -557,7 +561,7 @@
 </head>
 <body>
 
-<!-- HEADER (identical to homepage & services) -->
+<!-- HEADER -->
 <header class="header">
   <div class="brand">
     <img src="logo.png" alt="Solvoro" />
@@ -587,20 +591,17 @@
 <!-- MAIN CONTENT -->
 <main class="main container">
 
-  <!-- Page Hero -->
   <section class="page-hero fade-in">
     <h1>About <span>Solvoro</span></h1>
     <p>We're a digital studio built on the belief that powerful tools should be accessible, transparent, and human-first. Our mission is to help businesses grow — without the complexity or hidden costs.</p>
   </section>
 
-  <!-- Mission Section -->
   <section class="about-section fade-in delay-1">
     <h2>Our <span>Mission</span></h2>
     <p>Solvoro exists to remove the cost and complexity barriers around digital growth. We believe that every business — regardless of size or budget — deserves access to professional websites, engaging content, and smart AI tools that actually work.</p>
     <p>We focus on practical, usable solutions that solve real problems. No hype. No unnecessary features. Just honest, effective tools designed to help you attract customers, streamline operations, and scale with confidence.</p>
   </section>
 
-  <!-- Values Section -->
   <section class="about-section fade-in delay-2">
     <h2>What We <span>Stand For</span></h2>
     <div class="values-grid">
@@ -627,7 +628,6 @@
     </div>
   </section>
 
-  <!-- Founder Section -->
   <section class="about-section fade-in delay-3">
     <h2>Meet the <span>Founder</span></h2>
     <div class="founder-grid">
@@ -645,7 +645,6 @@
     </div>
   </section>
 
-  <!-- Stats / Trust Section -->
   <section class="about-section fade-in delay-4" style="text-align: center; border-color: var(--accent);">
     <h2 style="font-size: 28px;">Trusted by <span>businesses</span> like yours</h2>
     <div style="display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; margin-top: 24px;">
@@ -669,7 +668,7 @@
 
 </main>
 
-<!-- FOOTER (identical to homepage & services) -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -708,7 +707,6 @@
 </footer>
 
 <script>
-  // Mobile menu toggle
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
   hamburger.addEventListener('click', () => {
@@ -722,7 +720,6 @@
     });
   });
 
-  // Intersection Observer for fade-in
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
