@@ -36,6 +36,15 @@
     }
   </script>
 
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EEF5H8F45S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EEF5H8F45S');
+  </script>
+
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="icon" href="logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -280,7 +289,7 @@
     }
 
     .page-hero {
-      text-align: center;
+      text-align: left;
       margin-bottom: 60px;
     }
     .page-hero h1 {
@@ -299,11 +308,10 @@
     .page-hero p {
       font-size: clamp(18px, 2vw, 22px);
       color: var(--muted);
-      max-width: 720px;
-      margin: 0 auto;
+      max-width: 680px;
+      margin: 0;
     }
 
-    /* services grid – 3 columns on laptop */
     .services-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -383,7 +391,6 @@
       font-size: 15px;
     }
 
-    /* bottom CTA */
     .bottom-cta {
       text-align: center;
       padding: 40px 0;
@@ -491,6 +498,12 @@
         padding: 6px 14px;
         font-size: 13px;
       }
+      .page-hero {
+        text-align: center;
+      }
+      .page-hero p {
+        margin: 0 auto;
+      }
     }
 
     @media (max-width: 480px) {
@@ -521,7 +534,7 @@
 </head>
 <body>
 
-<!-- HEADER (same as homepage) -->
+<!-- HEADER -->
 <header class="header">
   <div class="brand">
     <img src="logo.png" alt="Solvoro" />
@@ -551,16 +564,13 @@
 <!-- MAIN CONTENT -->
 <main class="main container">
 
-  <!-- Page Hero with new heading/subheading -->
   <section class="page-hero fade-in">
     <h1>Services <span>Designed to Help Your Business Grow</span></h1>
     <p>Whether you need a custom website, consistent social media content, or a 24/7 AI consultant, Solvoro provides practical solutions focused on growth, efficiency, and results.</p>
   </section>
 
-  <!-- Services Grid – 3 columns on laptop -->
   <div class="services-grid">
 
-    <!-- Service 1: Websites -->
     <div class="service-card fade-in delay-1">
       <h2>Custom Website Design</h2>
       <div class="price-tag">Pay for what you need</div>
@@ -577,7 +587,6 @@
       </div>
     </div>
 
-    <!-- Service 2: Social Media -->
     <div class="service-card fade-in delay-2">
       <h2>Social Media Content</h2>
       <div class="price-tag">₹329/week (4 posts) · ₹499/week (6 posts)</div>
@@ -594,7 +603,6 @@
       </div>
     </div>
 
-    <!-- Service 3: AI Consultant -->
     <div class="service-card fade-in delay-3">
       <h2>AI Consultant</h2>
       <div class="price-tag">₹2,299/month + ₹999 setup</div>
@@ -613,7 +621,6 @@
 
   </div>
 
-  <!-- Bottom CTA -->
   <div class="bottom-cta fade-in delay-4">
     <p>Not sure which solution fits you best? Chat with us — we'll help you choose.</p>
     <a href="https://wa.me/918795437841?text=Hi%2C%20I%20need%20help%20choosing%20a%20service." target="_blank" class="whatsapp-btn">Talk to Us on WhatsApp</a>
@@ -621,7 +628,7 @@
 
 </main>
 
-<!-- FOOTER (same as homepage) -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -660,7 +667,6 @@
 </footer>
 
 <script>
-  // Mobile menu toggle
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
   hamburger.addEventListener('click', () => {
@@ -674,7 +680,6 @@
     });
   });
 
-  // Intersection Observer for fade-in
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
