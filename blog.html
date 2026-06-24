@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ===== UPDATED SEO META TAGS ===== -->
+  <!-- ===== SEO META TAGS ===== -->
   <title>Just Blogs - Business Growth, Websites, Marketing & Digital Insights</title>
   <meta name="description" content="Explore expert insights, website strategies, digital marketing guides, business growth tips, branding ideas, and practical resources designed to help businesses grow online. Discover actionable content from Solvoro." />
   <meta name="keywords" content="business growth, website development, digital marketing, branding, SEO, content marketing, startup growth, small business, Solvoro blog" />
@@ -56,7 +56,7 @@
       padding: 0 24px;
     }
 
-    /* -------- Header – floating, no border, subtle glow -------- */
+    /* -------- Header – Apple-style (logo left, search right) -------- */
     .site-header {
       padding: 16px 24px;
       background: rgba(15, 15, 15, 0.6);
@@ -65,7 +65,6 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      /* Futuristic glow instead of a border */
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03);
     }
 
@@ -79,7 +78,7 @@
       padding: 0;
     }
 
-    /* Left: Circular Logo */
+    /* Logo – larger (44px) */
     .logo {
       display: flex;
       align-items: center;
@@ -87,8 +86,8 @@
     }
 
     .logo img {
-      width: 38px;
-      height: 38px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       object-fit: cover;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -97,23 +96,12 @@
     }
 
     .logo img:hover {
-      transform: scale(1.04);
+      transform: scale(1.05);
     }
 
-    .logo-text {
-      display: none;
-      font-weight: 600;
-      font-size: 1rem;
-      color: #f0f0f0;
-      letter-spacing: -0.01em;
-    }
-    .logo-text span {
-      color: #60a5fa;
-    }
-
-    /* Right: Search Bar */
+    /* Search Bar – slightly larger */
     .search-wrapper {
-      max-width: 280px;
+      max-width: 300px;
       width: 100%;
       position: relative;
       flex-shrink: 1;
@@ -121,12 +109,12 @@
 
     .search-wrapper input {
       width: 100%;
-      padding: 10px 16px 10px 40px;
+      padding: 10px 18px 10px 42px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 40px;
       color: #e5e7eb;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       transition: all 0.3s ease;
       outline: none;
       backdrop-filter: blur(4px);
@@ -155,14 +143,14 @@
     }
 
     .search-wrapper .search-icon svg {
-      width: 17px;
-      height: 17px;
+      width: 18px;
+      height: 18px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
     }
 
-    /* -------- Category Bar – no border, more spacing -------- */
+    /* -------- Category Bar (no border) -------- */
     .category-bar {
       padding: 28px 24px 12px;
       background: transparent;
@@ -374,10 +362,10 @@
       font-size: 1.1rem;
     }
 
-    /* -------- Professional Footer -------- */
+    /* -------- Footer – horizontal on all devices -------- */
     .site-footer {
       border-top: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 40px 24px 36px;
+      padding: 32px 24px;
       background: #0a0a0a;
       margin-top: 16px;
     }
@@ -386,16 +374,17 @@
       max-width: 1200px;
       margin: 0 auto;
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: space-between;
       align-items: center;
-      gap: 24px;
+      gap: 20px;
     }
 
     .footer-brand {
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-shrink: 0;
     }
 
     .footer-brand img {
@@ -410,12 +399,14 @@
       font-weight: 600;
       font-size: 1rem;
       color: #f0f0f0;
+      white-space: nowrap;
     }
 
     .footer-links {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 18px 28px;
+      flex-shrink: 0;
     }
 
     .footer-links a {
@@ -423,6 +414,7 @@
       font-size: 0.85rem;
       transition: color 0.2s;
       letter-spacing: 0.02em;
+      white-space: nowrap;
     }
 
     .footer-links a:hover {
@@ -433,40 +425,32 @@
       color: #6b7280;
       font-size: 0.8rem;
       letter-spacing: 0.01em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    /* -------- Responsive – both views keep logo left / search right -------- */
+    /* -------- Responsive -------- */
     @media (max-width: 768px) {
       .site-header {
         padding: 12px 16px;
       }
-
       .site-header .container {
         gap: 10px;
-        flex-wrap: nowrap;
       }
-
       .logo img {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
       }
-
       .search-wrapper {
-        max-width: 180px;
-        flex-shrink: 1;
+        max-width: 200px;
       }
-
       .search-wrapper input {
-        font-size: 0.8rem;
-        padding: 7px 12px 7px 34px;
-      }
-
-      .search-wrapper .search-icon {
-        left: 10px;
+        font-size: 0.85rem;
+        padding: 8px 14px 8px 36px;
       }
       .search-wrapper .search-icon svg {
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
       }
 
       .category-bar {
@@ -474,7 +458,6 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
       }
-
       .category-filter {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -482,11 +465,9 @@
         scrollbar-width: none;
         -ms-overflow-style: none;
       }
-
       .category-filter::-webkit-scrollbar {
         display: none;
       }
-
       .category-chip {
         flex-shrink: 0;
         font-size: 0.75rem;
@@ -498,60 +479,84 @@
         gap: 28px;
         margin: 28px 0 40px;
       }
-
       .blog-card-body {
         padding: 18px 20px 20px;
       }
-
       .blog-card-title {
         font-size: 1.1rem;
       }
 
+      /* Footer stays horizontal */
       .footer-inner {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 16px;
+        flex-wrap: nowrap;
+        gap: 12px;
       }
-
+      .footer-brand span {
+        font-size: 0.85rem;
+      }
       .footer-links {
-        justify-content: center;
-        gap: 14px 22px;
+        gap: 10px 16px;
       }
-
+      .footer-links a {
+        font-size: 0.75rem;
+      }
       .footer-copy {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .footer-links {
+        gap: 6px 12px;
+      }
+      .footer-links a {
+        font-size: 0.7rem;
+      }
+      .footer-copy {
+        font-size: 0.65rem;
+      }
+      .footer-brand img {
+        width: 22px;
+        height: 22px;
+      }
+      .footer-brand span {
         font-size: 0.75rem;
       }
     }
 
     @media (max-width: 480px) {
       .search-wrapper {
-        max-width: 130px;
+        max-width: 140px;
       }
       .search-wrapper input {
-        font-size: 0.7rem;
-        padding: 5px 8px 5px 28px;
+        font-size: 0.75rem;
+        padding: 6px 10px 6px 30px;
       }
       .search-wrapper .search-icon {
         left: 8px;
       }
       .search-wrapper .search-icon svg {
-        width: 12px;
-        height: 12px;
+        width: 14px;
+        height: 14px;
+      }
+      /* Hide some footer links on very small screens */
+      .footer-links a:nth-child(3),
+      .footer-links a:nth-child(4) {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== HEADER – Logo left, Search right (always separated) ===== -->
+  <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="container">
-      <!-- Left: Circular Logo -->
-      <div class="logo">
+      <!-- Left: Clickable Logo (goes to index.html) -->
+      <a href="/" class="logo" aria-label="Homepage">
         <img src="logo.png" alt="Solvoro" onerror="this.style.display='none'" />
         <span class="logo-text" style="display:none;">Solvoro<span>.</span></span>
-      </div>
+      </a>
 
       <!-- Right: Search Bar -->
       <div class="search-wrapper">
@@ -563,7 +568,7 @@
     </div>
   </header>
 
-  <!-- ===== CATEGORY BAR – no border, increased spacing ===== -->
+  <!-- ===== CATEGORY BAR ===== -->
   <nav class="category-bar" aria-label="Categories">
     <div class="container">
       <div id="categoryFilter" class="category-filter">
@@ -574,10 +579,7 @@
 
   <!-- ===== MAIN CONTENT ===== -->
   <main class="container">
-    <!-- Blog Grid -->
     <div id="blogGrid" class="blog-grid"></div>
-
-    <!-- Empty state -->
     <div id="emptyState" class="empty-state" style="display:none;">
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4b5563" stroke-width="1.5">
         <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor"/>
@@ -587,7 +589,7 @@
     </div>
   </main>
 
-  <!-- ===== PROFESSIONAL FOOTER ===== -->
+  <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand">
@@ -602,12 +604,12 @@
         <a href="/terms">Terms</a>
       </div>
       <div class="footer-copy">
-        &copy; 2026 Solvoro. All rights reserved.
+        &copy; 2026 Solvoro
       </div>
     </div>
   </footer>
 
-  <!-- ===== FIREBASE IMPORTS ===== -->
+  <!-- ===== FIREBASE & APP SCRIPT ===== -->
   <script type="importmap">
     {
       "imports": {
@@ -617,7 +619,6 @@
     }
   </script>
 
-  <!-- ===== APPLICATION SCRIPT ===== -->
   <script type="module">
     import { initializeApp } from "firebase/app";
     import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
@@ -772,6 +773,5 @@
       });
     });
   </script>
-
 </body>
 </html>
